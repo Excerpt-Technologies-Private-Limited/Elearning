@@ -14,6 +14,7 @@ console.log('Create Assessment Request:', req.body);
       courseId,
       name,
       questions,
+      totalMarks: questions.length,
     });
 
     await newAssessment.save();

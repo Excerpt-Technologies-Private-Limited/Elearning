@@ -13,6 +13,7 @@ const assessmentRoutes = require('./routes/assessmentRoutes');
 const assessmentSubmissionRoutes = require('./routes/assessmentsubmissionRoutes');  
 const performanceRoutes = require('./routes/performanceRoutes');
 const videosRoutes = require('./routes/videosRoutes');
+const processRoutes = require('./routes/progressRoutes');
 const history = require('connect-history-api-fallback');
 const path = require('path');
 const crypto = require('crypto');
@@ -64,6 +65,7 @@ app.use('/api/dashboard',  studentRoutes);
 app.use('/api',assessmentSubmissionRoutes); 
 app.use('/api', performanceRoutes);
 app.use('/api/assessments', assessmentRoutes);
+app.use('/api/progress', processRoutes);
 app.use(history());
 app.use(express.static(path.join(__dirname, 'dist')));
 
