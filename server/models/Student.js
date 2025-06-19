@@ -15,6 +15,15 @@
 
 const mongoose = require('mongoose');
 
+const assessmentResultSchema = new mongoose.Schema({
+  assessmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Assessment', required: true },
+  courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
+  score: Number,
+  totalMarks: Number,
+  percentage: String,
+  grade: String,
+  submittedAt: { type: Date, default: Date.now }
+}, { _id: false });
 const courseProgressSchema = new mongoose.Schema({
   courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
   completed: { type: Boolean, default: false },
@@ -56,7 +65,8 @@ const studentSchema = new mongoose.Schema({
   experience: String,
   certificates: String, // File path or URL
   bio: String,
-   courseProgress: [courseProgressSchema]
+   courseProgress: [courseProgressSchema],
+   assessmentResults: [assessmentResultSchema]
 }, {
   timestamps: true
 });
