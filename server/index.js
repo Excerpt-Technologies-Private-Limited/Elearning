@@ -12,12 +12,15 @@ const studentRoutes = require('./routes/studentRoutes');// Uncomment if you have
 const assessmentRoutes = require('./routes/assessmentRoutes');
 const assessmentSubmissionRoutes = require('./routes/assessmentsubmissionRoutes');  
 const performanceRoutes = require('./routes/performanceRoutes');
+const videosRoutes = require('./routes/videosRoutes');
+const history = require('connect-history-api-fallback');
 const path = require('path');
 const crypto = require('crypto');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 const razorpay = new Razorpay({
   key_id: "rzp_test_qUmhUFElBiSNIs",
   key_secret: "wsBV1ts8yJPld9JktATIdOiS",
@@ -55,12 +58,13 @@ app.use('/api/courses', courseRoutes);
 
 app.use('/api/curriculum', curriculumRoutes);
 app.use('/api/auth',authRoutes);
-app.use('/api', studentRoutes);
-
+app.use('/api/', studentRoutes);
+app.use('/videos', videosRoutes);
 app.use('/api/dashboard',  studentRoutes);
 app.use('/api',assessmentSubmissionRoutes); 
 app.use('/api', performanceRoutes);
 app.use('/api/assessments', assessmentRoutes);
+app.use(history());
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Route all other requests to serve 'index.html' for SPA routing

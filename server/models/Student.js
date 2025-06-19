@@ -14,6 +14,14 @@
 // module.exports = mongoose.model('Student', studentSchema);
 
 const mongoose = require('mongoose');
+
+const courseProgressSchema = new mongoose.Schema({
+  courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
+  completed: { type: Boolean, default: false },
+  completedAt: { type: Date } // Optional: track when the course was completed
+}, { _id: false });
+
+
 const studentSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true },
@@ -48,6 +56,7 @@ const studentSchema = new mongoose.Schema({
   experience: String,
   certificates: String, // File path or URL
   bio: String,
+   courseProgress: [courseProgressSchema]
 }, {
   timestamps: true
 });

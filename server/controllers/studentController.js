@@ -384,6 +384,103 @@ async getStudentProfile(req, res) {
   }
 };
 
+// Get all students with completed courses
+async getAllCompletedCourses(req, res) {
+  try {
+    const students = await Student.find({
+      'courseProgress.completed': true
+    }).populate('courseProgress.courseId');
+    
+    const data = [];
+    students.forEach(student => {
+      student.courseProgress.forEach(cp => {
+        if (cp.completed) {
+          data.push({
+            _id: student._id, // Fixed: was *id
+            name: student.username,
+            username: student.username,
+            email: student.email,
+            studentId: student.studentId,
+            courseId: cp.courseId?._id,
+            courseName: cp.courseId?.courseName,
+            batchCode: cp.batchCode,
+            grade: cp.grade,
+            completionDate: cp.completedAt,
+          });
+        }
+      });
+    });
+    res.json(data);
+  } catch (err) {
+    console.error('Error in getAllCompletedCourses:', err);
+    res.status(500).json({ error: err.message });
+  }
+}
+
+// Get a specific student's completed courses
+async getStudentCompletedCourses(req, res) {
+  try {
+    const student = await Student.findById(req.params.id).populate('courseProgress.courseId');
+    if (!student) return res.status(404).json({ error: 'Student not found' });
+    
+    const completed = student.courseProgress.filter(cp => cp.completed).map(cp => ({
+      _id: student._id, // Fixed: was *id
+      name: student.username,
+      username: student.username,
+      email: student.email,
+      courseId: cp.courseId?._id,
+      studentId: student.studentId,
+      courseName: cp.courseId?.courseName,
+      batchCode: cp.batchCode,
+      grade: cp.grade,
+      completionDate: cp.completedAt,
+    }));
+    res.json(completed);
+  } catch (err) {
+    console.error('Error in getStudentCompletedCourses:', err);
+    res.status(500).json({ error: err.message });
+  }
+}
+
+async updateCourseCompletion (req, res) {
+  const { studentId, scourseId, completed } = req.body;
+  console.log("Received data:", req.body); 
+  const courseId = scourseId || req.body.scourseId; // Use scourseId if provided, otherwise fall back to courseId
+  if (!studentId || !courseId || typeof completed !== 'boolean') {
+    return res.status(400).json({ message: 'studentId, courseId, and completed are required.' });
+  }
+  try {
+    // Try to update if courseId exists in courseProgress
+    const updated = await Student.findOneAndUpdate(
+      { _id: studentId, "courseProgress.courseId": courseId },
+      {
+        $set: {
+          "courseProgress.$.completed": completed,
+          "courseProgress.$.completedAt": completed ? new Date() : null
+        }
+      },
+      { new: true }
+    );
+    // If no such entry, push a new one
+    if (!updated) {
+      await Student.findByIdAndUpdate(
+        studentId,
+        {
+          $push: {
+            courseProgress: {
+              courseId,
+              completed,
+              completedAt: completed ? new Date() : null
+            }
+          }
+        }
+      );
+    }
+    res.json({ message: 'Course completion updated successfully.' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating course progress', error: err.message });
+  }
+}
 
 }
 

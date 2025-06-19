@@ -38,6 +38,12 @@ router.put('/students/:id', studentController.updateStudent);
 // router.put('/students/:id/profile', studentController.updateStudentProfile);
 router.put('/students/:id/profile',profileUpload.single("profilePhoto"),studentController.updateStudentProfile);
 router.get('/students/:id/profile', studentController.getStudentProfile);
+router.post('/course-completion', studentController.updateCourseCompletion);
+// Get all students with completed courses (for admin)
+router.get('/completed-courses',studentController. getAllCompletedCourses);
+
+// Get specific student's completed courses
+router.get('/students/:id/completed-courses',studentController. getStudentCompletedCourses);
 
 
 module.exports = router;
