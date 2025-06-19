@@ -92,14 +92,14 @@ const SideNavBar1 = () => {
                           aria-expanded={activeMenu === "studentmanagement"}
                         >
                           <li>
-                            <Link to="/EnrollmentList1">
+                            <Link to="/EnrollmentList">
                               <span data-key="t-calendar">
                                 Enrollment List
                               </span>
                             </Link>
                           </li>
                           {/* <li>
-                            <Link to="/ProgressTracking1">
+                            <Link to="/ProgressTracking">
                               <span data-key="t-calendar">
                                 Progress Tracking
                               </span>
@@ -114,7 +114,7 @@ const SideNavBar1 = () => {
                           </li> */}
 
                           {/* <li>
-                            <Link to="/StudentEnrollment1">
+                            <Link to="/StudentEnrollment">
                               <span data-key="t-chat">Student Enrollment</span>
                             </Link>
                           </li> */}

@@ -65,26 +65,26 @@ import MyCourseDetails from "./pages/MyCourseDetails/Mycoursedetails";
 function AppContent() {
   const location = useLocation();
   const hideNavbarPaths = [
-    "/InstructorManagement1",
-    "/PermisssionRoles1",
-    "/StudentEnrollment1",
-    "/CourseCreation1",
-    "/CuuriculumStucture1",
-    "/Announcement1",
-    "/Chat1",
+    "/InstructorManagement",
+    "/PermisssionRoles",
+    "/StudentEnrollment",
+    "/CourseCreation",
+    "/CuuriculumStucture",
+    "/Announcement",
+    "/Chat",
     "/DashBoard",
     "/dashboard",
-    "/DiscussionForm1",
-    "/LiveClass1",
-    "/Assigngment1",
-    "/Certification1",
-    "/Quiz1",
-    "/VideoLesson1",
-    "/Certificate1",
+    "/DiscussionForm",
+    "/LiveClass",
+    "/Assigngment",
+    "/Certification",
+    "/Quiz",
+    "/VideoLesson",
+    "/Certificate",
     "/HelpDesk",
     "/Profile",
     "/ProfileForm",
-    "/AssigngmentStudent1",
+    "/AssigngmentStudent",
     "/AdminSideNavaBar",
     "/ManageCourses",
     "/EnrollmentList",
@@ -100,14 +100,14 @@ function AppContent() {
     "/CouponManagement",
     "/category",
     "/subcategory",
-    "/EnrollmentList1",
-    "/Category1",
-    "/SubCategory1",
+    "/EnrollmentList",
+    "/Category",
+    "/SubCategory",
     "/studentReports",
     "/salesReports",
     "/courseReports",
-    "/StudentDashboard1",
-    "/StudentCourse1",
+    "/StudentDashboard",
+    "/StudentCourse",
     "/Mycoursedetails",
     "/assignmentviewpage"
   ];
@@ -154,30 +154,28 @@ function AppContent() {
         <Route path="/category" element={<Category />} />
         <Route path="/subcategory" element={<SubcategoryManager />} />
         <Route path="/blog" element={<BlogPage />} />
-
         <Route path="/DashBoard" element={<DashBoard />} />
-        <Route path="/ProgressTracking1" element={<ProgressTracking1 />} />
-        <Route path="/EnrollmentList1" element={<EnrollmentList1 />} />
-        <Route path="/StudentEnrollment1" element={<StudentEnrollment1 />} />
-        <Route path="/CourseCreation1" element={<CourseCreation1 />} />
-        <Route path="/Category1" element={<Category1 />} />
-        <Route path="/SubCategory1" element={<SubCategory1 />} />
-        <Route path="/Announcement1" element={<Announcement1 />} />
-        <Route path="/Chat1" element={<Chat1 />} />
-        <Route path="/DiscussionForm1" element={<DiscussionForm1 />} />
-        <Route path="/LiveClass1" element={<LiveClass1 />} />
-        <Route path="/Assigngment1" element={<Assigngment1 />} />
-        <Route path="/Certification1" element={<Certification1 />} />
-        <Route path="/Quiz1" element={<Quiz1 />} />
-        <Route path="/VideoLesson1" element={<VideoLesson1 />} />
-        <Route path="/StudentCourse1" element={<StudentCourse1 />} />
-        <Route path="/StudentDashboard1" element={<StudentDashboard1 />} />
-        <Route path="/Certificate1" element={<Certificate1 />} />
+        <Route path="/ProgressTracking" element={<ProgressTracking1 />} />
+        <Route path="/EnrollmentList" element={<EnrollmentList1 />} />
+        <Route path="/StudentEnrollment" element={<StudentEnrollment1 />} />
+        <Route path="/CourseCreation" element={<CourseCreation1 />} />
+        <Route path="/Category" element={<Category1 />} />
+        <Route path="/SubCategory" element={<SubCategory1 />} />
+        <Route path="/Announcement" element={<Announcement1 />} />
+        <Route path="/Chat" element={<Chat1 />} />
+        <Route path="/DiscussionForm" element={<DiscussionForm1 />} />
+        <Route path="/LiveClass" element={<LiveClass1 />} />
+        <Route path="/Assigngment" element={<Assigngment1 />} />
+        <Route path="/Certification" element={<Certification1 />} />
+        <Route path="/Quiz" element={<Quiz1 />} />
+        <Route path="/VideoLesson" element={<VideoLesson1 />} />
+        <Route path="/StudentCourse" element={<StudentCourse1 />} />
+        <Route path="/StudentDashboard" element={<StudentDashboard1 />} />
+        <Route path="/Certificate" element={<Certificate1 />} />
         <Route path="/HelpDesk" element={<HelpDesk />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/ProfileForm" element={<ProfileForm />} />
-        <Route path="/AssigngmentStudent1" element={<AssigngmentStudent1 />} />
-
+        <Route path="/AssigngmentStudent" element={<AssigngmentStudent1 />} />
         <Route path="/Assesment" element={<Assesment />} />
         <Route path="/assignmentviewpage" element={<Assignemntviewpage />} />
         <Route path="/studentperformance" element={<StudentPerformance />} />
