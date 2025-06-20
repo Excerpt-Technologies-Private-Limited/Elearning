@@ -2032,15 +2032,11 @@ const Certificate1 = ({ isAdmin }) => {
             
             <div class="score-details">
               <h3 style="margin-bottom: 20px; color: #2c3e50;">Academic Performance</h3>
-              <div class="score-item">
-                <strong>Total Score:</strong> ${overallResult.totalScore}/${overallResult.totalMarks}
-              </div>
+             
               <div class="score-item">
                 <strong>Percentage:</strong> ${overallResult.percentage}%
               </div>
-              <div class="score-item">
-                <strong>Grade:</strong> ${overallResult.grade}
-              </div>
+           
             </div>
             
             <div class="details">
@@ -2188,7 +2184,7 @@ const Certificate1 = ({ isAdmin }) => {
                                   <th>Student ID</th>
                                   <th>Course</th>
                                   {/* <th>Overall Score</th> */}
-                                  <th>Grade</th>
+                                  {/* <th>Grade</th> */}
                                   <th>Completion Date</th>
                                   <th>Actions</th>
                                 </tr>
@@ -2226,7 +2222,7 @@ const Certificate1 = ({ isAdmin }) => {
                                         {/* <td>
                                           <small>{overallResult.totalScore}/{overallResult.totalMarks} ({overallResult.percentage}%)</small>
                                         </td> */}
-                                        <td>
+                                        {/* <td>
                                           <span className={`badge fs-6 ${
                                             overallResult.percentage >= 95 ? 'bg-success' : 
                                             overallResult.percentage >= 85 ? 'bg-warning' : 
@@ -2235,7 +2231,7 @@ const Certificate1 = ({ isAdmin }) => {
                                           }`}>
                                             {overallResult.grade}
                                           </span>
-                                        </td>
+                                        </td> */}
                                         <td>{formatDate(student.completionDate)}</td>
                                         <td>
                                           <div className="btn-group" role="group">

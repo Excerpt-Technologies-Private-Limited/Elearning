@@ -1531,7 +1531,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
+import { useNavigate } from 'react-router-dom';
 const DynamicDashboard = () => {
   const [courses, setCourses] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -1539,6 +1539,7 @@ const DynamicDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
   
   // Filter states
   const [selectedMonth, setSelectedMonth] = useState('JUN');
@@ -1993,11 +1994,11 @@ const DynamicDashboard = () => {
                           </div>
                         </div>
 
-                        <div className="mt-2">
+                        {/* <div className="mt-2">
                           <button className="btn btn-primary btn-sm">
                             View Details <i className="mdi mdi-arrow-right ms-1"></i>
                           </button>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -2033,12 +2034,12 @@ const DynamicDashboard = () => {
                               <strong>Price: ₹{course.price}</strong> • {course.mode} • {course.duration} weeks
                             </p>
                             <button
-                              type="button"
-                              className="btn btn-light btn-sm"
-                              onClick={() => alert('Navigate to All Courses')}
-                            >
-                              View details <i className="mdi mdi-arrow-right ms-1"></i>
-                            </button>
+      type="button"
+      className="btn btn-light btn-sm"
+      onClick={() => navigate('/AllCourse')}
+    >
+      View details <i className="mdi mdi-arrow-right ms-1"></i>
+    </button>
                           </div>
                         </div>
                       )) : (

@@ -1545,6 +1545,532 @@
 
 // export default Profile;
 
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import Header1 from "../../Header/Header";
+// import SideNavBar1 from "../../SideNavBar/SideNavBar";
+
+// const Profile = () => {
+//   const [student, setStudent] = useState(null);
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [editedData, setEditedData] = useState({});
+//   const [loading, setLoading] = useState(true);
+//   const [saving, setSaving] = useState(false);
+
+//   const studentId = localStorage.getItem("studentId");
+
+//   useEffect(() => {
+//     const fetchStudentProfile = async () => {
+//       try {
+//         setLoading(true);
+//         const response = await axios.get(
+//           `http://localhost:8080/api/students/${studentId}/profile`
+//         );
+//         setStudent(response.data.student);
+//         setEditedData(response.data.student);
+//       } catch (error) {
+//         console.error("Error fetching profile:", error);
+//         setStudent(null);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchStudentProfile();
+//   }, [studentId]);
+
+//   const handleEdit = () => {
+//     setIsEditing(true);
+//     setEditedData({...student});
+//   };
+
+//   const handleCancel = () => {
+//     setIsEditing(false);
+//     setEditedData({...student});
+//   };
+
+//   const handleSave = async () => {
+//     try {
+//       setSaving(true);
+//       const response = await axios.put(
+//         `http://localhost:8080/api/students/${studentId}/profile`,
+//         editedData
+//       );
+//       setStudent(response.data.student || editedData);
+//       setIsEditing(false);
+//       alert("Profile updated successfully!");
+//     } catch (error) {
+//       console.error("Error updating profile:", error);
+//       alert("Failed to update profile. Please try again.");
+//     } finally {
+//       setSaving(false);
+//     }
+//   };
+
+//   const handleInputChange = (field, value) => {
+//     setEditedData(prev => ({
+//       ...prev,
+//       [field]: value
+//     }));
+//   };
+
+//   const handleNestedInputChange = (parent, field, value) => {
+//     setEditedData(prev => ({
+//       ...prev,
+//       [parent]: {
+//         ...prev[parent],
+//         [field]: value
+//       }
+//     }));
+//   };
+
+//   const show = (val, fallback = "Not specified") => val && val !== "" ? val : fallback;
+
+//   if (loading) {
+//     return (
+//       <div>
+//         <Header1 />
+//         <SideNavBar1 />
+//         <div className="main-content d-flex justify-content-center align-items-center" style={{ minHeight: "100vh", backgroundColor: "#f8f9fa" }}>
+//           <div className="text-center">
+//             <div className="spinner-border text-primary mb-3" role="status" style={{ width: "3rem", height: "3rem" }}>
+//               <span className="visually-hidden">Loading...</span>
+//             </div>
+//             <p className="text-muted">Loading your profile...</p>
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div>
+//       <Header1 />
+//       <SideNavBar1 />
+//       <div className="main-content" style={{ minHeight: "100vh", backgroundColor: "#f8f9fa" }}>
+//         <div className="page-content">
+//           <div className="container-fluid py-4">
+
+//             {/* Page Header */}
+//             <div className="row mb-4">
+//               <div className="col-12">
+//                 <div className="d-flex justify-content-between align-items-center">
+//                   <div>
+//                     <h2 className="fw-bold text-dark mb-1">Student Profile</h2>
+//                     <p className="text-muted mb-0">Manage your personal information and preferences</p>
+//                   </div>
+//                   {!isEditing ? (
+//                     <button 
+//                       className="btn btn-primary px-4 py-2"
+//                       onClick={handleEdit}
+//                       style={{ borderRadius: "8px" }}
+//                     >
+//                       <i className="bi bi-pencil-square me-2"></i>
+//                       Edit Profile
+//                     </button>
+//                   ) : (
+//                     <div>
+//                       <button 
+//                         className="btn btn-success px-3 py-2 me-2"
+//                         onClick={handleSave}
+//                         disabled={saving}
+//                         style={{ borderRadius: "8px" }}
+//                       >
+//                         {saving ? (
+//                           <>
+//                             <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+//                             Saving...
+//                           </>
+//                         ) : (
+//                           <>
+//                             <i className="bi bi-check-lg me-2"></i>
+//                             Save
+//                           </>
+//                         )}
+//                       </button>
+//                       <button 
+//                         className="btn btn-outline-secondary px-3 py-2"
+//                         onClick={handleCancel}
+//                         disabled={saving}
+//                         style={{ borderRadius: "8px" }}
+//                       >
+//                         <i className="bi bi-x-lg me-2"></i>
+//                         Cancel
+//                       </button>
+//                     </div>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Profile Overview Card */}
+//             <div className="row mb-4">
+//               <div className="col-12">
+//                 <div className="card border-0 shadow-sm" style={{ borderRadius: "12px" }}>
+//                   <div className="card-body p-4">
+//                     <div className="row align-items-center">
+//                       <div className="col-auto">
+//                         <img
+//                           src={student?.profilePhoto || `https://ui-avatars.com/api/?name=${encodeURIComponent(student?.username || "User")}&background=0d6efd&color=fff&size=100`}
+//                           alt="Profile"
+//                           className="rounded-circle"
+//                           width="100"
+//                           height="100"
+//                           style={{ objectFit: "cover", border: "4px solid #e9ecef" }}
+//                         />
+//                       </div>
+//                       <div className="col">
+//                         <h3 className="fw-bold mb-2">{show(student?.username)}</h3>
+//                         <div className="row g-3">
+//                           <div className="col-md-3">
+//                             <div className="d-flex align-items-center text-muted">
+//                               <i className="bi bi-envelope me-2 text-primary"></i>
+//                               <small>{show(student?.email)}</small>
+//                             </div>
+//                           </div>
+//                           <div className="col-md-3">
+//                             <div className="d-flex align-items-center text-muted">
+//                               <i className="bi bi-card-text me-2 text-primary"></i>
+//                               <small>ID: {show(student?.studentId)}</small>
+//                             </div>
+//                           </div>
+//                           <div className="col-md-3">
+//                             <div className="d-flex align-items-center text-muted">
+//                               <i className="bi bi-building me-2 text-primary"></i>
+//                               <small>{show(student?.department)}</small>
+//                             </div>
+//                           </div>
+//                           <div className="col-md-3">
+//                             <div className="d-flex align-items-center text-muted">
+//                               <i className="bi bi-calendar3 me-2 text-primary"></i>
+//                               <small>Semester {show(student?.semester)}</small>
+//                             </div>
+//                           </div>
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Profile Details */}
+//             <div className="row g-4">
+              
+//               {/* Contact Information */}
+//               <div className="col-lg-6">
+//                 <div className="card border-0 shadow-sm h-100" style={{ borderRadius: "12px" }}>
+//                   <div className="card-header bg-white border-0 pb-0" style={{ borderRadius: "12px 12px 0 0" }}>
+//                     <h5 className="mb-0 fw-semibold text-dark">
+//                       <i className="bi bi-telephone-fill me-2 text-primary"></i>
+//                       Contact Information
+//                     </h5>
+//                   </div>
+//                   <div className="card-body pt-3">
+//                     <div className="row g-3">
+//                       <div className="col-12">
+//                         <label className="form-label text-muted small mb-1">Phone Number</label>
+//                         {isEditing ? (
+//                           <input
+//                             type="tel"
+//                             className="form-control"
+//                             value={editedData.phone || ""}
+//                             onChange={(e) => handleInputChange("phone", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.phone)}</div>
+//                         )}
+//                       </div>
+//                       <div className="col-12">
+//                         <label className="form-label text-muted small mb-1">Address</label>
+//                         {isEditing ? (
+//                           <textarea
+//                             className="form-control"
+//                             rows="2"
+//                             value={editedData.address || ""}
+//                             onChange={(e) => handleInputChange("address", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.address)}</div>
+//                         )}
+//                       </div>
+//                       <div className="col-6">
+//                         <label className="form-label text-muted small mb-1">City</label>
+//                         {isEditing ? (
+//                           <input
+//                             type="text"
+//                             className="form-control"
+//                             value={editedData.city || ""}
+//                             onChange={(e) => handleInputChange("city", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.city)}</div>
+//                         )}
+//                       </div>
+//                       <div className="col-6">
+//                         <label className="form-label text-muted small mb-1">State</label>
+//                         {isEditing ? (
+//                           <input
+//                             type="text"
+//                             className="form-control"
+//                             value={editedData.state || ""}
+//                             onChange={(e) => handleInputChange("state", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.state)}</div>
+//                         )}
+//                       </div>
+//                       <div className="col-6">
+//                         <label className="form-label text-muted small mb-1">Country</label>
+//                         {isEditing ? (
+//                           <input
+//                             type="text"
+//                             className="form-control"
+//                             value={editedData.country || ""}
+//                             onChange={(e) => handleInputChange("country", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.country)}</div>
+//                         )}
+//                       </div>
+//                       <div className="col-6">
+//                         <label className="form-label text-muted small mb-1">Postal Code</label>
+//                         {isEditing ? (
+//                           <input
+//                             type="text"
+//                             className="form-control"
+//                             value={editedData.postalCode || ""}
+//                             onChange={(e) => handleInputChange("postalCode", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.postalCode)}</div>
+//                         )}
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               {/* Professional Information */}
+//               <div className="col-lg-6">
+//                 <div className="card border-0 shadow-sm h-100" style={{ borderRadius: "12px" }}>
+//                   <div className="card-header bg-white border-0 pb-0" style={{ borderRadius: "12px 12px 0 0" }}>
+//                     <h5 className="mb-0 fw-semibold text-dark">
+//                       <i className="bi bi-briefcase-fill me-2 text-success"></i>
+//                       Professional Information
+//                     </h5>
+//                   </div>
+//                   <div className="card-body pt-3">
+//                     <div className="row g-3">
+//                       <div className="col-12">
+//                         <label className="form-label text-muted small mb-1">Experience</label>
+//                         {isEditing ? (
+//                           <textarea
+//                             className="form-control"
+//                             rows="3"
+//                             value={editedData.experience || ""}
+//                             onChange={(e) => handleInputChange("experience", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.experience)}</div>
+//                         )}
+//                       </div>
+//                       <div className="col-12">
+//                         <label className="form-label text-muted small mb-1">Qualifications</label>
+//                         {isEditing ? (
+//                           <textarea
+//                             className="form-control"
+//                             rows="3"
+//                             value={editedData.qualifications || ""}
+//                             onChange={(e) => handleInputChange("qualifications", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.qualifications)}</div>
+//                         )}
+//                       </div>
+//                       <div className="col-12">
+//                         <label className="form-label text-muted small mb-1">Interests</label>
+//                         {isEditing ? (
+//                           <textarea
+//                             className="form-control"
+//                             rows="2"
+//                             value={editedData.interests || ""}
+//                             onChange={(e) => handleInputChange("interests", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.interests)}</div>
+//                         )}
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               {/* Personal Information */}
+//               <div className="col-lg-6">
+//                 <div className="card border-0 shadow-sm h-100" style={{ borderRadius: "12px" }}>
+//                   <div className="card-header bg-white border-0 pb-0" style={{ borderRadius: "12px 12px 0 0" }}>
+//                     <h5 className="mb-0 fw-semibold text-dark">
+//                       <i className="bi bi-person-fill me-2 text-info"></i>
+//                       Personal Information
+//                     </h5>
+//                   </div>
+//                   <div className="card-body pt-3">
+//                     <div className="row g-3">
+//                       <div className="col-12">
+//                         <label className="form-label text-muted small mb-1">Bio</label>
+//                         {isEditing ? (
+//                           <textarea
+//                             className="form-control"
+//                             rows="4"
+//                             value={editedData.bio || ""}
+//                             onChange={(e) => handleInputChange("bio", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.bio)}</div>
+//                         )}
+//                       </div>
+//                       <div className="col-6">
+//                         <label className="form-label text-muted small mb-1">Language</label>
+//                         {isEditing ? (
+//                           <input
+//                             type="text"
+//                             className="form-control"
+//                             value={editedData.language || ""}
+//                             onChange={(e) => handleInputChange("language", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           />
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.language)}</div>
+//                         )}
+//                       </div>
+//                       <div className="col-6">
+//                         <label className="form-label text-muted small mb-1">Timezone</label>
+//                         {isEditing ? (
+//                           <select
+//                             className="form-select"
+//                             value={editedData.timezone || ""}
+//                             onChange={(e) => handleInputChange("timezone", e.target.value)}
+//                             style={{ borderRadius: "8px" }}
+//                           >
+//                             <option value="">Select Timezone</option>
+//                             <option value="UTC">UTC</option>
+//                             <option value="EST">EST</option>
+//                             <option value="PST">PST</option>
+//                             <option value="IST">IST</option>
+//                             <option value="GMT">GMT</option>
+//                           </select>
+//                         ) : (
+//                           <div className="fw-medium">{show(student?.timezone)}</div>
+//                         )}
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               {/* Notification Preferences */}
+//               <div className="col-lg-6">
+//                 <div className="card border-0 shadow-sm h-100" style={{ borderRadius: "12px" }}>
+//                   <div className="card-header bg-white border-0 pb-0" style={{ borderRadius: "12px 12px 0 0" }}>
+//                     <h5 className="mb-0 fw-semibold text-dark">
+//                       <i className="bi bi-bell-fill me-2 text-warning"></i>
+//                       Notification Preferences
+//                     </h5>
+//                   </div>
+//                   <div className="card-body pt-3">
+//                     <div className="row g-3">
+//                       <div className="col-12">
+//                         <div className="d-flex justify-content-between align-items-center p-3 bg-light rounded" style={{ borderRadius: "8px" }}>
+//                           <div>
+//                             <div className="fw-medium">Email Notifications</div>
+//                             <small className="text-muted">Receive updates via email</small>
+//                           </div>
+//                           <div className="form-check form-switch">
+//                             <input
+//                               className="form-check-input"
+//                               type="checkbox"
+//                               id="emailNotifications"
+//                               checked={isEditing ? (editedData.notifications?.email || false) : (student?.notifications?.email || false)}
+//                               onChange={(e) => isEditing && handleNestedInputChange("notifications", "email", e.target.checked)}
+//                               disabled={!isEditing}
+//                             />
+//                           </div>
+//                         </div>
+//                       </div>
+//                       <div className="col-12">
+//                         <div className="d-flex justify-content-between align-items-center p-3 bg-light rounded" style={{ borderRadius: "8px" }}>
+//                           <div>
+//                             <div className="fw-medium">SMS Notifications</div>
+//                             <small className="text-muted">Receive updates via SMS</small>
+//                           </div>
+//                           <div className="form-check form-switch">
+//                             <input
+//                               className="form-check-input"
+//                               type="checkbox"
+//                               id="smsNotifications"
+//                               checked={isEditing ? (editedData.notifications?.sms || false) : (student?.notifications?.sms || false)}
+//                               onChange={(e) => isEditing && handleNestedInputChange("notifications", "sms", e.target.checked)}
+//                               disabled={!isEditing}
+//                             />
+//                           </div>
+//                         </div>
+//                       </div>
+//                       <div className="col-12">
+//                         <div className="d-flex justify-content-between align-items-center p-3 bg-light rounded" style={{ borderRadius: "8px" }}>
+//                           <div>
+//                             <div className="fw-medium">In-App Notifications</div>
+//                             <small className="text-muted">Receive updates in the app</small>
+//                           </div>
+//                           <div className="form-check form-switch">
+//                             <input
+//                               className="form-check-input"
+//                               type="checkbox"
+//                               id="appNotifications"
+//                               checked={isEditing ? (editedData.notifications?.inApp || false) : (student?.notifications?.inApp || false)}
+//                               onChange={(e) => isEditing && handleNestedInputChange("notifications", "inApp", e.target.checked)}
+//                               disabled={!isEditing}
+//                             />
+//                           </div>
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Error Message */}
+//             {!student && (
+//               <div className="row mt-4">
+//                 <div className="col-12">
+//                   <div className="alert alert-danger d-flex align-items-center" style={{ borderRadius: "12px" }}>
+//                     <i className="bi bi-exclamation-triangle-fill me-2"></i>
+//                     <div>
+//                       <strong>Error!</strong> Profile data not found or failed to load.
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Profile;
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header1 from "../../Header/Header";
@@ -1556,8 +2082,61 @@ const Profile = () => {
   const [editedData, setEditedData] = useState({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
 
   const studentId = localStorage.getItem("studentId");
+
+  // Validation rules
+  const validationRules = {
+    // username: {
+    //   required: true,
+    //   minLength: 2,
+    //   maxLength: 50,
+    //   pattern: /^[a-zA-Z\s]+$/,
+    //   message: "Username must be 2-50 characters and contain only letters and spaces"
+    // },
+    email: {
+      required: true,
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      message: "Please enter a valid email address"
+    },
+    phone: {
+      required: false,
+      pattern: /^[\+]?[1-9][\d]{0,15}$/,
+      message: "Please enter a valid phone number"
+    },
+    studentId: {
+      required: true,
+      pattern: /^[A-Z0-9]+$/,
+      message: "Student ID must contain only uppercase letters and numbers"
+    },
+    postalCode: {
+      required: false,
+      pattern: /^[0-9]{5,6}$/,
+      message: "Postal code must be 5-6 digits"
+    },
+    address: {
+      maxLength: 200,
+      message: "Address must not exceed 200 characters"
+    },
+    bio: {
+      maxLength: 500,
+      message: "Bio must not exceed 500 characters"
+    },
+    experience: {
+      maxLength: 1000,
+      message: "Experience must not exceed 1000 characters"
+    },
+    qualifications: {
+      maxLength: 1000,
+      message: "Qualifications must not exceed 1000 characters"
+    },
+    interests: {
+      maxLength: 300,
+      message: "Interests must not exceed 300 characters"
+    }
+  };
 
   useEffect(() => {
     const fetchStudentProfile = async () => {
@@ -1578,32 +2157,120 @@ const Profile = () => {
     fetchStudentProfile();
   }, [studentId]);
 
+  // Validation function
+  const validateField = (field, value) => {
+    const rule = validationRules[field];
+    if (!rule) return "";
+
+    if (rule.required && (!value || value.trim() === "")) {
+      return `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
+    }
+
+    if (value && rule.minLength && value.length < rule.minLength) {
+      return `${field.charAt(0).toUpperCase() + field.slice(1)} must be at least ${rule.minLength} characters`;
+    }
+
+    if (value && rule.maxLength && value.length > rule.maxLength) {
+      return rule.message || `${field.charAt(0).toUpperCase() + field.slice(1)} must not exceed ${rule.maxLength} characters`;
+    }
+
+    if (value && rule.pattern && !rule.pattern.test(value)) {
+      return rule.message || `Invalid ${field} format`;
+    }
+
+    return "";
+  };
+
+  // Validate all fields
+  const validateAllFields = () => {
+    const newErrors = {};
+    Object.keys(validationRules).forEach(field => {
+      const error = validateField(field, editedData[field]);
+      if (error) {
+        newErrors[field] = error;
+      }
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleEdit = () => {
     setIsEditing(true);
     setEditedData({...student});
+    setErrors({});
+    setTouched({});
   };
 
   const handleCancel = () => {
     setIsEditing(false);
     setEditedData({...student});
+    setErrors({});
+    setTouched({});
   };
 
   const handleSave = async () => {
+    if (!validateAllFields()) {
+      // Mark all fields as touched to show errors
+      const allTouched = {};
+      Object.keys(validationRules).forEach(field => {
+        allTouched[field] = true;
+      });
+      setTouched(allTouched);
+      return;
+    }
+
     try {
       setSaving(true);
       const response = await axios.put(
         `http://localhost:8080/api/students/${studentId}/profile`,
         editedData
       );
+      
       setStudent(response.data.student || editedData);
       setIsEditing(false);
-      alert("Profile updated successfully!");
+      setErrors({});
+      setTouched({});
+      
+      // Success notification
+      showNotification("Profile updated successfully!", "success");
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("Failed to update profile. Please try again.");
+      showNotification("Failed to update profile. Please try again.", "error");
     } finally {
       setSaving(false);
     }
+  };
+
+  // Enhanced notification function
+  const showNotification = (message, type = "info") => {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = `
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      min-width: 300px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 8px;
+    `;
+    
+    notification.innerHTML = `
+      <div class="d-flex align-items-center">
+        <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+        ${message}
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 5000);
   };
 
   const handleInputChange = (field, value) => {
@@ -1611,6 +2278,15 @@ const Profile = () => {
       ...prev,
       [field]: value
     }));
+
+    // Validate field on change if it's been touched
+    if (touched[field]) {
+      const error = validateField(field, value);
+      setErrors(prev => ({
+        ...prev,
+        [field]: error
+      }));
+    }
   };
 
   const handleNestedInputChange = (parent, field, value) => {
@@ -1623,7 +2299,29 @@ const Profile = () => {
     }));
   };
 
+  const handleBlur = (field) => {
+    setTouched(prev => ({
+      ...prev,
+      [field]: true
+    }));
+
+    const error = validateField(field, editedData[field]);
+    setErrors(prev => ({
+      ...prev,
+      [field]: error
+    }));
+  };
+
   const show = (val, fallback = "Not specified") => val && val !== "" ? val : fallback;
+
+  // Get form control classes based on validation state
+  const getInputClasses = (field) => {
+    let classes = "form-control";
+    if (touched[field]) {
+      classes += errors[field] ? " is-invalid" : " is-valid";
+    }
+    return classes;
+  };
 
   if (loading) {
     return (
@@ -1683,7 +2381,7 @@ const Profile = () => {
                         ) : (
                           <>
                             <i className="bi bi-check-lg me-2"></i>
-                            Save
+                            Save Changes
                           </>
                         )}
                       </button>
@@ -1702,8 +2400,27 @@ const Profile = () => {
               </div>
             </div>
 
+            {/* Validation Summary */}
+            {isEditing && Object.keys(errors).length > 0 && (
+              <div className="row mb-4">
+                <div className="col-12">
+                  <div className="alert alert-danger" style={{ borderRadius: "12px" }}>
+                    <div className="d-flex align-items-center mb-2">
+                      <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                      <strong>Please fix the following errors:</strong>
+                    </div>
+                    <ul className="mb-0 ms-3">
+                      {Object.entries(errors).map(([field, error]) => (
+                        error && <li key={field}>{error}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Profile Overview Card */}
-            <div className="row mb-4">
+            {/* <div className="row mb-4">
               <div className="col-12">
                 <div className="card border-0 shadow-sm" style={{ borderRadius: "12px" }}>
                   <div className="card-body p-4">
@@ -1751,17 +2468,235 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
+            </div> */}
+       <>
+  <style>
+    {`
+      .circular-chart {
+        width: 100%;
+        height: auto;
+        transform: rotate(-90deg);
+      }
+      .circle-bg {
+        stroke: #f0f0f0;
+      }
+      .circle {
+        fill: none;
+        stroke-width: 2.8;
+        stroke-linecap: round;
+        transition: stroke-dasharray 0.5s ease;
+      }
+     .percentage {
+  font-size: 7px;
+  fill: #333;
+  dominant-baseline: middle;
+  text-anchor: middle;
+  transform: rotate(90deg);
+  transform-origin: center;
+}
+
+    `}
+  </style>
+
+  <div className="row mb-4">
+    <div className="col-12">
+      <div className="card border-0 shadow-sm" style={{ borderRadius: "12px" }}>
+        <div className="card-body p-4">
+          <div className="row align-items-center">
+            {/* Profile Image */}
+            <div className="col-auto">
+              <img
+                src={
+                  student?.profilePhoto ||
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    student?.username || "User"
+                  )}&background=0d6efd&color=fff&size=100`
+                }
+                alt="Profile"
+                className="rounded-circle"
+                width="100"
+                height="100"
+                style={{ objectFit: "cover", border: "4px solid #e9ecef" }}
+              />
             </div>
+
+            {/* Student Details */}
+            <div className="col">
+              <h3 className="fw-bold mb-2">{show(student?.username)}</h3>
+              <div className="row g-3">
+                <div className="col-md-3">
+                  <div className="d-flex align-items-center text-muted">
+                    <i className="bi bi-envelope me-2 text-primary"></i>
+                    <small>{show(student?.email)}</small>
+                  </div>
+                </div>
+                <div className="col-md-3">
+                  <div className="d-flex align-items-center text-muted">
+                    <i className="bi bi-card-text me-2 text-primary"></i>
+                    <small>ID: {show(student?.studentId)}</small>
+                  </div>
+                </div>
+                <div className="col-md-3">
+                  <div className="d-flex align-items-center text-muted">
+                    <i className="bi bi-building me-2 text-primary"></i>
+                    <small>{show(student?.department)}</small>
+                  </div>
+                </div>
+                <div className="col-md-3">
+                  <div className="d-flex align-items-center text-muted">
+                    <i className="bi bi-calendar3 me-2 text-primary"></i>
+                    <small>Semester {show(student?.semester)}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Profile Completion Circular Chart */}
+            <div className="col-md-3 mt-4 mt-md-0">
+              <div className="shadow-sm p-3 bg-white rounded-4 text-center">
+                <div className="position-relative mx-auto" style={{ width: "100px", height: "100px" }}>
+                  <svg className="circular-chart" viewBox="0 0 36 36">
+                    <path className="circle-bg"
+                      d="M18 2.0845
+                         a 15.9155 15.9155 0 0 1 0 31.831
+                         a 15.9155 15.9155 0 0 1 0 -31.831"
+                      fill="none"
+                      stroke="#eee"
+                      strokeWidth="2"
+                    />
+                    <path className="circle"
+                      strokeDasharray={`${getProfileCompletionPercentage()}, 100`}
+                      d="M18 2.0845
+                         a 15.9155 15.9155 0 0 1 0 31.831
+                         a 15.9155 15.9155 0 0 1 0 -31.831"
+                      fill="none"
+                      stroke={
+                        getProfileCompletionPercentage() > 80
+                          ? "#28a745"
+                          : getProfileCompletionPercentage() > 50
+                          ? "#ffc107"
+                          : "#dc3545"
+                      }
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <text x="18" y="20.35" className="percentage" textAnchor="middle" fontSize="9" fill="blac">
+                      {Math.round(getProfileCompletionPercentage())}%
+                    </text>
+                  </svg>
+                </div>
+                <h6 className="fw-semibold text-dark mt-3 mb-1">Profile Completion</h6>
+                <small className="text-muted">
+                  {getProfileCompletionPercentage() > 80
+                    ? 'Excellent!'
+                    : getProfileCompletionPercentage() > 50
+                    ? 'Good progress'
+                    : 'Needs attention'}
+                </small>
+              </div>
+            </div>
+            {/* End Chart */}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</>
+
+
 
             {/* Profile Details */}
             <div className="row g-4">
               
+              {/* Basic Information */}
+              <div className="col-lg-6">
+                <div className="card border-0 shadow-sm h-100" style={{ borderRadius: "12px" }}>
+                  <div className="card-header bg-white border-0 pb-0" style={{ borderRadius: "12px 12px 0 0" }}>
+                    <h5 className="mb-0 fw-semibold text-dark">
+                      <i className="bi bi-person-fill me-2 text-primary"></i>
+                      Basic Information
+                    </h5>
+                  </div>
+                  <div className="card-body pt-3">
+                    <div className="row g-3">
+                      <div className="col-12">
+                        <label className="form-label text-muted small mb-1">
+                          Username <span className="text-danger">*</span>
+                        </label>
+                        {isEditing ? (
+                          <div>
+                            <input
+                              type="text"
+                              className={getInputClasses("username")}
+                              value={editedData.username || ""}
+                              onChange={(e) => handleInputChange("username", e.target.value)}
+                              onBlur={() => handleBlur("username")}
+                              style={{ borderRadius: "8px" }}
+                              placeholder="Enter your username"
+                            />
+                           
+                          </div>
+                        ) : (
+                          <div className="fw-medium">{show(student?.username)}</div>
+                        )}
+                      </div>
+                      <div className="col-12">
+                        <label className="form-label text-muted small mb-1">
+                          Email <span className="text-danger">*</span>
+                        </label>
+                        {isEditing ? (
+                          <div>
+                            <input
+                              type="email"
+                              className={getInputClasses("email")}
+                              value={editedData.email || ""}
+                              onChange={(e) => handleInputChange("email", e.target.value)}
+                              onBlur={() => handleBlur("email")}
+                              style={{ borderRadius: "8px" }}
+                              placeholder="Enter your email"
+                            />
+                            {touched.email && errors.email && (
+                              <div className="invalid-feedback">{errors.email}</div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="fw-medium">{show(student?.email)}</div>
+                        )}
+                      </div>
+                      <div className="col-12">
+                        <label className="form-label text-muted small mb-1">
+                          Student ID <span className="text-danger">*</span>
+                        </label>
+                        {isEditing ? (
+                          <div>
+                            <input
+                              type="text"
+                              className={getInputClasses("studentId")}
+                              value={editedData.studentId || ""}
+                              onChange={(e) => handleInputChange("studentId", e.target.value.toUpperCase())}
+                              onBlur={() => handleBlur("studentId")}
+                              style={{ borderRadius: "8px" }}
+                              placeholder="Enter student ID"
+                            />
+                            {touched.studentId && errors.studentId && (
+                              <div className="invalid-feedback">{errors.studentId}</div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="fw-medium">{show(student?.studentId)}</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* Contact Information */}
               <div className="col-lg-6">
                 <div className="card border-0 shadow-sm h-100" style={{ borderRadius: "12px" }}>
                   <div className="card-header bg-white border-0 pb-0" style={{ borderRadius: "12px 12px 0 0" }}>
                     <h5 className="mb-0 fw-semibold text-dark">
-                      <i className="bi bi-telephone-fill me-2 text-primary"></i>
+                      <i className="bi bi-telephone-fill me-2 text-success"></i>
                       Contact Information
                     </h5>
                   </div>
@@ -1770,13 +2705,28 @@ const Profile = () => {
                       <div className="col-12">
                         <label className="form-label text-muted small mb-1">Phone Number</label>
                         {isEditing ? (
+                          <div>
                           <input
                             type="tel"
-                            className="form-control"
+                            className={getInputClasses("phone")}
+                            name="phone"
+                            placeholder="Enter phone number"
                             value={editedData.phone || ""}
-                            onChange={(e) => handleInputChange("phone", e.target.value)}
+                            onChange={(e) => {
+                              const onlyDigits = e.target.value.replace(/\D/g, '');
+                              if (onlyDigits.length <= 10) {
+                                handleInputChange("phone", onlyDigits);
+                              }
+                            }}
+                            onBlur={() => handleBlur("phone")}
+                            maxLength="10"
                             style={{ borderRadius: "8px" }}
                           />
+                          {touched.phone && errors.phone && (
+                            <div className="invalid-feedback d-block">{errors.phone}</div>
+                          )}
+                        </div>
+                        
                         ) : (
                           <div className="fw-medium">{show(student?.phone)}</div>
                         )}
@@ -1784,13 +2734,20 @@ const Profile = () => {
                       <div className="col-12">
                         <label className="form-label text-muted small mb-1">Address</label>
                         {isEditing ? (
-                          <textarea
-                            className="form-control"
-                            rows="2"
-                            value={editedData.address || ""}
-                            onChange={(e) => handleInputChange("address", e.target.value)}
-                            style={{ borderRadius: "8px" }}
-                          />
+                          <div>
+                            <textarea
+                              className={getInputClasses("address")}
+                              rows="2"
+                              value={editedData.address || ""}
+                              onChange={(e) => handleInputChange("address", e.target.value)}
+                              onBlur={() => handleBlur("address")}
+                              style={{ borderRadius: "8px" }}
+                              placeholder="Enter your address"
+                            />
+                            {touched.address && errors.address && (
+                              <div className="invalid-feedback">{errors.address}</div>
+                            )}
+                          </div>
                         ) : (
                           <div className="fw-medium">{show(student?.address)}</div>
                         )}
@@ -1804,6 +2761,7 @@ const Profile = () => {
                             value={editedData.city || ""}
                             onChange={(e) => handleInputChange("city", e.target.value)}
                             style={{ borderRadius: "8px" }}
+                            placeholder="City"
                           />
                         ) : (
                           <div className="fw-medium">{show(student?.city)}</div>
@@ -1818,6 +2776,7 @@ const Profile = () => {
                             value={editedData.state || ""}
                             onChange={(e) => handleInputChange("state", e.target.value)}
                             style={{ borderRadius: "8px" }}
+                            placeholder="State"
                           />
                         ) : (
                           <div className="fw-medium">{show(student?.state)}</div>
@@ -1832,6 +2791,7 @@ const Profile = () => {
                             value={editedData.country || ""}
                             onChange={(e) => handleInputChange("country", e.target.value)}
                             style={{ borderRadius: "8px" }}
+                            placeholder="Country"
                           />
                         ) : (
                           <div className="fw-medium">{show(student?.country)}</div>
@@ -1840,13 +2800,20 @@ const Profile = () => {
                       <div className="col-6">
                         <label className="form-label text-muted small mb-1">Postal Code</label>
                         {isEditing ? (
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={editedData.postalCode || ""}
-                            onChange={(e) => handleInputChange("postalCode", e.target.value)}
-                            style={{ borderRadius: "8px" }}
-                          />
+                          <div>
+                            <input
+                              type="text"
+                              className={getInputClasses("postalCode")}
+                              value={editedData.postalCode || ""}
+                              onChange={(e) => handleInputChange("postalCode", e.target.value)}
+                              onBlur={() => handleBlur("postalCode")}
+                              style={{ borderRadius: "8px" }}
+                              placeholder="Postal code"
+                            />
+                            {touched.postalCode && errors.postalCode && (
+                              <div className="invalid-feedback">{errors.postalCode}</div>
+                            )}
+                          </div>
                         ) : (
                           <div className="fw-medium">{show(student?.postalCode)}</div>
                         )}
@@ -1861,7 +2828,7 @@ const Profile = () => {
                 <div className="card border-0 shadow-sm h-100" style={{ borderRadius: "12px" }}>
                   <div className="card-header bg-white border-0 pb-0" style={{ borderRadius: "12px 12px 0 0" }}>
                     <h5 className="mb-0 fw-semibold text-dark">
-                      <i className="bi bi-briefcase-fill me-2 text-success"></i>
+                      <i className="bi bi-briefcase-fill me-2 text-info"></i>
                       Professional Information
                     </h5>
                   </div>
@@ -1870,13 +2837,23 @@ const Profile = () => {
                       <div className="col-12">
                         <label className="form-label text-muted small mb-1">Experience</label>
                         {isEditing ? (
-                          <textarea
-                            className="form-control"
-                            rows="3"
-                            value={editedData.experience || ""}
-                            onChange={(e) => handleInputChange("experience", e.target.value)}
-                            style={{ borderRadius: "8px" }}
-                          />
+                          <div>
+                            <textarea
+                              className={getInputClasses("experience")}
+                              rows="3"
+                              value={editedData.experience || ""}
+                              onChange={(e) => handleInputChange("experience", e.target.value)}
+                              onBlur={() => handleBlur("experience")}
+                              style={{ borderRadius: "8px" }}
+                              placeholder="Describe your work experience..."
+                            />
+                            <small className="text-muted">
+                              {editedData.experience?.length || 0}/1000 characters
+                            </small>
+                            {touched.experience && errors.experience && (
+                              <div className="invalid-feedback">{errors.experience}</div>
+                            )}
+                          </div>
                         ) : (
                           <div className="fw-medium">{show(student?.experience)}</div>
                         )}
@@ -1884,13 +2861,23 @@ const Profile = () => {
                       <div className="col-12">
                         <label className="form-label text-muted small mb-1">Qualifications</label>
                         {isEditing ? (
-                          <textarea
-                            className="form-control"
-                            rows="3"
-                            value={editedData.qualifications || ""}
-                            onChange={(e) => handleInputChange("qualifications", e.target.value)}
-                            style={{ borderRadius: "8px" }}
-                          />
+                          <div>
+                            <textarea
+                              className={getInputClasses("qualifications")}
+                              rows="3"
+                              value={editedData.qualifications || ""}
+                              onChange={(e) => handleInputChange("qualifications", e.target.value)}
+                              onBlur={() => handleBlur("qualifications")}
+                              style={{ borderRadius: "8px" }}
+                              placeholder="List your qualifications, certifications, etc..."
+                            />
+                            <small className="text-muted">
+                              {editedData.qualifications?.length || 0}/1000 characters
+                            </small>
+                            {touched.qualifications && errors.qualifications && (
+                              <div className="invalid-feedback">{errors.qualifications}</div>
+                            )}
+                          </div>
                         ) : (
                           <div className="fw-medium">{show(student?.qualifications)}</div>
                         )}
@@ -1898,13 +2885,23 @@ const Profile = () => {
                       <div className="col-12">
                         <label className="form-label text-muted small mb-1">Interests</label>
                         {isEditing ? (
-                          <textarea
-                            className="form-control"
-                            rows="2"
-                            value={editedData.interests || ""}
-                            onChange={(e) => handleInputChange("interests", e.target.value)}
-                            style={{ borderRadius: "8px" }}
-                          />
+                          <div>
+                            <textarea
+                              className={getInputClasses("interests")}
+                              rows="2"
+                              value={editedData.interests || ""}
+                              onChange={(e) => handleInputChange("interests", e.target.value)}
+                              onBlur={() => handleBlur("interests")}
+                              style={{ borderRadius: "8px" }}
+                              placeholder="What are your interests and hobbies?"
+                            />
+                            <small className="text-muted">
+                              {editedData.interests?.length || 0}/300 characters
+                            </small>
+                            {touched.interests && errors.interests && (
+                              <div className="invalid-feedback">{errors.interests}</div>
+                            )}
+                          </div>
                         ) : (
                           <div className="fw-medium">{show(student?.interests)}</div>
                         )}
@@ -1919,7 +2916,7 @@ const Profile = () => {
                 <div className="card border-0 shadow-sm h-100" style={{ borderRadius: "12px" }}>
                   <div className="card-header bg-white border-0 pb-0" style={{ borderRadius: "12px 12px 0 0" }}>
                     <h5 className="mb-0 fw-semibold text-dark">
-                      <i className="bi bi-person-fill me-2 text-info"></i>
+                      <i className="bi bi-heart-fill me-2 text-warning"></i>
                       Personal Information
                     </h5>
                   </div>
@@ -1928,13 +2925,23 @@ const Profile = () => {
                       <div className="col-12">
                         <label className="form-label text-muted small mb-1">Bio</label>
                         {isEditing ? (
-                          <textarea
-                            className="form-control"
-                            rows="4"
-                            value={editedData.bio || ""}
-                            onChange={(e) => handleInputChange("bio", e.target.value)}
-                            style={{ borderRadius: "8px" }}
-                          />
+                          <div>
+                            <textarea
+                              className={getInputClasses("bio")}
+                              rows="4"
+                              value={editedData.bio || ""}
+                              onChange={(e) => handleInputChange("bio", e.target.value)}
+                              onBlur={() => handleBlur("bio")}
+                              style={{ borderRadius: "8px" }}
+                              placeholder="Tell us about yourself..."
+                            />
+                            <small className="text-muted">
+                              {editedData.bio?.length || 0}/500 characters
+                            </small>
+                            {touched.bio && errors.bio && (
+                              <div className="invalid-feedback">{errors.bio}</div>
+                            )}
+                          </div>
                         ) : (
                           <div className="fw-medium">{show(student?.bio)}</div>
                         )}
@@ -1942,13 +2949,22 @@ const Profile = () => {
                       <div className="col-6">
                         <label className="form-label text-muted small mb-1">Language</label>
                         {isEditing ? (
-                          <input
-                            type="text"
-                            className="form-control"
+                          <select
+                            className="form-select"
                             value={editedData.language || ""}
                             onChange={(e) => handleInputChange("language", e.target.value)}
                             style={{ borderRadius: "8px" }}
-                          />
+                          >
+                            <option value="">Select Language</option>
+                            <option value="English">English</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="French">French</option>
+                            <option value="German">German</option>
+                            <option value="Hindi">Hindi</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Japanese">Japanese</option>
+                            <option value="Other">Other</option>
+                          </select>
                         ) : (
                           <div className="fw-medium">{show(student?.language)}</div>
                         )}
@@ -1964,10 +2980,15 @@ const Profile = () => {
                           >
                             <option value="">Select Timezone</option>
                             <option value="UTC">UTC</option>
-                            <option value="EST">EST</option>
-                            <option value="PST">PST</option>
-                            <option value="IST">IST</option>
-                            <option value="GMT">GMT</option>
+                            <option value="EST">EST (Eastern)</option>
+                            <option value="CST">CST (Central)</option>
+                            <option value="MST">MST (Mountain)</option>
+                            <option value="PST">PST (Pacific)</option>
+                            <option value="IST">IST (India)</option>
+                            <option value="GMT">GMT (Greenwich)</option>
+                            <option value="CET">CET (Central Europe)</option>
+                            <option value="JST">JST (Japan)</option>
+                            <option value="AEST">AEST (Australia East)</option>
                           </select>
                         ) : (
                           <div className="fw-medium">{show(student?.timezone)}</div>
@@ -1979,17 +3000,17 @@ const Profile = () => {
               </div>
 
               {/* Notification Preferences */}
-              <div className="col-lg-6">
-                <div className="card border-0 shadow-sm h-100" style={{ borderRadius: "12px" }}>
+              <div className="col-lg-12">
+                <div className="card border-0 shadow-sm" style={{ borderRadius: "12px" }}>
                   <div className="card-header bg-white border-0 pb-0" style={{ borderRadius: "12px 12px 0 0" }}>
                     <h5 className="mb-0 fw-semibold text-dark">
-                      <i className="bi bi-bell-fill me-2 text-warning"></i>
+                      <i className="bi bi-bell-fill me-2 text-danger"></i>
                       Notification Preferences
                     </h5>
                   </div>
                   <div className="card-body pt-3">
                     <div className="row g-3">
-                      <div className="col-12">
+                      <div className="col-md-4">
                         <div className="d-flex justify-content-between align-items-center p-3 bg-light rounded" style={{ borderRadius: "8px" }}>
                           <div>
                             <div className="fw-medium">Email Notifications</div>
@@ -2007,7 +3028,7 @@ const Profile = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-12">
+                      <div className="col-md-4">
                         <div className="d-flex justify-content-between align-items-center p-3 bg-light rounded" style={{ borderRadius: "8px" }}>
                           <div>
                             <div className="fw-medium">SMS Notifications</div>
@@ -2025,7 +3046,7 @@ const Profile = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-12">
+                      <div className="col-md-4">
                         <div className="d-flex justify-content-between align-items-center p-3 bg-light rounded" style={{ borderRadius: "8px" }}>
                           <div>
                             <div className="fw-medium">In-App Notifications</div>
@@ -2049,14 +3070,119 @@ const Profile = () => {
               </div>
             </div>
 
+            {/* Additional Actions */}
+            {isEditing && (
+              <div className="row mt-4">
+                <div className="col-12">
+                  <div className="card border-0 shadow-sm" style={{ borderRadius: "12px" }}>
+                    <div className="card-body p-4">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <h6 className="mb-1">Ready to save your changes?</h6>
+                          <small className="text-muted">Make sure all required fields are filled correctly</small>
+                        </div>
+                        <div>
+                          <button 
+                            className="btn btn-success px-4 py-2 me-2"
+                            onClick={handleSave}
+                            disabled={saving || Object.keys(errors).some(key => errors[key])}
+                            style={{ borderRadius: "8px" }}
+                          >
+                            {saving ? (
+                              <>
+                                <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                                Saving Changes...
+                              </>
+                            ) : (
+                              <>
+                                <i className="bi bi-check-circle me-2"></i>
+                                Save All Changes
+                              </>
+                            )}
+                          </button>
+                          <button 
+                            className="btn btn-outline-danger px-4 py-2"
+                            onClick={handleCancel}
+                            disabled={saving}
+                            style={{ borderRadius: "8px" }}
+                          >
+                            <i className="bi bi-x-circle me-2"></i>
+                            Cancel Changes
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Profile Statistics */}
+            {/* <div className="row mt-4">
+              <div className="col-12">
+                <div className="card border-0 shadow-sm" style={{ borderRadius: "12px" }}>
+                  <div className="card-header bg-white border-0 pb-0" style={{ borderRadius: "12px 12px 0 0" }}>
+                    <h5 className="mb-0 fw-semibold text-dark">
+                      <i className="bi bi-graph-up me-2 text-success"></i>
+                      Profile Completion
+                    </h5>
+                  </div>
+                  <div className="card-body pt-3">
+                    <div className="row g-3">
+                      <div className="col-md-8">
+                        <div className="mb-2">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <span className="text-muted">Profile Completion Status</span>
+                            <span className="fw-bold text-primary">
+                              {Math.round(getProfileCompletionPercentage())}%
+                            </span>
+                          </div>
+                          <div className="progress mt-2" style={{ height: "8px", borderRadius: "4px" }}>
+                            <div 
+                              className="progress-bar bg-gradient" 
+                              role="progressbar" 
+                              style={{ 
+                                width: `${getProfileCompletionPercentage()}%`,
+                                background: getProfileCompletionPercentage() > 80 ? 
+                                  'linear-gradient(45deg, #28a745, #20c997)' :
+                                  getProfileCompletionPercentage() > 50 ?
+                                  'linear-gradient(45deg, #ffc107, #fd7e14)' :
+                                  'linear-gradient(45deg, #dc3545, #e83e8c)'
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="text-end">
+                          <div className="d-flex align-items-center justify-content-end">
+                            <i className={`bi bi-${getProfileCompletionPercentage() > 80 ? 'check-circle-fill text-success' : 
+                              getProfileCompletionPercentage() > 50 ? 'exclamation-circle-fill text-warning' : 
+                              'x-circle-fill text-danger'} me-2`}></i>
+                            <span className="small text-muted">
+                              {getProfileCompletionPercentage() > 80 ? 'Excellent!' :
+                               getProfileCompletionPercentage() > 50 ? 'Good progress' :
+                               'Needs attention'}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> */}
+
+            
+
             {/* Error Message */}
-            {!student && (
+            {!student && !loading && (
               <div className="row mt-4">
                 <div className="col-12">
                   <div className="alert alert-danger d-flex align-items-center" style={{ borderRadius: "12px" }}>
                     <i className="bi bi-exclamation-triangle-fill me-2"></i>
                     <div>
-                      <strong>Error!</strong> Profile data not found or failed to load.
+                      <strong>Error!</strong> Profile data not found or failed to load. Please try refreshing the page.
                     </div>
                   </div>
                 </div>
@@ -2067,6 +3193,23 @@ const Profile = () => {
       </div>
     </div>
   );
+
+  // Helper function to calculate profile completion percentage
+  function getProfileCompletionPercentage() {
+    if (!student) return 0;
+    
+    const fields = [
+      'username', 'email', 'studentId', 'phone', 'address', 'city', 'state', 
+      'country', 'postalCode', 'bio', 'experience', 'qualifications', 
+      'interests', 'language', 'timezone'
+    ];
+    
+    const filledFields = fields.filter(field => 
+      student[field] && student[field].toString().trim() !== ''
+    ).length;
+    
+    return (filledFields / fields.length) * 100;
+  }
 };
 
 export default Profile;
