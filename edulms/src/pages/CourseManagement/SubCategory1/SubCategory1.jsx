@@ -126,6 +126,7 @@ const SubCategory1 = () => {
                             </div>
                           </div>
                         </div>
+                        {categories.length>0 &&
                         <div className="col-md-6">
                           <div className="mb-3">
                             <label
@@ -155,7 +156,7 @@ const SubCategory1 = () => {
                               Please select a valid category.
                             </div>
                           </div>
-                        </div>
+                        </div>}
                       </div>
 
                       <button class="btn btn-primary" type="submit">
@@ -169,7 +170,7 @@ const SubCategory1 = () => {
                 </div>
               </div>
 
-              {categories.map((cat) => (
+              { categories.length>0 && categories.map((cat) => (
                 <div className="col-xl-12" key={cat._id}>
                   <div className="card">
                     <div className="card-header">
@@ -285,7 +286,7 @@ const SubCategory1 = () => {
                         required
                       >
                         <option value="">Select Category</option>
-                        {categories.map((cat) => (
+                        {categories.length>0 && categories.map((cat) => (
                           <option key={cat._id} value={cat._id}>
                             {cat.categoryName}
                           </option>

@@ -32,7 +32,7 @@ const LiveClass1 = () => {
 
 
       try {
-        fetch(`http://localhost:8080/videos/${courseName}`)
+        fetch(`http://localhost:8080/api/videos/${courseName}`)
           .then(response => response.json())
           .then(data => {
             setLessonModules(data.content);

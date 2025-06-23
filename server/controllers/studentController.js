@@ -385,6 +385,65 @@ async getStudentProfile(req, res) {
 };
 
 // Get all students with completed courses
+// async getAllCompletedCourses(req, res) {
+//   try {
+//     const students = await Student.find({
+//       'courseProgress.completed': true
+//     }).populate('courseProgress.courseId');
+    
+//     const data = [];
+//     students.forEach(student => {
+//       student.courseProgress.forEach(cp => {
+//         if (cp.completed) {
+//           data.push({
+//             _id: student._id, // Fixed: was *id
+//             name: student.username,
+//             username: student.username,
+//             email: student.email,
+//             studentId: student.studentId,
+//             courseId: cp.courseId?._id,
+//             courseName: cp.courseId?.courseName,
+//             batchCode: cp.batchCode,
+//             grade: cp.grade,
+//             completionDate: cp.completedAt,
+//           });
+//         }
+//       });
+//     });
+//     res.json(data);
+//   } catch (err) {
+//     console.error('Error in getAllCompletedCourses:', err);
+//     res.status(500).json({ error: err.message });
+//   }
+// }
+
+// // Get a specific student's completed courses
+// async getStudentCompletedCourses(req, res) {
+//   try {
+//     const student = await Student.findById(req.params.id).populate('courseProgress.courseId');
+//     if (!student) return res.status(404).json({ error: 'Student not found' });
+    
+//     const completed = student.courseProgress.filter(cp => cp.completed).map(cp => ({
+//       _id: student._id, // Fixed: was *id
+//       name: student.username,
+//       username: student.username,
+//       email: student.email,
+//       courseId: cp.courseId?._id,
+//       studentId: student.studentId,
+//       courseName: cp.courseId?.courseName,
+//       batchCode: cp.batchCode,
+//       grade: cp.grade,
+//       completionDate: cp.completedAt,
+//     }));
+//     res.json(completed);
+//   } catch (err) {
+//     console.error('Error in getStudentCompletedCourses:', err);
+//     res.status(500).json({ error: err.message });
+//   }
+// }
+
+
+// Get all students with completed courses
 async getAllCompletedCourses(req, res) {
   try {
     const students = await Student.find({
@@ -506,7 +565,6 @@ async getStudentCompletedCourses(req, res) {
     res.status(500).json({ error: err.message });
   }
 }
-
 async updateCourseCompletion (req, res) {
   const { studentId, scourseId, completed } = req.body;
   console.log("Received data:", req.body); 

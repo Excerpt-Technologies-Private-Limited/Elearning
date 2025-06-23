@@ -92,21 +92,21 @@ const SideNavBar1 = () => {
                           aria-expanded={activeMenu === "studentmanagement"}
                         >
                           <li>
-                            <Link to="/EnrollmentList1">
+                            <Link to="/EnrollmentList">
                               <span data-key="t-calendar">
                                 Enrollment List
                               </span>
                             </Link>
                           </li>
                           {/* <li>
-                            <Link to="/ProgressTracking1">
+                            <Link to="/ProgressTracking">
                               <span data-key="t-calendar">
                                 Progress Tracking
                               </span>
                             </Link>
                           </li> */}
                           {/* <li>
-                            <Link to="/PermisssionRoles1">
+                            <Link to="/PermisssionRoles">
                               <span data-key="t-calendar">
                                 Communication Tools
                               </span>
@@ -114,7 +114,7 @@ const SideNavBar1 = () => {
                           </li> */}
 
                           {/* <li>
-                            <Link to="/StudentEnrollment1">
+                            <Link to="/StudentEnrollment">
                               <span data-key="t-chat">Student Enrollment</span>
                             </Link>
                           </li> */}
@@ -162,13 +162,13 @@ const SideNavBar1 = () => {
                           aria-expanded={activeMenu === "CourseManagement"}
                         >
                           <li>
-                            <Link to="/CourseCreation1" data-key="t-login">
+                            <Link to="/CourseCreation" data-key="t-login">
                               Course Creation
                             </Link>
                           </li>
                           <li>
                             <Link
-                              to="/Category1"
+                              to="/Category"
                               data-key="t-register"
                             >
                               Category
@@ -176,7 +176,7 @@ const SideNavBar1 = () => {
                           </li>
                           <li>
                             <Link
-                              to="/SubCategory1"
+                              to="/SubCategory"
                               data-key="t-register"
                             >
                               SubCategory
@@ -224,22 +224,22 @@ const SideNavBar1 = () => {
                           aria-expanded={activeMenu === "Learning  Features"}
                         >
                           <li>
-                            <Link to="/VideoLesson1" data-key="t-starter-page">
+                            <Link to="/VideoLesson" data-key="t-starter-page">
                               Video Lesson
                             </Link>
                           </li>
                           <li>
-                            <Link to="/Quiz1" data-key="t-maintenance">
+                            <Link to="/Quiz" data-key="t-maintenance">
                               Quizez & Exam
                             </Link>
                           </li>
                           <li>
-                            <Link to="/Assigngment1" data-key="t-coming-soon">
+                            <Link to="/Assigngment" data-key="t-coming-soon">
                               Assigngment Submission
                             </Link>
                           </li>
                           <li>
-                            <Link to="/Certification1" data-key="t-timeline">
+                            <Link to="/Certification" data-key="t-timeline">
                               Certifications
                             </Link>
                           </li>
@@ -295,24 +295,24 @@ const SideNavBar1 = () => {
                         >
                           <li>
                             <Link
-                              to="/DiscussionForm1"
+                              to="/DiscussionForm"
                               data-key="t-starter-page"
                             >
                               Discussion Forms
                             </Link>
                           </li>
                           <li>
-                            <Link to="/LiveClass1" data-key="t-maintenance">
+                            <Link to="/LiveClass" data-key="t-maintenance">
                               Live Class & Webinars
                             </Link>
                           </li>
                           <li>
-                            <Link to="/Chat1" data-key="t-coming-soon">
+                            <Link to="/Chat" data-key="t-coming-soon">
                               Chat
                             </Link>
                           </li>
                           <li>
-                            <Link to="/Announcement1" data-key="t-timeline">
+                            <Link to="/Announcement" data-key="t-timeline">
                               Announcement & Notification
                             </Link>
                           </li>
@@ -389,7 +389,7 @@ const SideNavBar1 = () => {
                         Student
                       </li>
                        <li >
-                        <Link to="/StudentDashboard1">
+                        <Link to="/StudentDashboard">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -416,21 +416,21 @@ const SideNavBar1 = () => {
                         </Link>
                       </li>
                       <li >
-                        <Link to="/StudentCourse1" >
+                        <Link to="/StudentCourse" >
                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                           <span data-key="t-dashboard">Student Course</span>
                         </Link>
                       </li>
 
                       <li >
-                        <Link to="/AssigngmentStudent1" >
+                        <Link to="/AssigngmentStudent" >
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share-2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                           <span data-key="t-dashboard">Assignmnet & Accesement</span>
                         </Link>
                       </li>
 
                       <li >
-                        <Link to="/Certificate1" >
+                        <Link to="/Certificate" >
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-gift"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
                           <span data-key="t-dashboard">Certificate or Grade</span>
                         </Link>

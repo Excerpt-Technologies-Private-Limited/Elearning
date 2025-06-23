@@ -34,12 +34,7 @@ const Header1 = () => {
                         </button>
 
                       
-                        <form class="app-search d-none d-lg-block">
-                            <div class="position-relative">
-                                <input type="text" class="form-control" placeholder="Search..."/>
-                                <button class="btn btn-primary" type="button"><i class="bx bx-search-alt align-middle"></i></button>
-                            </div>
-                        </form>
+                    
                     </div>
 
                     <div class="d-flex">
@@ -62,93 +57,9 @@ const Header1 = () => {
                             </div>
                         </div>
 
-                        {/* <div class="dropdown d-none d-sm-inline-block">
-                            <button type="button" class="btn header-item" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img id="header-lang-img" src="assets/images/flags/us.jpg" alt="Header Language" height="16"/>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end">
+            
 
-                              
-                                <Link to="javascript:void(0);" class="dropdown-item notify-item language" data-lang="en">
-                                    <img src="assets/images/flags/us.jpg" alt="user-image" class="me-1" height="12"/> <span class="align-middle">English</span>
-                                </Link>
-                           
-                                <Link to="javascript:void(0);" class="dropdown-item notify-item language" data-lang="sp">
-                                    <img src="assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12"/> <span class="align-middle">Spanish</span>
-                                </Link>
-
-                               
-                                <Link to="javascript:void(0);" class="dropdown-item notify-item language" data-lang="gr">
-                                    <img src="assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12"/> <span class="align-middle">German</span>
-                                </Link>
-
-                               
-                                <Link to="javascript:void(0);" class="dropdown-item notify-item language" data-lang="it">
-                                    <img src="assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12"/> <span class="align-middle">Italian</span>
-                                </Link>
-
-                             
-                               
-                            </div>
-                        </div> */}
-
-                        {/* <div class="dropdown d-none d-sm-inline-block">
-                            <button type="button" class="btn header-item" id="mode-setting-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon icon-lg layout-mode-dark"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun icon-lg layout-mode-light"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                            </button>
-                        </div> */}
-
-                        <div class="dropdown d-none d-lg-inline-block ms-1">
-                            <button type="button" class="btn header-item" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid icon-lg"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                            </button>
-                            {/* <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                                <div class="p-2">
-                                    <div class="row g-0">
-                                        <div class="col">
-                                            <Link class="dropdown-icon-item" to="#">
-                                                <img src="assets/images/brands/github.png" alt="Github"/>
-                                                <span>GitHub</span>
-                                            </Link>
-                                        </div>
-                                        <div class="col">
-                                            <Link class="dropdown-icon-item" to="#">
-                                                <img src="assets/images/brands/bitbucket.png" alt="bitbucket"/>
-                                                <span>Bitbucket</span>
-                                            </Link>
-                                        </div>
-                                        <div class="col">
-                                            <Link class="dropdown-icon-item" to="#">
-                                                <img src="assets/images/brands/dribbble.png" alt="dribbble"/>
-                                                <span>Dribbble</span>
-                                            </Link>
-                                        </div>
-                                    </div>
-
-                                    <div class="row g-0">
-                                        <div class="col">
-                                            <Link class="dropdown-icon-item" to="#">
-                                                <img src="assets/images/brands/dropbox.png" alt="dropbox"/>
-                                                <span>Dropbox</span>
-                                            </Link>
-                                        </div>
-                                        <div class="col">
-                                            <Link class="dropdown-icon-item" to="#">
-                                                <img src="assets/images/brands/mail_chimp.png" alt="mail_chimp"/>
-                                                <span>Mail Chimp</span>
-                                            </Link>
-                                        </div>
-                                        <div class="col">
-                                            <Link class="dropdown-icon-item" to="#">
-                                                <img src="assets/images/brands/slack.png" alt="slack"/>
-                                                <span>Slack</span>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> */}
-                        </div>
+               
 
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item noti-icon position-relative" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -237,16 +148,12 @@ const Header1 = () => {
                             </div>
                         </div>
 
-                        <div class="dropdown d-inline-block">
-                            <button type="button" class="btn header-item right-bar-toggle me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings icon-lg"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                            </button>
-                        </div>
+                       
 
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item bg-light-subtle border-start border-end" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {/* <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar"/> */}
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium">Shawn L.</span>
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium">Profile</span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
