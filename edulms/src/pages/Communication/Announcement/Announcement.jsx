@@ -25,7 +25,7 @@ export default function Announcement1() {
                   className="dataTables_wrapper dt-bootstrap4 no-footer"
                 >
                   <div className="row">
-                    <div className="col-sm-12 col-md-6">
+                    <div className="col-sm-12 col-md-6 mb-1">
                       <button
                         type="button"
                         class="btn btn-primary"
@@ -55,7 +55,7 @@ export default function Announcement1() {
                     <div className="col-sm-12">
                       <table
                         id="datatable"
-                        className="table table-bordered dt-responsive nowrap w-100 dataTable no-footer dtr-inline"
+                        className="table table-bordered"
                         style={{ width: "100%" }}
                         aria-describedby="datatable_info"
                       >
@@ -327,7 +327,7 @@ export default function Announcement1() {
                 Close
               </button>
               <button type="button" class="btn btn-primary">
-                Send message
+                Sumbit
               </button>
             </div>
           </div>

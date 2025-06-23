@@ -1,7 +1,28 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import { Link } from 'react-router-dom'
 
 const Header1 = () => {
+     useEffect(() => {
+    const menuBtn = document.getElementById("vertical-menu-btn");
+
+    const handleClick = () => {
+      document.body.classList.toggle("pace-done");
+      document.body.classList.toggle("sidebar-enable");
+    };
+
+    if (menuBtn) {
+      menuBtn.addEventListener("click", handleClick);
+    }
+
+    // Cleanup
+    return () => {
+      if (menuBtn) {
+        menuBtn.removeEventListener("click", handleClick);
+      }
+    };
+  }, []);
+
+
   return (
    
     
@@ -12,21 +33,21 @@ const Header1 = () => {
                         <div class="navbar-brand-box">
                             <a href="/" class="logo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="assets/images/logo-sm.svg" alt="" height="24"/>
+                                    <img src="/assets/img/general/logo2.png" alt="" height="24"/>
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="assets/images/logo-sm.svg" alt="" height="24"/> <span class="logo-txt">Nippuna</span>
+                                    <img src="/assets/img/general/logo3.png" alt="" height="24" style={{width:"130px"}}/> <span class="logo-txt"></span>
                                 </span>
                             </a>
 
-                            <a href="/" class="logo logo-light">
+                            <Link to="/" class="logo logo-light">
                                 <span class="logo-sm">
-                                    <img src="assets/images/logo-sm.svg" alt="" height="24"/>
+                                    <img src="/assets/img/general/logo2.png" alt="" height="24"/>
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="assets/images/logo-sm.svg" alt="" height="24"/> <span class="logo-txt">Minia</span>
+                                    <img src="/assets/img/general/logo2.png" alt="" height="24"/> <span class="logo-txt">Minia</span>
                                 </span>
-                            </a>
+                            </Link>
                         </div>
 
                         <button type="button" class="btn btn-sm px-3 font-size-16 header-item" id="vertical-menu-btn">
@@ -34,7 +55,15 @@ const Header1 = () => {
                         </button>
 
                       
-                    
+                        <div class="app-search d-none d-lg-block">
+                            {/* <div class="position-relative">
+                                <input type="text" class="form-control" placeholder="Search..."/>
+                                <button class="btn btn-primary" type="button"><i class="bx bx-search-alt align-middle"></i></button>
+                            </div> */}
+                            <h4 className="card-title">
+                  
+                </h4>
+                        </div>
                     </div>
 
                     <div class="d-flex">
@@ -57,9 +86,13 @@ const Header1 = () => {
                             </div>
                         </div>
 
-            
-
-               
+                       
+                        {/* <div class="dropdown d-none d-lg-inline-block ms-1">
+                            <button type="button" class="btn header-item" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid icon-lg"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            </button>
+                            
+                        </div> */}
 
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item noti-icon position-relative" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -147,13 +180,17 @@ const Header1 = () => {
                                 </div>
                             </div>
                         </div>
-
-                       
+{/* 
+                        <div class="dropdown d-inline-block">
+                            <button type="button" class="btn header-item right-bar-toggle me-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings icon-lg"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                            </button>
+                        </div> */}
 
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item bg-light-subtle border-start border-end" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {/* <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar"/> */}
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium">Profile</span>
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium">Shawn L.</span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">

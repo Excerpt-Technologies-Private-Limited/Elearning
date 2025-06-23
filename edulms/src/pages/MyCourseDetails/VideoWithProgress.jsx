@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import './Mycoursedetails.css'
 
 const VideoWithProgress = ({
   videoUrl,
@@ -43,6 +44,7 @@ const VideoWithProgress = ({
 
   return (
     <>
+     <div className="video-container">
       <video
         ref={videoRef}
         src={videoUrl}
@@ -53,6 +55,7 @@ const VideoWithProgress = ({
         onLoadedMetadata={handleLoadedMetadata}
         onTimeUpdate={handleTimeUpdate}
       />
+      </div>
       <div>
         <strong>Time spent:</strong> {Math.round(watched)}s <br />
         <strong>Status:</strong>{" "}

@@ -1067,7 +1067,7 @@ function StudentEnrollmentReport() {
   const enrollmentStats = getEnrollmentStats();
 
   return (
-    <div>
+    <>
       <Header1 />
       <SideNavBar1 />
       <div className="main-content">
@@ -1082,7 +1082,7 @@ function StudentEnrollmentReport() {
                         <i className="bx bx-user-check me-2"></i>
                         Student Enrollment Report
                       </h4>
-                      <div className="d-flex gap-2">
+                      <div className="d-flex flex-wrap gap-2">
                         <span>
                           Total Students:{" "}
                           {Array.isArray(filteredStudents)
@@ -1223,7 +1223,7 @@ function StudentEnrollmentReport() {
                             <div className="col-sm-12 table-responsive">
                               <table
                                 id="datatable"
-                                className="table table-bordered dt-responsive nowrap w-100 dataTable no-footer dtr-inline table-responsive"
+                                className="table table-bordered"
                                 style={{ width: "100%" }}
                                 aria-describedby="datatable_info"
                               >
@@ -1231,9 +1231,9 @@ function StudentEnrollmentReport() {
                                   <tr>
                                     <th>Student ID</th>
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Department</th>
-                                    <th>Semester</th>
+                                    {/* <th>Email</th> */}
+                                    <th>Department - Semester</th>
+                                    {/* <th>Semester</th> */}
                                     <th>City</th>
                                     <th>Phone</th>
                                     <th>Enrollment Date</th>
@@ -1282,29 +1282,33 @@ function StudentEnrollmentReport() {
                                                   {student.username}
                                                 </h6>
                                                 <small className="text-muted">
-                                                  {student.language}
+                                                  {student.language}<br/>
+                                                  {student.email}
                                                 </small>
                                               </div>
                                             </div>
                                           </td>
-                                          <td>
+                                          {/* <td>
                                             <a
                                               href={`mailto:${student.email}`}
                                               className="text-decoration-none"
                                             >
                                               {student.email}
                                             </a>
-                                          </td>
+                                          </td> */}
                                           <td>
-                                            <span className="badge bg-info">
+                                            <span className="badge bg-info fs-6 m-1">
                                               {student.department || "N/A"}
                                             </span>
-                                          </td>
-                                          <td>
-                                            <span className="badge bg-success">
+                                            <span className="badge bg-success fs-6">
                                               Sem {student.semester}
                                             </span>
                                           </td>
+                                          {/* <td>
+                                            <span className="badge bg-success">
+                                              Sem {student.semester}
+                                            </span>
+                                          </td> */}
                                           <td>
                                             <div>
                                               <div>{student.city}</div>
@@ -1331,7 +1335,7 @@ function StudentEnrollmentReport() {
                                                 courseCount > 0
                                                   ? "bg-success"
                                                   : "bg-secondary"
-                                              }`}
+                                              }` }
                                             >
                                               {courseCount > 0
                                                 ? `${courseCount} Course${
@@ -1341,10 +1345,9 @@ function StudentEnrollmentReport() {
                                             </span>
                                           </td>
                                           <td>
-                                            <span className="badge bg-success">
-                                              <i className="bx bx-check-circle me-1"></i>
+                                            <p className="text-success">
                                               Active
-                                            </span>
+                                            </p>
                                           </td>
                                         </tr>
                                       );
@@ -1605,7 +1608,7 @@ function StudentEnrollmentReport() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

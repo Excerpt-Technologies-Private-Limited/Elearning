@@ -1107,18 +1107,6 @@ const DashBoard1 = () => {
             </div>
           </div>
 
-          {/* Refresh Button */}
-          <div className="row mb-3">
-            <div className="col-12">
-              <button 
-                className="btn btn-primary btn-sm"
-                onClick={() => window.location.reload()}
-              >
-                <i className="mdi mdi-refresh me-1"></i>
-                Refresh Data
-              </button>
-            </div>
-          </div>
 
           <Dashsub />
         </div>
