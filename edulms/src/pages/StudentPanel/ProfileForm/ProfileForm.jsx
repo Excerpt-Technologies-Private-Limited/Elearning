@@ -717,14 +717,23 @@ const ProfileForm = () => {
                           {errors.email && <div className="invalid-feedback d-block">{errors.email}</div>}
                           
                           <input 
-                            type="tel" 
-                            className={`form-control mb-2 ${errors.phone ? 'is-invalid' : ''}`}
-                            name="phone" 
-                            placeholder="Phone Number" 
-                            value={formData.phone} 
-                            onChange={handleChange} 
-                          />
-                          {errors.phone && <div className="invalid-feedback d-block">{errors.phone}</div>}
+  type="tel" 
+  className={`form-control mb-2 ${errors.phone ? 'is-invalid' : ''}`}
+  name="phone" 
+  placeholder="Phone Number" 
+  value={formData.phone} 
+  onChange={(e) => {
+    // Keep only digits
+    const onlyDigits = e.target.value.replace(/\D/g, '');
+    // Allow max 10 digits
+    if (onlyDigits.length <= 10) {
+      handleChange({ target: { name: 'phone', value: onlyDigits } });
+    }
+  }}
+  maxLength="10"
+/>
+{errors.phone && <div className="invalid-feedback d-block">{errors.phone}</div>}
+
                           
                           <input 
                             type="text" 
@@ -998,7 +1007,7 @@ const ProfileForm = () => {
                                   }
                                 }
 
-                                const response = await fetch(`/api/students/${studentId}/profile`, {
+                                const response = await fetch(`http://localhost:8080/api/students/${studentId}/profile`, {
                                   method: "PUT",
                                   headers: {
                                     Authorization: `Bearer ${token}`,

@@ -16,6 +16,7 @@ console.log('Create Assessment Request:', req.body);
       questions,
       totalMarks: questions.length,
     });
+    
 
     await newAssessment.save();
     res.status(201).json({ message: 'Assessment created successfully', assessment: newAssessment });

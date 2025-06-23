@@ -477,24 +477,89 @@ async getAllCompletedCourses(req, res) {
 }
 
 // Get a specific student's completed courses
+// async getStudentCompletedCourses(req, res) {
+//   try {
+//     const student = await Student.findById(req.params.id).populate('courseProgress.courseId');
+//     if (!student) return res.status(404).json({ error: 'Student not found' });
+    
+//     const completed = student.courseProgress.filter(cp => cp.completed).map(cp => ({
+//       _id: student._id, // Fixed: was *id
+//       name: student.username,
+//       username: student.username,
+//       email: student.email,
+//       courseId: cp.courseId?._id,
+//       studentId: student.studentId,
+//       courseName: cp.courseId?.courseName,
+//       batchCode: cp.batchCode,
+//       grade: cp.grade,
+//       completionDate: cp.completedAt,
+//     }));
+//     res.json(completed);
+//   } catch (err) {
+//     console.error('Error in getStudentCompletedCourses:', err);
+//     res.status(500).json({ error: err.message });
+//   }
+// }
 async getStudentCompletedCourses(req, res) {
   try {
-    const student = await Student.findById(req.params.id).populate('courseProgress.courseId');
-    if (!student) return res.status(404).json({ error: 'Student not found' });
-    
-    const completed = student.courseProgress.filter(cp => cp.completed).map(cp => ({
-      _id: student._id, // Fixed: was *id
-      name: student.username,
-      username: student.username,
-      email: student.email,
-      courseId: cp.courseId?._id,
-      studentId: student.studentId,
-      courseName: cp.courseId?.courseName,
-      batchCode: cp.batchCode,
-      grade: cp.grade,
-      completionDate: cp.completedAt,
-    }));
-    res.json(completed);
+    console.log('Received student ID:', req.params.id);
+
+    const student = await Student.findById(req.params.id)
+      .populate('courseProgress.courseId')
+      .populate('assessmentResults.assessmentId')
+      .populate('assessmentResults.courseId');
+
+    if (!student) {
+      console.log('Student not found');
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    console.log('Full student data:', JSON.stringify(student, null, 2));
+
+    // Step 1: Filter only completed courseProgress
+    const completedCourses = student.courseProgress.filter(cp => cp.completed);
+    console.log('Completed courses:', completedCourses);
+
+    // Step 2: Map completed courses with related assessments
+    const result = completedCourses.map(cp => {
+      const courseIdStr = cp.courseId?._id?.toString();
+      console.log(`Checking assessments for course ID: ${courseIdStr}`);
+
+      // Filter assessments matching the completed course
+      const assessments = student.assessmentResults
+        .filter(ar => {
+          const match = ar.courseId?._id?.toString() === courseIdStr;
+          console.log(`Assessment ${ar._id} matches course?`, match);
+          return match;
+        })
+        .map(ar => ({
+          assessmentId: ar.assessmentId?._id,
+          assessmentTitle: ar.assessmentId?.title || 'Untitled',
+          score: ar.score,
+          totalMarks: ar.totalMarks,
+          percentage: ar.percentage,
+          grade: ar.grade,
+          submittedAt: ar.submittedAt,
+        }));
+
+      console.log(`Assessments for course ${courseIdStr}:`, assessments);
+
+      return {
+        _id: student._id,
+        username: student.username,
+        email: student.email,
+        courseId: cp.courseId?._id,
+        courseName: cp.courseId?.courseName,
+        batchCode: cp.batchCode,
+        grade: cp.grade,
+        completionDate: cp.completedAt,
+        studentId: student.studentId,
+        assessments: assessments
+      };
+    });
+
+    console.log('Final result to send:', result);
+    res.json(result);
   } catch (err) {
     console.error('Error in getStudentCompletedCourses:', err);
     res.status(500).json({ error: err.message });
