@@ -363,15 +363,15 @@ const StudentDashboard1 = () => {
                                 <i className="bx bx-comment-dots align-middle text-muted me-1"></i>
                                 Duration: {course.duration} weeks
                               </a>
-                            </li>
+                            </li> 
                           </ul>
                           <p className="text-muted">
                             Level: {course.skillLevels}
-                          </p>
+                          </p> 
                           <p className="text-muted">₹ {course.price}</p>
 
                           <div>
-                            <Link to="/AllCourse" className="text-primary">
+                            <Link to="/Mycoursedetails" className="text-primary">
                               View Course{" "}
                               <i className="mdi mdi-arrow-right"></i>
                             </Link>

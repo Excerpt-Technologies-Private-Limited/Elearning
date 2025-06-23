@@ -31,55 +31,45 @@ const LiveClass1 = () => {
             <div class="row">
               <div class="col-lg-8">
                 <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">UI/UX Video</h4>
+                  </div>
+
                   <div class="card-body">
-                    <div class="">
-                      <div class="card">
-                        <div class="card-header">
-                          <h4 class="card-title">UI/UX Video</h4>
-                        </div>
-
-                        <div class="card-body">
-                          <div className="video-thumbnail-container">
-                            <img
-                              src="https://themesbrand.com/minia/layouts-lts/assets/images/small/img-2.jpg"
-                              alt="video thumbnail"
-                              className="img-thumbnail"
-                            />
-                            <i className="bx bx-play-circle play-icon"></i>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="text-center">
-                        <div class="row">
-                          <div class="col-sm-4">
-                            <div>
-                              <h6 class="mb-2">Video</h6>
-                              <p class="text-muted font-size-15">Description</p>
-                            </div>
-                          </div>
-                          <div class="col-sm-4">
-                            <div class="mt-4 mt-sm-0">
-                              <h6 class="mb-2">Date</h6>
-                              <p class="text-muted font-size-15">
-                                20 June, 2022
-                              </p>
-                            </div>
-                          </div>
-                          <div class="col-sm-4">
-                            <div class="mt-4 mt-sm-0">
-                              <p class="text-muted mb-2">Instructor</p>
-                              <h5 class="font-size-15">Gilbert Smith</h5>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <hr />
-
-                     
+                    <div className="video-thumbnail-container">
+                      <img
+                        src="https://themesbrand.com/minia/layouts-lts/assets/images/small/img-2.jpg"
+                        alt="video thumbnail"
+                        className="img-thumbnail"
+                      />
+                      <i className="bx bx-play-circle play-icon"></i>
                     </div>
                   </div>
                 </div>
+
+                <div class="text-center">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div>
+                        <h6 class="mb-2">Video</h6>
+                        <p class="text-muted font-size-15">Description</p>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="mt-4 mt-sm-0">
+                        <h6 class="mb-2">Date</h6>
+                        <p class="text-muted font-size-15">20 June, 2022</p>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="mt-4 mt-sm-0">
+                        <p class="text-muted mb-2">Instructor</p>
+                        <h5 class="font-size-15">Gilbert Smith</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
               </div>
 
               <div class="col-lg-4">

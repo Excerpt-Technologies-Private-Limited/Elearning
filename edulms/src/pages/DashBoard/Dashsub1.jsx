@@ -1531,7 +1531,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { useNavigate } from 'react-router-dom';
+
 const DynamicDashboard = () => {
   const [courses, setCourses] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -1539,7 +1539,6 @@ const DynamicDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const navigate = useNavigate();
   
   // Filter states
   const [selectedMonth, setSelectedMonth] = useState('JUN');
@@ -1689,16 +1688,16 @@ const DynamicDashboard = () => {
 
   // Fixed Chart data for Pie Chart - now showing the same metrics as displayed beside
   const pieData = [
-    { name: 'Total Sales', value: totalSalesAmount, color: '#28a745' },
-    { name: 'Orders Count', value: salesFilteredOrders.length * 1000, color: '#007bff' }, // Multiplied to make it visible
-    { name: 'Students Count', value: totalStudents * 1000, color: '#17a2b8' } // Multiplied to make it visible
+    { name: 'Total Sales', value: totalSalesAmount, color: '#5156be' },
+    { name: 'Orders Count', value: salesFilteredOrders.length * 1000, color: '#777aca' }, // Multiplied to make it visible
+    { name: 'Students Count', value: totalStudents * 1000, color: '#a8aada' } // Multiplied to make it visible
   ];
 
   // Chart data for Income/Expenses (Bar Chart) - uses month filter
   const barData = [
-    { name: 'Total Income', value: Math.floor(monthTotalIncome / 1000), color: '#28a745' },
-    { name: 'Total Expenses', value: Math.floor(monthTotalExpenses / 1000), color: '#dc3545' },
-    { name: 'Net Profit', value: Math.floor(monthNetProfit / 1000), color: '#ffc107' }
+    { name: 'Total Income', value: Math.floor(monthTotalIncome / 1000), color: '#5156be' },
+    { name: 'Total Expenses', value: Math.floor(monthTotalExpenses / 1000), color: '#a8aada' },
+    { name: 'Net Profit', value: Math.floor(monthNetProfit / 1000), color: '#777aca' }
   ];
 
   // Custom tooltip for pie chart to show actual values
@@ -1812,7 +1811,7 @@ const DynamicDashboard = () => {
         </div>
       )}
 
-      <div className="row">
+      <div className="row mt-3 mb-3">
         <div className="col-xl-5">
           {/* Sales Breakdown Card */}
           <div className="card card-h-100">
@@ -1944,7 +1943,7 @@ const DynamicDashboard = () => {
                     </div>
                   </div>
 
-                  <div className="row align-items-center">
+                  <div className="row d-flex flex-column">
                     <div className="col-sm">
                       <div style={{ width: '100%', height: '200px' }}>
                         <ResponsiveContainer width="100%" height="100%">
@@ -1956,7 +1955,7 @@ const DynamicDashboard = () => {
                               formatter={(value) => `₹${(value * 1000).toLocaleString()}`}
                               labelFormatter={(label) => `${label} (in thousands)`}
                             />
-                            <Bar dataKey="value">
+                            <Bar dataKey="value" barSize={20}>
                               {barData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={entry.color} />
                               ))}
@@ -1965,40 +1964,34 @@ const DynamicDashboard = () => {
                         </ResponsiveContainer>
                       </div>
                     </div>
-                    <div className="col-sm align-self-center">
+                    <div className="col-sm">
                       <div className="mt-4 mt-sm-0">
-                        <div className="row g-0">
-                          <div className="col-12 mb-3">
+                        <div className="d-flex flex-row gap-2">
+                          
                             <div>
                               <p className="mb-2 text-muted text-uppercase font-size-11">Monthly Income</p>
                               <h5 className="fw-medium text-success">₹{monthTotalIncome.toLocaleString()}</h5>
                             </div>
-                          </div>
-                          <div className="col-12 mb-3">
+                          
+                        
                             <div>
                               <p className="mb-2 text-muted text-uppercase font-size-11">Monthly Expenses</p>
                               <h5 className="fw-medium text-danger">₹{monthTotalExpenses.toLocaleString()}</h5>
                             </div>
-                          </div>
-                          <div className="col-12 mb-3">
+                        
+                     
                             <div>
                               <p className="mb-2 text-muted text-uppercase font-size-11">Monthly Profit</p>
                               <h5 className="fw-medium text-warning">₹{monthNetProfit.toLocaleString()}</h5>
                             </div>
-                          </div>
-                          <div className="col-12 mb-3">
+                        
+                         
                             <div>
                               <p className="mb-2 text-muted text-uppercase font-size-11">Orders This Month</p>
                               <h5 className="fw-medium text-info">{monthFilteredOrders.length}</h5>
                             </div>
-                          </div>
-                        </div>
-
-                        {/* <div className="mt-2">
-                          <button className="btn btn-primary btn-sm">
-                            View Details <i className="mdi mdi-arrow-right ms-1"></i>
-                          </button>
-                        </div> */}
+                        
+                        </div>                       
                       </div>
                     </div>
                   </div>
@@ -2007,7 +2000,7 @@ const DynamicDashboard = () => {
             </div>
 
             <div className="col-xl-4">
-              {/* Course Carousel */}
+            
               <div className="card bg-primary text-white shadow-primary card-h-100">
                 <div className="card-body p-0">
                   <div className="carousel slide text-center widget-carousel">
@@ -2033,13 +2026,7 @@ const DynamicDashboard = () => {
                             <p className="text-white-50 small mb-3">
                               <strong>Price: ₹{course.price}</strong> • {course.mode} • {course.duration} weeks
                             </p>
-                            <button
-      type="button"
-      className="btn btn-light btn-sm"
-      onClick={() => navigate('/AllCourse')}
-    >
-      View details <i className="mdi mdi-arrow-right ms-1"></i>
-    </button>
+                           
                           </div>
                         </div>
                       )) : (

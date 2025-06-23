@@ -1,5 +1,3 @@
-
-
 // import React, { useState } from 'react';
 
 // const AssessmentBuilder = () => {
@@ -135,7 +133,6 @@
 // };
 
 // export default AssessmentBuilder;
-
 
 // import React, { useEffect, useState } from 'react';
 // import Header1 from '../../Header/Header';
@@ -281,7 +278,6 @@
 //   const [courses, setCourses] = useState([]);
 //   const [selectedCourse, setSelectedCourse] = useState(null);
 
-
 //   useEffect(() => {
 //     fetchCourses();
 //   }, []);
@@ -290,9 +286,6 @@
 //     const res = await axios.get('/api/courses');
 //     setCourses(res.data);
 //   };
-
-
-
 
 //   return (
 //     <>
@@ -326,29 +319,21 @@
 //       )}
 //     </div>
 
-
-
 //     </>
 //   );
 // };
 
 // export default Assesment;
 
-
-
-
-
-
-
-import React, { useEffect, useState } from 'react';
-import Header1 from '../../Header/Header';
-import SideNavBar1 from '../../SideNavBar/SideNavBar';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import Header1 from "../../Header/Header";
+import SideNavBar1 from "../../SideNavBar/SideNavBar";
+import axios from "axios";
 
 const Assessment = () => {
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [assessmentName, setAssessmentName] = useState('');
+  const [assessmentName, setAssessmentName] = useState("");
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
@@ -356,17 +341,20 @@ const Assessment = () => {
   }, []);
 
   const fetchCourses = async () => {
-    const res = await axios.get('http://localhost:8080/api/courses');
+    const res = await axios.get("http://localhost:8080/api/courses");
     setCourses(res.data);
   };
 
   const handleAddQuestion = () => {
-    setQuestions([...questions, {
-      type: 'mcq',
-      questionText: '',
-      options: ['', '', '', ''],
-      answer: '',
-    }]);
+    setQuestions([
+      ...questions,
+      {
+        type: "mcq",
+        questionText: "",
+        options: ["", "", "", ""],
+        answer: "",
+      },
+    ]);
   };
 
   const handleQuestionChange = (index, field, value) => {
@@ -385,9 +373,9 @@ const Assessment = () => {
     const updated = [...questions];
     updated[index] = {
       type: newType,
-      questionText: '',
-      options: newType === 'mcq' ? ['', '', '', ''] : [],
-      answer: '',
+      questionText: "",
+      options: newType === "mcq" ? ["", "", "", ""] : [],
+      answer: "",
     };
     setQuestions(updated);
   };
@@ -404,102 +392,149 @@ const Assessment = () => {
     };
 
     try {
-      await axios.post('http://localhost:8080/api/assessments', assessmentData);
-      alert('Assessment saved successfully!');
+      await axios.post("http://localhost:8080/api/assessments", assessmentData);
+      alert("Assessment saved successfully!");
       setSelectedCourse(null);
-      setAssessmentName('');
+      setAssessmentName("");
       setQuestions([]);
     } catch (err) {
-      alert('Error saving assessment');
+      alert("Error saving assessment");
     }
   };
 
   return (
     <div>
-      <Header1/>
-      <SideNavBar1/>
-    <div className="main-content">
-      <div className="page-content">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-12">
-              <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 className="mb-sm-0 font-size-18">Assesment</h4>
-                <div className="page-title-right">
-                  <ol className="breadcrumb m-0">
-                    <li className="breadcrumb-item"><a href="#">Assesment</a></li>
-                    <li className="breadcrumb-item active">Dashboard</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="row">
-            {courses.map(course => (
-              <div className="col-xl-3 col-sm-6" key={course._id}>
-                <div className="card text-center">
-                  <div className="card-body">
-                    <div className="mx-auto mb-4">
-                      <img src="" alt="" className="avatar-xl rounded-circle img-thumbnail" />
-                    </div>
-                    <h5 className="font-size-16 mb-1 text-body">{course.courseName}</h5>
-                    {/* <p> Price: ₹{course.price} |</p> */}
-                    <p className="text-muted">
-                     
-                      Categories: {course.categoryIds?.map(cat => cat.categoryName).join(', ')}
-                    </p>
-                    <div className="btn-group" role="group">
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#assessmentModal"
-                        onClick={() => setSelectedCourse(course)}
-                      >
-                        + Add Assessment
-                      </button>
-                    </div>
+      <Header1 />
+      <SideNavBar1 />
+      <div className="main-content">
+        <div className="page-content">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-12">
+                <div className="page-title-box d-sm-flex align-items-center justify-content-between">
+                  <h4 className="mb-sm-0 font-size-18">Assesment</h4>
+                  <div className="page-title-right">
+                    <ol className="breadcrumb m-0">
+                      <li className="breadcrumb-item">
+                        <a href="#">Assesment</a>
+                      </li>
+                      <li className="breadcrumb-item active">Dashboard</li>
+                    </ol>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div className="row">
+              {courses.map((course) => (
+                <div className="col-xl-3 col-sm-6" key={course._id}>
+                  <div className="card text-center">
+                    <div className="card-body">
+                      <div
+                        className="position-relative mx-auto mb-4"
+                        style={{ width: "80px", height: "80px" }}
+                      >
+                        <div
+                          className="avatar-xl rounded-circle text-primary d-flex align-items-center justify-content-center"
+                          style={{
+                            width: "80px",
+                            height: "80px",
+                            fontSize: "28px",
+                            boxShadow: "0 0 0 2px #0d6efd",
+                            border: "2px solid #ffffff",
+                          }}
+                        >
+                          {course.courseName?.charAt(0).toUpperCase()}
+                        </div>
+
+                        {/* Small dot at top-right corner */}
+                        <span
+                          className="position-absolute bg-success rounded-circle"
+                          style={{
+                            width: "12px",
+                            height: "12px",
+                            top: "0px",
+                            right: "0px",
+                            border: "2px solid white",
+                          }}
+                        ></span>
+                      </div>
+
+                      <h5 className="font-size-16 mb-1 text-body">
+                        {course.courseName}
+                      </h5>
+                      {/* <p> Price: ₹{course.price} |</p> */}
+                      <p className="text-muted">
+                        Categories:{" "}
+                        {course.categoryIds
+                          ?.map((cat) => cat.categoryName)
+                          .join(", ")}
+                      </p>
+                      <div className="btn-group" role="group">
+                        <button
+                          type="button"
+                          className="text-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#assessmentModal"
+                          onClick={() => setSelectedCourse(course)}
+                        >
+                          Add Assessment <i className="mdi mdi-arrow-right"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Assessment Modal */}
-        <div className="modal fade" id="assessmentModal" tabIndex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-          <div className="modal-dialog modal-lg modal-dialog-scrollable">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="modalLabel">
-                  Assessment for {selectedCourse?.courseName}
-                </h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-              </div>
-
-              <div className="modal-body">
-                <div className="mb-3">
-                  <label className="form-label">Assessment Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder='Assessment Name'
-                    value={assessmentName}
-                    onChange={(e) => setAssessmentName(e.target.value)}
+          {/* Assessment Modal */}
+          <div
+            className="modal fade"
+            id="assessmentModal"
+            tabIndex="-1"
+            aria-labelledby="modalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-lg modal-dialog-scrollable">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="modalLabel">
+                    Assessment for {selectedCourse?.courseName}
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
                   />
                 </div>
 
-                {questions.map((q, index) => (
-                  <div key={index} className="border p-3 mb-4 rounded ">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                      <strong>Question {index + 1}</strong>
-                      <button className="btn btn-soft-danger waves-effect waves-light" onClick={() => handleRemoveQuestion(index)}>
-                        <i class="bx bx-trash"></i>
-                      </button>
-                    </div>
+                <div className="modal-body">
+                  <div className="mb-3">
+                    <label className="form-label">Assessment Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Assessment Name"
+                      value={assessmentName}
+                      onChange={(e) => setAssessmentName(e.target.value)}
+                    />
+                  </div>
 
-                    {/* <div className="mb-2">
+                  {questions.map((q, index) => (
+                    <div key={index} className="border p-3 mb-4 rounded ">
+                      <div className="d-flex justify-content-between align-items-center mb-2">
+                        <strong>Question {index + 1}</strong>
+                        <button
+                          className="btn btn-soft-danger waves-effect waves-light"
+                          onClick={() => handleRemoveQuestion(index)}
+                        >
+                          <i class="bx bx-trash"></i>
+                        </button>
+                      </div>
+
+                      {/* <div className="mb-2">
                       <label className="form-label">Question Type</label>
                       <select
                         className="form-select"
@@ -512,59 +547,87 @@ const Assessment = () => {
                       </select>
                     </div> */}
 
-                    <div className="mb-2">
-                      <label className="form-label">Question</label>
-                      <textarea
-                        className="form-control"
-                        rows="2"
-                        value={q.questionText}
-                        onChange={(e) => handleQuestionChange(index, 'questionText', e.target.value)}
-                      />
+                      <div className="mb-2">
+                        <label className="form-label">Question</label>
+                        <textarea
+                          className="form-control"
+                          rows="2"
+                          value={q.questionText}
+                          onChange={(e) =>
+                            handleQuestionChange(
+                              index,
+                              "questionText",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+
+                      <label label className="form-label">
+                        Enter The option Blow
+                      </label>
+
+                      {q.type === "mcq" && (
+                        <>
+                          {q.options.map((opt, optIndex) => (
+                            <input
+                              key={optIndex}
+                              type="text"
+                              className="form-control mb-2"
+                              placeholder={`Option ${optIndex + 1}`}
+                              value={opt}
+                              onChange={(e) =>
+                                handleOptionChange(
+                                  index,
+                                  optIndex,
+                                  e.target.value
+                                )
+                              }
+                            />
+                          ))}
+                        </>
+                      )}
+
+                      <div className="mb-2">
+                        <label className="form-label">Correct Answer</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={q.answer}
+                          onChange={(e) =>
+                            handleQuestionChange(
+                              index,
+                              "answer",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
                     </div>
-                     
-                     <label label className="form-label">Enter The option Blow</label>
+                  ))}
+                </div>
 
-                    {q.type === 'mcq' && (
-                      <>
-                        {q.options.map((opt, optIndex) => (
-                          <input
-                            key={optIndex}
-                            type="text"
-                            className="form-control mb-2"
-                            placeholder={`Option ${optIndex + 1}`}
-                            value={opt}
-                            onChange={(e) => handleOptionChange(index, optIndex, e.target.value)}
-                          />
-                        ))}
-                      </>
-                    )}
-
-                    <div className="mb-2">
-                      <label className="form-label">Correct Answer</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={q.answer}
-                        onChange={(e) => handleQuestionChange(index, 'answer', e.target.value)}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={handleAddQuestion}>
-                  + Add Question
-                </button>
-                <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                  Save Assessment
-                </button>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleAddQuestion}
+                  >
+                    + Add Question
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleSubmit}
+                  >
+                    Save Assessment
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

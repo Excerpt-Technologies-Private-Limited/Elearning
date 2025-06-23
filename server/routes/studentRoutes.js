@@ -46,6 +46,4 @@ router.get('/completed-courses',studentController. getAllCompletedCourses);
 router.get('/students/:id/completed-courses',studentController. getStudentCompletedCourses);
 
 
-
-
 module.exports = router;

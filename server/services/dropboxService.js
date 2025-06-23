@@ -34,9 +34,6 @@ async function refreshAccessToken() {
     }
 }
 
-
-
-
 async function listFolder(path) {
     const token = await refreshAccessToken();
     const resp = await axios.post('https://api.dropboxapi.com/2/files/list_folder', { path }, {

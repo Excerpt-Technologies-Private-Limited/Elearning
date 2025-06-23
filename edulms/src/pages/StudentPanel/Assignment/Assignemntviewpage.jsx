@@ -92,7 +92,7 @@ const AssessmentPage = () => {
         }
       );
       alert("Assessment submitted!");
-      navigate("/dashboard");
+      navigate("/AssigngmentStudent1");
     } catch (err) {
       console.error(err);
       alert("Failed to submit");

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Select from "react-select";
 import CurriculumModal from "../../../components/Admin/CurriculumModal";
 import SideNavBar1 from "../../SideNavBar/SideNavBar";
 import Header1 from "../../Header/Header";
@@ -76,6 +77,7 @@ const CourseCreation1 = () => {
         `http://localhost:8080/api/courses/${editingCourseId}`,
         data
       );
+      alert("edit course successfully update")
     } else {
       await axios.post("http://localhost:8080/api/courses", data);
     }
@@ -135,11 +137,6 @@ const CourseCreation1 = () => {
     setCourseImages([]);
     setPromoVideo(null);
   };
-
-
-
-
-  
 
   return (
     <>
@@ -299,7 +296,7 @@ const CourseCreation1 = () => {
                               Category ID
                             </label>
 
-                            <select
+                            {/* <select
                               multiple
                               value={formData.categoryIds}
                               onChange={handleMultiSelect}
@@ -311,7 +308,47 @@ const CourseCreation1 = () => {
                                   {cat.categoryName}
                                 </option>
                               ))}
-                            </select>
+                            </select> */}
+                            <Select
+                              id="categoryId"
+                              isMulti
+                              name="categoryIds"
+                              options={categories.map((cat) => ({
+                                value: cat._id,
+                                label: cat.categoryName,
+                              }))}
+                              value={categories
+                                .filter((cat) =>
+                                  formData.categoryIds.includes(cat._id)
+                                )
+                                .map((cat) => ({
+                                  value: cat._id,
+                                  label: cat.categoryName,
+                                }))}
+                              onChange={(selectedOptions) => {
+                                const selectedIds = selectedOptions.map(
+                                  (opt) => opt.value
+                                );
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  categoryIds: selectedIds,
+                                }));
+                              }}
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  borderColor: "#ced4da",
+                                  minHeight: "38px",
+                                }),
+                                multiValue: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#e2e6ea",
+                                }),
+                              }}
+                              classNamePrefix="select"
+                            />
+
                             <div class="invalid-feedback">
                               Please provide a category ID.
                             </div>
@@ -681,7 +718,6 @@ const CourseCreation1 = () => {
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
-             
               <button
                 type="button"
                 class="btn-close"
@@ -862,17 +898,14 @@ const CourseCreation1 = () => {
                       </div>
                     </div>
                   </div> */}
-                 <CurriculumModal
-    course={selectedCourse} // ⬅️ Pass the whole selected course
-    onClose={closeCurriculumModal}
-    
-  />
+                  <CurriculumModal
+                    course={selectedCourse} // ⬅️ Pass the whole selected course
+                    onClose={closeCurriculumModal}
+                  />
                 </div>
               </div>
             </div>
           </div>
-          
-
         </div>
       </div>
     </>

@@ -5,50 +5,50 @@ import Header1 from "../../Header/Header";
 import SideNavBar1 from "../../SideNavBar/SideNavBar";
 
 const StudentCourse1 = () => {
-    const [student, setStudent] = useState(null);
-    const [courses, setCourses] = useState([]);
-    const navigate = useNavigate();
-    const studentId = localStorage.getItem("studentId");
-  
-    useEffect(() => {
-      const fetchStudentDataAndCourses = async () => {
-        try {
-          const res = await axios.get(
-            `http://localhost:8080/api/students/${studentId}/profile`
+  const [student, setStudent] = useState(null);
+  const [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
+  const studentId = localStorage.getItem("studentId");
+
+  useEffect(() => {
+    const fetchStudentDataAndCourses = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8080/api/students/${studentId}/profile`
+        );
+        setStudent(res.data.student);
+        if (
+          res.data.student.courseIds &&
+          res.data.student.courseIds.length > 0
+        ) {
+          const coursePromises = res.data.student.courseIds.map((cid) =>
+            axios.get(`http://localhost:8080/api/courses/${cid}`)
           );
-          setStudent(res.data.student);
-          if (
-            res.data.student.courseIds &&
-            res.data.student.courseIds.length > 0
-          ) {
-            const coursePromises = res.data.student.courseIds.map((cid) =>
-              axios.get(`http://localhost:8080/api/courses/${cid}`)
-            );
-            const coursesRes = await Promise.all(coursePromises);
-            setCourses(coursesRes.map((r) => r.data));
-          } else {
-            setCourses([]);
-          }
-        } catch (error) {
-          setStudent(null);
+          const coursesRes = await Promise.all(coursePromises);
+          setCourses(coursesRes.map((r) => r.data));
+        } else {
           setCourses([]);
         }
-      };
-  
-      fetchStudentDataAndCourses();
-    }, [studentId]);
-  
-    const tasks = [
-      { name: "Complete first module", status: "Completed" },
-      { name: "Attend live session", status: "Pending" },
-      { name: "Submit assignment", status: "In Progress" },
-    ];
+      } catch (error) {
+        setStudent(null);
+        setCourses([]);
+      }
+    };
+
+    fetchStudentDataAndCourses();
+  }, [studentId]);
+
+  const tasks = [
+    { name: "Complete first module", status: "Completed" },
+    { name: "Attend live session", status: "Pending" },
+    { name: "Submit assignment", status: "In Progress" },
+  ];
   return (
     <>
       <Header1 />
       <SideNavBar1 />
       <div className="main-content">
-       <div className="page-content">
+        <div className="page-content">
           <div className="container-fluid mt-4 px-4">
             {/* Page Title */}
 
@@ -61,104 +61,99 @@ const StudentCourse1 = () => {
 
             {/* Overview Cards */}
             <div className="row mb-4">
-
               {/* Statistics Cards */}
-          
-                  <div className="col-md-4">
-                    <div className="card card-h-100">
-                      <div className="card-body">
-                        <div className="row align-items-center">
-                          <div className="col-6">
-                            <span className="text-muted mb-3 lh-1 d-block text-truncate">
-                              Enrolled Courses
-                            </span>
-                            <h4 className="mb-3">{courses.length}</h4>
-                          </div>
-                          <div className="col-6">
-                            <div class="avatar-md m-auto">
-                              <span class="avatar-title rounded-circle bg-primary text-white font-size-24">
-                                <i class="mdi mdi-ethereum"></i>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-nowrap">
-                          <span className="ms-1 text-muted font-size-13">
-                            Learn Here and Grow Here
+
+              <div className="col-md-4">
+                <div className="card card-h-100">
+                  <div className="card-body">
+                    <div className="row align-items-center">
+                      <div className="col-6">
+                        <span className="text-muted mb-3 lh-1 d-block text-truncate">
+                          Enrolled Courses
+                        </span>
+                        <h4 className="mb-3">{courses.length}</h4>
+                      </div>
+                      <div className="col-6">
+                        <div class="avatar-md m-auto">
+                          <span class="avatar-title rounded-circle bg-primary text-white font-size-24">
+                            <i class="mdi mdi-ethereum"></i>
                           </span>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="card card-h-100">
-                      <div className="card-body">
-                        <div className="row align-items-center">
-                          <div className="col-6">
-                            <span className="text-muted mb-3 lh-1 d-block text-truncate">
-                              Tasks Completed
-                            </span>
-                            <h4 className="mb-3">
-                              {
-                                tasks.filter((t) => t.status === "Completed")
-                                  .length
-                              }
-                            </h4>
-                          </div>
-                          <div className="col-6">
-                            <div class="avatar-md m-auto mb-2">
-                              <span class="avatar-title rounded-circle bg-primary text-white font-size-24">
-                                <i class="mdi mdi-check-circle-outline"></i>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-nowrap">
-                          <span className="ms-1 text-muted font-size-13">
-                            Good at completed Task
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="card card-h-100">
-                      <div className="card-body">
-                        <div className="row align-items-center">
-                          <div className="col-6">
-                            <span className="text-muted mb-3 lh-1 d-block text-truncate">
-                              Pending Tasks
-                            </span>
-                            <h4 className="mb-3">
-                              {
-                                tasks.filter(
-                                  (t) =>
-                                    t.status === "Pending" ||
-                                    t.status === "In Progress"
-                                ).length
-                              }
-                            </h4>
-                          </div>
-                          <div className="col-6">
-                            <div class="avatar-md m-auto mb-2">
-                              <span class="avatar-title rounded-circle bg-primary text-white font-size-24">
-                                <i class="mdi mdi-timer-sand"></i>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-nowrap">
-                          <span className="ms-1 text-muted font-size-13">
-                            I will help you do it
-                          </span>
-                        </div>
-                      </div>
+                    <div className="text-nowrap">
+                      <span className="ms-1 text-muted font-size-13">
+                        Learn Here and Grow Here
+                      </span>
                     </div>
                   </div>
                 </div>
-             
-            
-             <div className="mb-4">
+              </div>
+              <div className="col-md-4">
+                <div className="card card-h-100">
+                  <div className="card-body">
+                    <div className="row align-items-center">
+                      <div className="col-6">
+                        <span className="text-muted mb-3 lh-1 d-block text-truncate">
+                          Tasks Completed
+                        </span>
+                        <h4 className="mb-3">
+                          {tasks.filter((t) => t.status === "Completed").length}
+                        </h4>
+                      </div>
+                      <div className="col-6">
+                        <div class="avatar-md m-auto mb-2">
+                          <span class="avatar-title rounded-circle bg-primary text-white font-size-24">
+                            <i class="mdi mdi-check-circle-outline"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-nowrap">
+                      <span className="ms-1 text-muted font-size-13">
+                        Good at completed Task
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="card card-h-100">
+                  <div className="card-body">
+                    <div className="row align-items-center">
+                      <div className="col-6">
+                        <span className="text-muted mb-3 lh-1 d-block text-truncate">
+                          Pending Tasks
+                        </span>
+                        <h4 className="mb-3">
+                          {
+                            tasks.filter(
+                              (t) =>
+                                t.status === "Pending" ||
+                                t.status === "In Progress"
+                            ).length
+                          }
+                        </h4>
+                      </div>
+                      <div className="col-6">
+                        <div class="avatar-md m-auto mb-2">
+                          <span class="avatar-title rounded-circle bg-primary text-white font-size-24">
+                            <i class="mdi mdi-timer-sand"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-nowrap">
+                      <span className="ms-1 text-muted font-size-13">
+                        I will help you do it
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-4">
               <h4 className="fw-bold mb-3">Your Enrolled Courses</h4>
               <div className="row">
                 {courses.length === 0 ? (
@@ -253,12 +248,19 @@ const StudentCourse1 = () => {
                           <p className="text-muted">₹ {course.price}</p>
 
                           <div>
-                           <div>
-                            <Link to="/Mycoursedetails" className="text-primary" state={{ scourseId: course._id, courseName: course.courseName }}>
-                              View Course{" "}
-                              <i className="mdi mdi-arrow-right"></i>
-                            </Link>
-                          </div>
+                            <div>
+                              <Link
+                                to="/Mycoursedetails"
+                                className="text-primary"
+                                state={{
+                                  scourseId: course._id,
+                                  courseName: course.courseName,
+                                }}
+                              >
+                                View Course{" "}
+                                <i className="mdi mdi-arrow-right"></i>
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -267,7 +269,6 @@ const StudentCourse1 = () => {
                 )}
               </div>
             </div>
-
           </div>
         </div>
       </div>

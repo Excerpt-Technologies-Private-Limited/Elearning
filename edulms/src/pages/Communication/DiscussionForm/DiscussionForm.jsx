@@ -51,7 +51,7 @@ const DiscussionForm1 = () => {
                   </div>
 
                   <div className="row">
-                    <div className="col-sm-12">
+                    <div className="col-sm-12 table-responsive">
                       <table
                         id="datatable"
                         className="table table-bordered dt-responsive nowrap w-100 dataTable no-footer dtr-inline"
@@ -316,7 +316,7 @@ const DiscussionForm1 = () => {
                 Close
               </button>
               <button type="button" class="btn btn-primary">
-                Send message
+                Submit
               </button>
             </div>
           </div>
