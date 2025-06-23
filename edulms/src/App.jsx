@@ -14,7 +14,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import DashBoard from "./components/Admin/DashBoard/DashBoard";
 import AdminSideNavaBar from "./components/Admin/AdminSideNavaBar/AdminSideNavaBar";
-import ManageCourses from "./components/Admin/ManageCourses/ManageCourse";
+// import ManageCourses from "./components/Admin/ManageCourses/ManageCourse";
 import EnrollmentList from "./components/Admin/EnrollmentList/EnrollmentList";
 import ProgressTracking from "./components/Admin/ProgressTracking/ProgressTracking";
 import CommunicationTools from "./components/Admin/CommunicationTools/CommunicationTools";
@@ -26,8 +26,8 @@ import InstructorAdminstrations from "./components/Admin/MasterLiveClass/Instruc
 import ViewTransationHistory from "./components/Admin/PaymentManagement/ViewTransationHistory";
 import RefundManagement from "./components/Admin/PaymentManagement/RefundManagement";
 import CouponManagement from "./components/Admin/PaymentManagement/CouponManagement";
-import Category from "./components/Admin/ManageCourses/Category";
-import SubcategoryManager from "./components/Admin/ManageCourses/Subcategory";
+// import Category from "./components/Admin/ManageCourses/Category";
+// import SubcategoryManager from "./components/Admin/ManageCourses/Subcategory";
 import { Aboutus } from "./pages/About/Aboutus";
 import BlogPage from "./pages/blog/BlogPage";
 
@@ -127,7 +127,7 @@ function AppContent() {
         <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
         <Route path="/TermConditions" element={<TermConditions />} />
         <Route path="/AdminSideNavaBar" element={<AdminSideNavaBar />} />
-        <Route path="/ManageCourses" element={<ManageCourses />} />
+        {/* <Route path="/ManageCourses" element={<ManageCourses />} /> */}
         <Route path="/EnrollmentList" element={<EnrollmentList />} />
         <Route path="/ProgressTracking" element={<ProgressTracking />} />
         <Route path="/CommunicationTools" element={<CommunicationTools />} />
@@ -151,8 +151,6 @@ function AppContent() {
         />
         <Route path="/RefundManagement" element={<RefundManagement />} />
         <Route path="/CouponManagement" element={<CouponManagement />} />
-        <Route path="/category" element={<Category />} />
-        <Route path="/subcategory" element={<SubcategoryManager />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/DashBoard" element={<DashBoard />} />
         <Route path="/ProgressTracking" element={<ProgressTracking1 />} />

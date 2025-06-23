@@ -60,7 +60,7 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/curriculum', curriculumRoutes);
 app.use('/api/auth',authRoutes);
 app.use('/api/', studentRoutes);
-app.use('/videos', videosRoutes);
+app.use('/api/videos', videosRoutes);
 app.use('/api/dashboard',  studentRoutes);
 app.use('/api',assessmentSubmissionRoutes); 
 app.use('/api', performanceRoutes);
