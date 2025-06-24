@@ -26,3 +26,6 @@ build/
 
 # Coverage directory
 coverage/
+
+*.rar
+*.zip
