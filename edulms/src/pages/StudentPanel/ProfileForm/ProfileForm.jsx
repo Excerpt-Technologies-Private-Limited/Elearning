@@ -962,7 +962,7 @@ const ProfileForm = () => {
 
                       {step === 5 && (
                         <>
-                          <h5>Step 5 of 5: Review & Submit</h5>
+                          <h5>Step 5 of 5: Submit</h5>
                          
                           <button type="button" className="btn btn-secondary me-2" onClick={prevStep}>
                             ← Back

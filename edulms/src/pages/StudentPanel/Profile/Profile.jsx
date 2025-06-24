@@ -2407,7 +2407,7 @@ const Profile = () => {
                   <div className="alert alert-danger" style={{ borderRadius: "12px" }}>
                     <div className="d-flex align-items-center mb-2">
                       <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                      <strong>Please fix the following errors:</strong>
+                      <strong>Please fix the following errors;</strong>
                     </div>
                     <ul className="mb-0 ms-3">
                       {Object.entries(errors).map(([field, error]) => (

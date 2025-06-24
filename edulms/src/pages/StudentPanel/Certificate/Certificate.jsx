@@ -2194,7 +2194,7 @@ const Certificate1 = ({ isAdmin }) => {
                                   <tr>
                                     <td colSpan="8" className="text-center py-4">
                                       <div className="spinner-border text-primary" role="status">
-                                        <span className="visually-hidden">Loading...</span>
+                                        <span className="visually-hidden">Loading..</span>
                                       </div>
                                       <p className="mt-2 mb-0">Loading students data...</p>
                                     </td>
