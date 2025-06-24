@@ -841,7 +841,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Dropbox } from 'dropbox';
 
-let DROPBOX_ACCESS_TOKEN = ''
+const DROPBOX_ACCESS_TOKEN = 'sl.u.AFzTcbZ6B3Ke946An2yKa3zxRohmHLBWqnzJYkELJ8dNAnxfij6PeToeSSiLmYhb81UyMvPO4DquE201trjfrwcqXkeoy6Ti5zUkvIZi7mapEAcD7Y60k11rr0KiOZSbw_z4pG_62AjfXw43HeR1ZUH8yXhkZQHeQb8roEyYtIK_bSgzFTK25mr_medqZRv6d4YGwwG8K4MYrEdCpztsvEXARj4Wdnxlcvj2Uv8EUq3tooKiDNSIMW2_ogxkiXeH8-GCB3fgA2rhadlw3GwnuNvmiLR8rYbm21km1XE_Ur6YsU87HPSRwnRHEQUXXQLbNpXg568iA4NH7UjfFZQRv-soGEhdCh2ErqGUsIrHMTTRVUzWy_LaXkZyyTWGiK0kaN4wpc_YjInxBPK6fMrcAI6xgzEDmx39po_VjYyn4uE0-7xQHB_KLfvjgTwj9oAcBL7162grmvwpU1JXX_BjqRsaY1tTeu5nMsxpJpTI9aZc--XiTVc9mU3FkuFd6eFNz2sxUX1QF7E6bw9LH2FcEvHrgaQhvXfjdPdFaP3-qUyYiivjAsHx02Kj-5kKaUIGZVH5bJ4K4tyi-kX7LE5axrYlETxI6CBA_rlZ3zJ7Nsrnrx1UUtiVLKoJ9d-ctFONR2O5JXaSAyFEqraaHAF6m2ZvHw1LbHJJyhNj0sM0yO-jCP-zFb8kcjJn5GEjot8QbA7jnkzd0qDyfdYfvtMBxJ2GPoVwJSexK2YrA3uhED8Wj9JkuKBylRg8zXY4VJfZ6_6U9jVHr4gWoaI99eMcLMpa56eACAl0HV1_teAGDqYu6eo1VtIGGUWQQwzAQHfUaLGriMppfGT-AHfRZpU5i5l0ziw1cIcI4PfP-lSVoSrKQbauukNqUewCoBUUUfRGI7ba3-tkFN3JGGI2NIsl3HSo_Mw_IMQY0ozcqgvt9PFuksoB4Rrw52x1W8ElsSp-ATiNsfCgQ4FOizQVMxhvDSW6nsxHX9zI4QQ1OkqX6AVfxhmrbnEUy3lPSz1RxNNm2PpDLrYvMpuDfu1vcaZWtprCl3ivIJdl0K5-hvhKQRUBSBRVZXfmjV315vMXMDpRQGKQ45ghnUpRN8dxYL7yp-umI3WHK0TPGW824JSeb4wLa3mEjc03u8t1BX5_ETQzAoPLlK5ityP63y3OBG3aKl4eoIvx6Qel0jnVsbS03og0vlAyKSvXSpnNvvryqwPb574ZiX7vz-yBvFFDkQSWEoIpc8wibrQOaTInHMT2x7hX0iN0c38IFe14XC9Mx5u78XgELGrTn65jfkVMa9MVEu3W3VNh6QhAjRZR7ROaiRb2rd-L9yqnRL4gXg-6c0UF7el8GxZ7W73V2yZpeIzt7ZkOHyj_3lUwhls-97ZjUru_cDF5tdEfOVKPz3qIVmTg1S6qHBJ1xZK81Fk8-pIsQpaWJTA0aIfdtwCodrmXhavO6Q';
+
 const CurriculumModal = ({ course, onClose, mode = 'add' }) => {
   const coursecode = course?._id;
   const coursename = course?.courseName || 'Unknown Course';
@@ -855,24 +856,7 @@ const CurriculumModal = ({ course, onClose, mode = 'add' }) => {
   const [editingModule, setEditingModule] = useState(null);
   const [moduleToDelete, setModuleToDelete] = useState(null);
 
-  
-  useEffect(() => {
-    const fetchDropboxAccessToken = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/videos/course/refresh-token');
-        DROPBOX_ACCESS_TOKEN = response.data.token  ;
-        console.log('Dropbox access token refreshed', DROPBOX_ACCESS_TOKEN);
-      } catch (error) {
-        console.error('Error fetching Dropbox access token:', error);
-      }
-    };
-    fetchDropboxAccessToken();
-  }, []);
-  
   const dbx = new Dropbox({ accessToken: DROPBOX_ACCESS_TOKEN });
-
-
-
 
   // Fetch existing modules and determine the next module ID
   useEffect(() => {

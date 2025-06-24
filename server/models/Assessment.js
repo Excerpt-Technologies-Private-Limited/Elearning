@@ -22,8 +22,6 @@ const assessmentSchema = new mongoose.Schema({
     required: true,
   },
   questions: [questionSchema],
-  totalMarks: Number,  
-  
 }, { timestamps: true });
 
 module.exports = mongoose.model('Assessment', assessmentSchema);

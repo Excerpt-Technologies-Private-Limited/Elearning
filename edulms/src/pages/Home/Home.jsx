@@ -3,28 +3,177 @@ import CourseCard from "../CourseCard/CourseCard";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import './Home.css'
-import axios from "axios"
 
-let courseData
+const courseData = [
+  {
+    image: "/assets/img/clients/1.webp",
+    title: "Learn Figma - UI/UX Design Essential Training",
+    rating: 4.3,
+    reviews: 1991,
+    lessons: 6,
+    duration: "22h 0m",
+    level: "Beginner",
+    author: {
+      name: "Jane Cooper",
+      image:
+        "https://educrat-nextjs.vercel.app/_next/image?url=%2Fassets%2Fimg%2Fgeneral%2Favatar-1.png&w=32&q=75",
+    },
+    priceOld: 199,
+    priceNew: 79,
+    badges: [],
+  },
+  {
+    image: "/assets/img/clients/2.webp",
+    title: "Web Development Bootcamp",
+    rating: 4.7,
+    reviews: 2643,
+    lessons: 12,
+    duration: "35h 20m",
+    level: "Intermediate",
+    author: {
+      name: "John Doe",
+      image:
+        "https://educrat-nextjs.vercel.app/_next/image?url=%2Fassets%2Fimg%2Fgeneral%2Favatar-1.png&w=32&q=75",
+    },
+    priceOld: 249,
+    priceNew: 89,
+    badges: [
+      { label: "Popular", bgClass: "bg-purple-1", textClass: "text-white" },
+      {
+        label: "Best sellers",
+        bgClass: "bg-green-1",
+        textClass: "text-dark-1",
+      },
+    ],
+  },
+  {
+    image: "/assets/img/clients/3.webp",
+    title: "Learn Figma - UI/UX Design Essential Training",
+    rating: 4.3,
+    reviews: 1991,
+    lessons: 6,
+    duration: "22h 0m",
+    level: "Beginner",
+    author: {
+      name: "Jane Cooper",
+      image:
+        "https://educrat-nextjs.vercel.app/_next/image?url=%2Fassets%2Fimg%2Fgeneral%2Favatar-1.png&w=32&q=75",
+    },
+    priceOld: 199,
+    priceNew: 79,
+    badges: [],
+  },
+  {
+    image: "/assets/img/clients/5.webp",
+    title: "Web Development Bootcamp",
+    rating: 4.7,
+    reviews: 2643,
+    lessons: 12,
+    duration: "35h 20m",
+    level: "Intermediate",
+    author: {
+      name: "John Doe",
+      image:
+        "https://educrat-nextjs.vercel.app/_next/image?url=%2Fassets%2Fimg%2Fgeneral%2Favatar-1.png&w=32&q=75",
+    },
+    priceOld: 249,
+    priceNew: 89,
+    badges: [
+      { label: "Popular", bgClass: "bg-purple-1", textClass: "text-white" },
+      {
+        label: "Best sellers",
+        bgClass: "bg-green-1",
+        textClass: "text-dark-1",
+      },
+    ],
+  },
+
+  {
+    image: "/assets/img/clients/4.png",
+    title: "Learn Figma - UI/UX Design Essential Training",
+    rating: 4.3,
+    reviews: 1991,
+    lessons: 6,
+    duration: "22h 0m",
+    level: "Beginner",
+    author: {
+      name: "Jane Cooper",
+      image:
+        "https://educrat-nextjs.vercel.app/_next/image?url=%2Fassets%2Fimg%2Fgeneral%2Favatar-1.png&w=32&q=75",
+    },
+    priceOld: 199,
+    priceNew: 79,
+    badges: [],
+  },
+  {
+    image: "/assets/img/clients/6.webp",
+    title: "Web Development Bootcamp",
+    rating: 4.7,
+    reviews: 2643,
+    lessons: 12,
+    duration: "35h 20m",
+    level: "Intermediate",
+    author: {
+      name: "John Doe",
+      image:
+        "https://educrat-nextjs.vercel.app/_next/image?url=%2Fassets%2Fimg%2Fgeneral%2Favatar-1.png&w=32&q=75",
+    },
+    priceOld: 249,
+    priceNew: 89,
+    badges: [
+      { label: "Popular", bgClass: "bg-purple-1", textClass: "text-white" },
+      {
+        label: "Best sellers",
+        bgClass: "bg-green-1",
+        textClass: "text-dark-1",
+      },
+    ],
+  },
+  {
+    image: "/assets/img/clients/7.webp",
+    title: "Learn Figma - UI/UX Design Essential Training",
+    rating: 4.3,
+    reviews: 1991,
+    lessons: 6,
+    duration: "22h 0m",
+    level: "Beginner",
+    author: {
+      name: "Jane Cooper",
+      image:
+        "https://educrat-nextjs.vercel.app/_next/image?url=%2Fassets%2Fimg%2Fgeneral%2Favatar-1.png&w=32&q=75",
+    },
+    priceOld: 199,
+    priceNew: 79,
+    badges: [],
+  },
+  {
+    image: "/assets/img/clients/1.webp",
+    title: "Web Development Bootcamp",
+    rating: 4.7,
+    reviews: 2643,
+    lessons: 12,
+    duration: "35h 20m",
+    level: "Intermediate",
+    author: {
+      name: "John Doe",
+      image:
+        "https://educrat-nextjs.vercel.app/_next/image?url=%2Fassets%2Fimg%2Fgeneral%2Favatar-1.png&w=32&q=75",
+    },
+    priceOld: 249,
+    priceNew: 89,
+    badges: [
+      { label: "Popular", bgClass: "bg-purple-1", textClass: "text-white" },
+      {
+        label: "Best sellers",
+        bgClass: "bg-green-1",
+        textClass: "text-dark-1",
+      },
+    ],
+  },
+];
+
 function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [course, setCourses] = useState([]);
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/courses');
-        setCourses(response.data);
-
-        courseData = response.data;
-        console.log("da",courseData)
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-        setCourses([]);
-        courseData = [];
-      }
-    };
-    fetchCourses();
-  }, []);
 
   useEffect(() => {
     AOS.init({
@@ -53,7 +202,7 @@ function Home() {
       img: '/assets/static/media/slider4.png',
       alt: 'Inside view'
     },
-
+    
   ];
 
   useEffect(() => {
@@ -145,7 +294,7 @@ function Home() {
                           src="/assets/static/media/1.ab242553.svg"
                         />
                       </div>
-
+                      
                       <div className="masthead-info__title lh-1">
                         Over 12 million students
                       </div>
@@ -192,36 +341,68 @@ function Home() {
                 data-aos="fade-up"
                 data-aos-delay="700"
               >
-                <div className="masthead-image" style={{ paddingLeft: "0px" }}>
+                <div className="masthead-image" style={{paddingLeft:"0px"}}>
+                  
+                  
+                  {/* <div class="c">
 
-                  <div className="c">
-                    {slides.map((slide, index) => (
-                      <div key={slide.id}>
-                        <input
-                          type="radio"
-                          name="a"
-                          id={slide.id}
-                          checked={activeIndex === index}
-                          onChange={() => setActiveIndex(index)}
-                          className="slider_new_input"
-                        />
-                        <label
-                          htmlFor={slide.id}
-                          style={{ '--hue': slide.hue }}
-                          className="slider_new_label"
-                        ></label>
-                        <div className="ci" style={{ '--z': slide.z }}>
-                          <h2
-                            className="ch"
-                            style={{ '--h': slide.h, '--s': '80%', '--l': '90%' }}
-                          >
-                            {slide.text}
-                          </h2>
-                          <img src={slide.img} alt={slide.alt} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <input type="radio" name="a" id="cr-1" defaultChecked className="slider_new_input"/>
+      <label htmlFor="cr-1" style={{ '--hue': 32 }} className="slider_new_label"></label>
+      <div className="ci" style={{ '--z': 4 }}>
+        <h2 className="ch" style={{ '--h': 32, '--s': '80%', '--l': '90%' }}>
+        Learn from offline To Learn Online
+        </h2>
+        <img
+          src="/assets/static/media/slider3.png"
+          alt="Snow on leafs"
+          
+        />
+      </div>
+
+      <input type="radio" name="a" id="cr-2" className="slider_new_input"/>
+      <label htmlFor="cr-2" style={{ '--hue': 82 }} className="slider_new_label"></label>
+      <div className="ci" style={{ '--z': 3 }}>
+        <h2 className="ch" style={{ '--h': 82, '--s': '80%', '--l': '90%' }}>
+          Look from inside?
+        </h2>
+        <img
+          src="/assets/static/media/slider4.png"
+          alt="Inside view"
+          
+        />
+      </div>
+
+
+
+</div> */}
+<div className="c">
+      {slides.map((slide, index) => (
+        <div key={slide.id}>
+          <input
+            type="radio"
+            name="a"
+            id={slide.id}
+            checked={activeIndex === index}
+            onChange={() => setActiveIndex(index)}
+            className="slider_new_input"
+          />
+          <label
+            htmlFor={slide.id}
+            style={{ '--hue': slide.hue }}
+            className="slider_new_label"
+          ></label>
+          <div className="ci" style={{ '--z': slide.z }}>
+            <h2
+              className="ch"
+              style={{ '--h': slide.h, '--s': '80%', '--l': '90%' }}
+            >
+              {slide.text}
+            </h2>
+            <img src={slide.img} alt={slide.alt} />
+          </div>
+        </div>
+      ))}
+    </div>
 
                 </div>
               </div>
@@ -376,6 +557,7 @@ function Home() {
             </div>
           </div>
         </section>
+        
         <section className="layout-pt-lg layout-pb-lg">
           <div className="row justify-center text-center">
             <div className="col-auto">
@@ -389,17 +571,106 @@ function Home() {
               </div>
             </div>
           </div>
+          <div className="row justify-end">
+            <div className="col-auto">
+              <div className="mt-10">
+                <select
+                  className="form-select px-3 py-2 rounded-4 border"
+                  style={{ minWidth: "200px" }}
+                >
+                  <option value="">All Categories</option>
+                  <option value="web">Web Development</option>
+                  <option value="design">UI/UX Design</option>
+                  <option value="ai">Artificial Intelligence</option>
+                  <option value="marketing">Digital Marketing</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
           <div
             className="pt-60 m-auto row y-gap-30 container pl-0 pr-0"
             data-aos="fade-right"
             data-aos-offset="80"
             data-aos-duration="800"
           >
-            {courseData?.map((course, index) => (
+            {courseData.map((course, index) => (
               <CourseCard key={index} {...course} />
             ))}
           </div>
         </section>
+        {/* <section className="layout-pt-lg mt-80 layout-pb-lg bg-purple-1">
+          <div className="container ">
+            <div className="row justify-center text-center">
+              <div className="col-auto">
+                <div className="sectionTitle ">
+                  <h2 className="sectionTitle__title text-green-1">
+                    What People Say
+                  </h2>
+                  <p className="sectionTitle__text text-white">
+                    Lorem ipsum dolor sit amet, consectetur.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="js-section-slider pt-50">
+              <div className="d-flex x-gap-20 items-center justify-end pt-60 lg:pt-40">
+                <div className="col-auto">
+                  <button className="button -outline-white text-white size-50 rounded-full d-flex justify-center items-center js-prev">
+                    <i className="icon icon-arrow-left text-24"></i>
+                  </button>
+                </div>
+                <div className="col-auto">
+                  <button className="button -outline-white text-white size-50 rounded-full d-flex justify-center items-center js-next">
+                    <i className="icon icon-arrow-right text-24"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="row y-gap-30  counter__row">
+              <div
+                className="col-lg-3 col-sm-6"
+                data-aos="fade-left"
+                data-aos-duration="350"
+              >
+                <div className="counter -type-1">
+                  <div className="counter__number">350,000+</div>
+                  <div className="counter__title">Students worldwide</div>
+                </div>
+              </div>
+              <div
+                className="col-lg-3 col-sm-6"
+                data-aos="fade-left"
+                data-aos-duration="700"
+              >
+                <div className="counter -type-1">
+                  <div className="counter__number">496,000+</div>
+                  <div className="counter__title">Total course views</div>
+                </div>
+              </div>
+              <div
+                className="col-lg-3 col-sm-6"
+                data-aos="fade-left"
+                data-aos-duration="1050"
+              >
+                <div className="counter -type-1">
+                  <div className="counter__number">19,000+</div>
+                  <div className="counter__title">Five-star course reviews</div>
+                </div>
+              </div>
+              <div
+                className="col-lg-3 col-sm-6"
+                data-aos="fade-left"
+                data-aos-duration="1400"
+              >
+                <div className="counter -type-1">
+                  <div className="counter__number">987,000+</div>
+                  <div className="counter__title">Students community</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section> */}
         <section className="layout-pt-lg layout-pb-lg bg-beige-1">
           <div className="container">
             <div className="row y-gap-30 justify-between items-center">
@@ -960,6 +1231,94 @@ function Home() {
             </div>
           </div>
         </section>
+        {/* <section className="layout-pt-lg layout-pb-lg bg-light-3">
+          <div className="container">
+            <div className="row y-gap-20 items-center">
+              <div className="col-xl-7 col-lg-7">
+                <div
+                  className="app-image"
+                  data-aos="fade-up"
+                  data-aos-duration="400"
+                >
+                  <img
+                    alt="image"
+                    loading="lazy"
+                    width="700"
+                    height="500"
+                    decoding="async"
+                    data-nimg="1"
+                    style={{
+                      color: "transparent",
+                      height: "100%",
+                      width: "100%",
+                    }}
+                    srcSet="/image?url=%2Fassets%2Fimg%2Fapp%2F1.png&amp;w=750&amp;q=75 1x, /image?url=%2Fassets%2Fimg%2Fapp%2F1.png&amp;w=1920&amp;q=75 2x"
+                    src="/image?url=%2Fassets%2Fimg%2Fapp%2F1.png&amp;w=1920&amp;q=75"
+                  />
+                </div>
+              </div>
+              <div className="col-lg-5">
+                <div className="app-content">
+                  <h2
+                    className="app-content__title"
+                    data-aos="fade-up"
+                    data-aos-duration="500"
+                  >
+                    Learn From
+                    <br /> <span>Anywhere</span>
+                  </h2>
+                  <p
+                    className="app-content__text"
+                    data-aos="fade-up"
+                    data-aos-duration="600"
+                  >
+                    Take classes on the go with the educrat app. Stream or
+                    download to watch on the plane, the subway, or wherever you
+                    learn best.
+                  </p>
+                  <div className="app-content__buttons">
+                    <a href="#">
+                      <img
+                        alt="button"
+                        data-aos="fade-up"
+                        data-aos-duration="600"
+                        loading="lazy"
+                        width="210"
+                        height="60"
+                        decoding="async"
+                        data-nimg="1"
+                        style={{
+                          color: "transparent",
+                          height: "100%",
+                          width: "100%",
+                        }}
+                        src="/assets/img/app/buttons/1.svg"
+                      />
+                    </a>
+                    <a href="#">
+                      <img
+                        alt="button"
+                        data-aos="fade-up"
+                        data-aos-duration="600"
+                        loading="lazy"
+                        width="190"
+                        height="60"
+                        decoding="async"
+                        data-nimg="1"
+                        style={{
+                          color: "transparent",
+                          height: "100%",
+                          width: "100%",
+                        }}
+                        src="/assets/img/app/buttons/2.svg"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section> */}
         <section className="layout-pt-lg layout-pb-lg">
           <div className="container">
             <div className="row y-gap-20 justify-between items-center">

@@ -732,7 +732,7 @@ function Dashsub2() {
   }
 
   return (
-    <div>
+   
 
 
       <div className="row">
@@ -796,11 +796,6 @@ function Dashsub2() {
                       </div>
                     ))}
 
-                    <div className="mt-4 pt-2">
-                      <a href="#" className="btn btn-primary w-100">
-                        View All <i className="mdi mdi-arrow-right ms-1"></i>
-                      </a>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -885,7 +880,7 @@ function Dashsub2() {
           </div>
         </div>
       </div>
-    </div>
+   
   );
 }
 

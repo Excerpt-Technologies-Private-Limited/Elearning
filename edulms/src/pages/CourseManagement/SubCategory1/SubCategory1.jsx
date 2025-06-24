@@ -33,6 +33,8 @@ const SubCategory1 = () => {
           subcategoryName,
         }
       );
+
+      alert("successfully update")
     } else {
       await axios.post("http://localhost:8080/api/subcategories", {
         category: selectedCategoryId,
@@ -93,7 +95,7 @@ const SubCategory1 = () => {
               </div>
             </div>
             <div class="row">
-              <div class="col-xl-12">
+              <div class="col-xl-6">
                 <div class="card">
                   <div class="card-header">
                     <h4 class="card-title">Sub Categories - Form</h4>
@@ -104,7 +106,7 @@ const SubCategory1 = () => {
                       onSubmit={handleAddOrUpdateSubcategory}
                     >
                       <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                           <div class="mb-3">
                             <label class="form-label" for="validationCustom03">
                               Category Name
@@ -126,8 +128,7 @@ const SubCategory1 = () => {
                             </div>
                           </div>
                         </div>
-                        {categories.length>0 &&
-                        <div className="col-md-6">
+                        <div className="col-md-12">
                           <div className="mb-3">
                             <label
                               className="form-label"
@@ -136,7 +137,7 @@ const SubCategory1 = () => {
                               Select Categories
                             </label>
                             <select
-                              className="form-control"
+                              className="form-select"
                               id="categorySelect"
                               value={selectedCategoryId}
                               onChange={(e) =>
@@ -156,26 +157,27 @@ const SubCategory1 = () => {
                               Please select a valid category.
                             </div>
                           </div>
-                        </div>}
+                        </div>
                       </div>
-
-                      <button class="btn btn-primary" type="submit">
+                     
+                      <button class="btn btn-primary m-1" type="submit">
                         {editing ? "Update" : "Add"}
                       </button>
-                      {editing && (<button class="btn btn-primary" onClick={resetForm}>
-                        Reset
-                      </button>)}
+                      {editing && (
+                        <button class="btn btn-primary" onClick={resetForm}>
+                          Reset
+                        </button>
+                      )}
+                     
                     </form>
                   </div>
                 </div>
               </div>
 
-              { categories.length>0 && categories.map((cat) => (
-                <div className="col-xl-12" key={cat._id}>
-                  <div className="card">
-                    <div className="card-header">
-                      <h4 className="card-title">{cat.categoryName}</h4>
-                    </div>
+              {categories.map((cat) => (
+                <div className="col-xl-6" key={cat._id}>
+                
+                   
 
                     <div className="card-body">
                       {cat.subcategories.length === 0 ? (
@@ -228,89 +230,13 @@ const SubCategory1 = () => {
                         </div>
                       )}
                     </div>
-                  </div>
+                 
                 </div>
               ))}
-
-              
             </div>
           </div>
         </div>
 
-        <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                  Edit Subcategory
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <form onSubmit={handleAddOrUpdateSubcategory}>
-                  <div className="row">
-                    <div class="mb-3 col-md-4">
-                      <label for="recipient-name" class="col-form-label">
-                        Category Name:
-                      </label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="recipient-name"
-                        name="subcategoryname"
-                      value={subcategoryName}
-                      onChange={(e) => setSubcategoryName(e.target.value)}
-                      required
-                      />
-                    </div>
-
-                    <div class="mb-3 col-md-4">
-                      <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">
-                        Select Categories
-                      </label>
-                      <select
-                        class="form-select"
-                        value={selectedCategoryId}
-                        onChange={(e) => setSelectedCategoryId(e.target.value)}
-                        required
-                      >
-                        <option value="">Select Category</option>
-                        {categories.length>0 && categories.map((cat) => (
-                          <option key={cat._id} value={cat._id}>
-                            {cat.categoryName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                  Update
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

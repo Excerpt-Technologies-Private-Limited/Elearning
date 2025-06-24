@@ -26,7 +26,7 @@ const Chat1 = () => {
                   className="dataTables_wrapper dt-bootstrap4 no-footer"
                 >
                   <div className="row">
-                    <div className="col-sm-12 col-md-6">
+                    <div className="col-sm-12 col-md-6 mb-1">
                       <button
                         type="button"
                         class="btn btn-primary"
@@ -53,7 +53,7 @@ const Chat1 = () => {
                   </div>
 
                   <div className="row">
-                    <div className="col-sm-12">
+                    <div className="col-sm-12 table-responsive">
                       <table
                         id="datatable"
                         className="table table-bordered dt-responsive nowrap w-100 dataTable no-footer dtr-inline"
@@ -316,7 +316,7 @@ const Chat1 = () => {
                 Close
               </button>
               <button type="button" class="btn btn-primary">
-                Send message
+                Submit
               </button>
             </div>
           </div>
