@@ -346,553 +346,6 @@
 // export default Dashsub2;
 
 // import React, { useEffect, useState } from "react";
-
-// function Dashsub2() {
-//   const [courses, setCourses] = useState([]);
-//   const [orders, setOrders] = useState([]);
-//   const [students, setStudents] = useState([]);
-//   const [categories, setCategories] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         setLoading(true);
-//         const [coursesRes, ordersRes, studentsRes, categoriesRes] = await Promise.all([
-//           fetch("/api/courses"),
-//           fetch("/api/orders"),
-//           fetch("/api/students"),
-//           fetch("/api/categories"),
-//         ]);
-
-//         if (!coursesRes.ok || !ordersRes.ok || !studentsRes.ok || !categoriesRes.ok) {
-//           throw new Error('Failed to fetch data from one or more endpoints');
-//         }
-
-//         const coursesData = await coursesRes.json();
-//         const ordersData = await ordersRes.json();
-//         const studentsData = await studentsRes.json();
-//         const categoriesData = await categoriesRes.json();
-
-//         // Handle different response formats - sometimes APIs return {data: [...]} or just [...]
-//         setCourses(Array.isArray(coursesData) ? coursesData : coursesData.data || []);
-//         setOrders(Array.isArray(ordersData) ? ordersData : ordersData.data || []);
-//         setStudents(Array.isArray(studentsData) ? studentsData : studentsData.data || []);
-//         setCategories(Array.isArray(categoriesData) ? categoriesData : categoriesData.data || []);
-//       } catch (error) {
-//         console.error("Failed to fetch dashboard data:", error);
-//         console.log("Error details:", error);
-//         setError(error.message);
-//         // Set empty arrays as fallback
-//         setCourses([]);
-//         setOrders([]);
-//         setStudents([]);
-//         setCategories([]);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   // Dynamic metrics calculations with safety checks
-//   const totalStudents = Array.isArray(students) ? students.length : 0;
-//   const totalOrders = Array.isArray(orders) ? orders.length : 0;
-//   const totalCourses = Array.isArray(courses) ? courses.length : 0;
-//   const totalCategories = Array.isArray(categories) ? categories.length : 0;
-
-//   // Calculate course distribution by category
-//   const coursesByCategory = Array.isArray(categories) ? categories.map(category => {
-//     const coursesInCategory = Array.isArray(courses) ? courses.filter(course => 
-//       course.categoryIds && course.categoryIds.includes(category._id)
-//     ).length : 0;
-//     return {
-//       categoryName: category.categoryName,
-//       courseCount: coursesInCategory,
-//       percentage: totalCourses > 0 ? ((coursesInCategory / totalCourses) * 100).toFixed(1) : 0
-//     };
-//   }).slice(0, 5) : []; // Top 5 categories
-
-//   // Calculate course distribution by mode
-//   const courseModeDistribution = Array.isArray(courses) ? courses.reduce((acc, course) => {
-//     const mode = course.mode || 'Unknown';
-//     acc[mode] = (acc[mode] || 0) + 1;
-//     return acc;
-//   }, {}) : {};
-
-//   // Student enrollment trends (simplified)
-//   const recentStudents = Array.isArray(students) ? students.filter(student => {
-//     const createdAt = new Date(student.createdAt);
-//     const thirtyDaysAgo = new Date();
-//     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-//     return createdAt >= thirtyDaysAgo;
-//   }).length : 0;
-
-//   // Calculate growth percentages
-//   const studentGrowth = totalStudents > 0 ? ((recentStudents / totalStudents) * 100).toFixed(1) : 0;
-//   const courseGrowth = totalCourses > 0 ? ((totalCourses / Math.max(totalCategories, 1)) * 10).toFixed(1) : 0;
-//   const orderGrowth = totalOrders > 0 ? ((totalOrders / Math.max(totalStudents, 1)) * 100).toFixed(1) : 0;
-
-//   // Social media metrics (placeholder - replace with actual data if available)
-//   const socialMetrics = [
-//     { name: "Facebook", growth: `+${(totalStudents % 10 + 2)}.5%` },
-//     { name: "Instagram", growth: `+${(totalCourses % 10 + 1)}.3%` },
-//     { name: "Whatsapp", growth: totalOrders > totalStudents ? `-${(totalOrders % 10 + 1)}.6%` : `+${(totalOrders % 10 + 1)}.6%` },
-//     { name: "Twitter", growth: "+7.1%" },
-//     { name: "Youtube", growth: `+${(totalCategories % 10 + 3)}.2%` }
-//   ];
-
-//   if (loading) {
-//     return (
-//       <div className="d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
-//         <div className="spinner-border text-primary" role="status">
-//           <span className="visually-hidden">Loading...</span>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   if (error) {
-//     return (
-//       <div className="alert alert-danger" role="alert">
-//         <strong>Error:</strong> {error}
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div>
-     
-
-//       <div className="row">
-//         {/* Left Chart */}
-//         <div className="col-xl-8">
-//           <div className="card">
-//             <div className="card-body">
-//               <div className="d-flex flex-wrap align-items-center mb-4">
-//                 <h5 className="card-title me-2">Student & Leads Analytics</h5>
-//                 <div className="ms-auto">
-//                   <div>
-//                     <button type="button" className="btn btn-soft-primary btn-sm">ALL</button>
-//                     <button type="button" className="btn btn-soft-secondary btn-sm">1M</button>
-//                     <button type="button" className="btn btn-soft-secondary btn-sm">6M</button>
-//                     <button type="button" className="btn btn-soft-secondary btn-sm">1Y</button>
-//                   </div>
-//                 </div>
-//               </div>
-
-//               <div className="row align-items-center">
-//                 <div className="col-xl-8">
-//                   <img src="./assets2/images/users/graphbar.PNG" alt="Bar Graph" />
-//                   <div className="mt-3">
-//                     <div className="row text-center">
-//                       <div className="col-4">
-//                         <p className="text-muted mb-1">Recent Students (30 days)</p>
-//                         <h5 className="mb-0">{recentStudents}</h5>
-//                       </div>
-//                       <div className="col-4">
-//                         <p className="text-muted mb-1">Avg Students/Course</p>
-//                         <h5 className="mb-0">{totalCourses > 0 ? Math.round(totalStudents / totalCourses) : 0}</h5>
-//                       </div>
-//                       <div className="col-4">
-//                         <p className="text-muted mb-1">Enrollment Rate</p>
-//                         <h5 className="mb-0">{studentGrowth}%</h5>
-//                       </div>
-//                     </div>
-//                   </div>
-//                 </div>
-
-//                 <div className="col-xl-4">
-//                   <div className="p-4">
-//                     <h6 className="mb-3">Social Media Performance</h6>
-//                     {socialMetrics.map((metric, index) => (
-//                       <div className="mt-3" key={index}>
-//                         <div className="d-flex align-items-center">
-//                           <div className="avatar-sm m-auto">
-//                             <span className="avatar-title rounded-circle bg-light-subtle text-dark font-size-16">
-//                               {index + 1}
-//                             </span>
-//                           </div>
-//                           <div className="flex-grow-1 ms-3">
-//                             <span className="font-size-16">{metric.name}</span>
-//                           </div>
-//                           <div className="flex-shrink-0">
-//                             <span className={`badge rounded-pill ${metric.growth.startsWith('+') ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'} font-size-12 fw-medium`}>
-//                               {metric.growth}
-//                             </span>
-//                           </div>
-//                         </div>
-//                       </div>
-//                     ))}
-
-//                     <div className="mt-4 pt-2">
-//                       <a href="#" className="btn btn-primary w-100">
-//                         View All <i className="mdi mdi-arrow-right ms-1"></i>
-//                       </a>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Right Pie Chart */}
-//         <div className="col-xl-4">
-//           <div className="card">
-//             <div className="card-body">
-//               <div className="d-flex flex-wrap align-items-center mb-4">
-//                 <h5 className="card-title me-2">Course Distribution</h5>
-//                 <div className="ms-auto">
-//                   <div className="dropdown">
-//                     <a
-//                       className="dropdown-toggle text-reset"
-//                       href="#"
-//                       data-bs-toggle="dropdown"
-//                     >
-//                       <span className="text-muted font-size-12">Sort By:</span>{" "}
-//                       <span className="fw-medium">Category <i className="mdi mdi-chevron-down ms-1"></i></span>
-//                     </a>
-//                     <div className="dropdown-menu dropdown-menu-end">
-//                       <a className="dropdown-item" href="#">Category</a>
-//                       <a className="dropdown-item" href="#">Mode</a>
-//                       <a className="dropdown-item" href="#">Price</a>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-
-//               <img src="./assets2/images/users/graphpie.PNG" alt="Pie Graph" height="250" />
-
-//               <div className="px-2 py-2">
-//                 <h6 className="mb-3">Top Course Categories</h6>
-//                 {coursesByCategory.length > 0 ? coursesByCategory.map((category, index) => (
-//                   <div key={index} className="mb-3">
-//                     <p className="mb-1">
-//                       {category.categoryName} 
-//                       <span className="float-end">{category.courseCount} courses ({category.percentage}%)</span>
-//                     </p>
-//                     <div className="progress mt-2" style={{ height: 6 }}>
-//                       <div
-//                         className="progress-bar progress-bar-striped bg-primary"
-//                         role="progressbar"
-//                         style={{ width: `${Math.min(category.percentage, 100)}%` }}
-//                         aria-valuenow={category.percentage}
-//                         aria-valuemin="0"
-//                         aria-valuemax="100"
-//                       ></div>
-//                     </div>
-//                   </div>
-//                 )) : (
-//                   <div className="text-center text-muted">
-//                     <p>No category data available</p>
-//                   </div>
-//                 )}
-
-//                 {/* Course Mode Distribution */}
-//                 <div className="mt-4">
-//                   <h6 className="mb-3">Course Modes</h6>
-//                   {Object.entries(courseModeDistribution).map(([mode, count], index) => (
-//                     <div key={index} className="mb-2">
-//                       <div className="d-flex justify-content-between">
-//                         <span className="font-size-14">{mode}</span>
-//                         <span className="font-size-14 fw-medium">{count} courses</span>
-//                       </div>
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Dashsub2;
-
-import React, { useEffect, useState } from "react";
-
-function Dashsub2() {
-  const [courses, setCourses] = useState([]);
-  const [orders, setOrders] = useState([]);
-  const [students, setStudents] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const [coursesRes, ordersRes, studentsRes, categoriesRes] = await Promise.all([
-          fetch("http://localhost:8080/api/courses"),
-          fetch("http://localhost:8080/api/orders"),
-          fetch("http://localhost:8080/api/students"),
-          fetch("http://localhost:8080/api/categories"),
-        ]);
-
-        if (!coursesRes.ok || !ordersRes.ok || !studentsRes.ok || !categoriesRes.ok) {
-          throw new Error('Failed to fetch data from one or more endpoints');
-        }
-
-        const coursesData = await coursesRes.json();
-        const ordersData = await ordersRes.json();
-        const studentsData = await studentsRes.json();
-        const categoriesData = await categoriesRes.json();
-
-        // Handle different response formats - sometimes APIs return {data: [...]} or just [...]
-        setCourses(Array.isArray(coursesData) ? coursesData : coursesData.data || []);
-        setOrders(Array.isArray(ordersData) ? ordersData : ordersData.data || []);
-        setStudents(Array.isArray(studentsData) ? studentsData : studentsData.data || []);
-        setCategories(Array.isArray(categoriesData) ? categoriesData : categoriesData.data || []);
-      } catch (error) {
-        console.error("Failed to fetch dashboard data:", error);
-        console.log("Error details:", error);
-        setError(error.message);
-        // Set empty arrays as fallback
-        setCourses([]);
-        setOrders([]);
-        setStudents([]);
-        setCategories([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  // Dynamic metrics calculations with safety checks
-  const totalStudents = Array.isArray(students) ? students.length : 0;
-  const totalOrders = Array.isArray(orders) ? orders.length : 0;
-  const totalCourses = Array.isArray(courses) ? courses.length : 0;
-  const totalCategories = Array.isArray(categories) ? categories.length : 0;
-
-  // Calculate course distribution by category
-  const coursesByCategory = Array.isArray(categories) ? categories.map(category => {
-    const coursesInCategory = Array.isArray(courses) ? courses.filter(course => 
-      course.categoryIds && course.categoryIds.includes(category._id)
-    ).length : 0;
-    return {
-      categoryName: category.categoryName,
-      courseCount: coursesInCategory,
-      percentage: totalCourses > 0 ? ((coursesInCategory / totalCourses) * 100).toFixed(1) : 0
-    };
-  }).slice(0, 5) : []; // Top 5 categories
-
-  // Calculate course distribution by mode
-  const courseModeDistribution = Array.isArray(courses) ? courses.reduce((acc, course) => {
-    const mode = course.mode || 'Unknown';
-    acc[mode] = (acc[mode] || 0) + 1;
-    return acc;
-  }, {}) : {};
-
-  // Student enrollment trends (simplified)
-  const recentStudents = Array.isArray(students) ? students.filter(student => {
-    const createdAt = new Date(student.createdAt);
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    return createdAt >= thirtyDaysAgo;
-  }).length : 0;
-
-  // Calculate growth percentages
-  const studentGrowth = totalStudents > 0 ? ((recentStudents / totalStudents) * 100).toFixed(1) : 0;
-  const courseGrowth = totalCourses > 0 ? ((totalCourses / Math.max(totalCategories, 1)) * 10).toFixed(1) : 0;
-  const orderGrowth = totalOrders > 0 ? ((totalOrders / Math.max(totalStudents, 1)) * 100).toFixed(1) : 0;
-
-  // Social media metrics (placeholder - replace with actual data if available)
-  const socialMetrics = [
-    { name: "Facebook", growth: `+${(totalStudents % 10 + 2)}.5%` },
-    { name: "Instagram", growth: `+${(totalCourses % 10 + 1)}.3%` },
-    { name: "Whatsapp", growth: totalOrders > totalStudents ? `-${(totalOrders % 10 + 1)}.6%` : `+${(totalOrders % 10 + 1)}.6%` },
-    { name: "Twitter", growth: "+7.1%" },
-    { name: "Youtube", growth: `+${(totalCategories % 10 + 3)}.2%` }
-  ];
-
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        <strong>Error:</strong> {error}
-      </div>
-    );
-  }
-
-  return (
-    <div>
-
-
-      <div className="row">
-        {/* Left Chart */}
-        <div className="col-xl-8">
-          <div className="card">
-            <div className="card-body">
-              <div className="d-flex flex-wrap align-items-center mb-4">
-                <h5 className="card-title me-2">Student & Leads Analytics</h5>
-                <div className="ms-auto">
-                  <div>
-                    <button type="button" className="btn btSales Breakdownn-soft-primary btn-sm">ALL</button>
-                    <button type="button" className="btn btn-soft-secondary btn-sm">1M</button>
-                    <button type="button" className="btn btn-soft-secondary btn-sm">6M</button>
-                    <button type="button" className="btn btn-soft-secondary btn-sm">1Y</button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row align-items-center">
-                <div className="col-xl-8">
-                  <img src="./assets2/images/users/graphbar.PNG" alt="Bar Graph" />
-                  <div className="mt-3">
-                    {/* <div className="row text-center">
-                      <div className="col-4">
-                        <p className="text-muted mb-1">Recent Students (30 days)</p>
-                        <h5 className="mb-0">{recentStudents}</h5>
-                      </div>
-                      <div className="col-4">
-                        <p className="text-muted mb-1">Avg Students/Course</p>
-                        <h5 className="mb-0">{totalCourses > 0 ? Math.round(totalStudents / totalCourses) : 0}</h5>
-                      </div>
-                      <div className="col-4">
-                        <p className="text-muted mb-1">Enrollment Rate</p>
-                        <h5 className="mb-0">{studentGrowth}%</h5>
-                      </div>
-                    </div> */}
-                  </div>
-                </div>
-
-                <div className="col-xl-4">
-                  <div className="p-4">
-                    <h6 className="mb-3">Social Media Performance</h6>
-                    {socialMetrics.map((metric, index) => (
-                      <div className="mt-3" key={index}>
-                        <div className="d-flex align-items-center">
-                          <div className="avatar-sm m-auto">
-                            <span className="avatar-title rounded-circle bg-light-subtle text-dark font-size-16">
-                              {index + 1}
-                            </span>
-                          </div>
-                          <div className="flex-grow-1 ms-3">
-                            <span className="font-size-16">{metric.name}</span>
-                          </div>
-                          <div className="flex-shrink-0">
-                            <span className={`badge rounded-pill ${metric.growth.startsWith('+') ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'} font-size-12 fw-medium`}>
-                              {metric.growth}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-
-                    <div className="mt-4 pt-2">
-                      <a href="#" className="btn btn-primary w-100">
-                        View All <i className="mdi mdi-arrow-right ms-1"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Pie Chart */}
-        <div className="col-xl-4">
-          <div className="card">
-            <div className="card-body">
-              <div className="d-flex flex-wrap align-items-center mb-4">
-                <h5 className="card-title me-2">Course Distribution</h5>
-                <div className="ms-auto">
-                  <div className="dropdown">
-                    <a
-                      className="dropdown-toggle text-reset"
-                      href="#"
-                      data-bs-toggle="dropdown"
-                    >
-                      <span className="text-muted font-size-12">Sort By:</span>{" "}
-                      <span className="fw-medium">Category <i className="mdi mdi-chevron-down ms-1"></i></span>
-                    </a>
-                    <div className="dropdown-menu dropdown-menu-end">
-                      <a className="dropdown-item" href="#">Category</a>
-                      <a className="dropdown-item" href="#">Mode</a>
-                      <a className="dropdown-item" href="#">Price</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <img src="./assets2/images/users/graphpie.PNG" alt="Pie Graph" height="250" />
-
-              <div className="px-2 py-2">
-                <h6 className="mb-3">Student Batches by Category</h6>
-                {coursesByCategory.length > 0 ? coursesByCategory.map((category, index) => (
-                  <div key={index} className="mb-3">
-                    <p className="mb-1">
-                      {category.categoryName} 
-                      <span className="float-end">{category.percentage}%</span>
-                    </p>
-                    <div className="progress mt-2" style={{ height: 6 }}>
-                      <div
-                        className="progress-bar progress-bar-striped bg-primary"
-                        role="progressbar"
-                        style={{ width: `${category.percentage}%` }}
-                        aria-valuenow={category.percentage}
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                )) : (
-                  <div className="text-center text-muted">
-                    <p>No category data available</p>
-                  </div>
-                )}
-
-                <div className="mt-4">
-                  <div className="mb-3">
-                    <p className="mb-1">
-                      Total Expenses
-                      <span className="float-end">{totalOrders > 0 ? (totalOrders * 5) : 0}%</span>
-                    </p>
-                    <div className="progress mt-2" style={{ height: 6 }}>
-                      <div
-                        className="progress-bar progress-bar-striped bg-warning"
-                        role="progressbar"
-                        style={{ width: `${totalOrders > 0 ? Math.min(totalOrders * 5, 100) : 0}%` }}
-                        aria-valuenow={totalOrders * 5}
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default Dashsub2;
-
-
-// import React, { useEffect, useState } from "react";
 // import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 
 // function Dashsub2() {
@@ -908,10 +361,10 @@ export default Dashsub2;
 //       try {
 //         setLoading(true);
 //         const [coursesRes, ordersRes, studentsRes, categoriesRes] = await Promise.all([
-//           fetch("/api/courses"),
-//           fetch("/api/orders"),
-//           fetch("/api/students"),
-//           fetch("/api/categories"),
+//           fetch("http://localhost:8080/api/courses"),
+//           fetch("http://localhost:8080/api/orders"),
+//           fetch("http://localhost:8080/api/students"),
+//           fetch("http://localhost:8080/api/categories"),
 //         ]);
 
 //         if (!coursesRes.ok || !ordersRes.ok || !studentsRes.ok || !categoriesRes.ok) {
@@ -1327,3 +780,1107 @@ export default Dashsub2;
 
 // export default Dashsub2;
 
+
+// import React, { useEffect, useState } from "react";
+
+// function Dashsub2() {
+//   const [courses, setCourses] = useState([]);
+//   const [orders, setOrders] = useState([]);
+//   const [students, setStudents] = useState([]);
+//   const [categories, setCategories] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setLoading(true);
+//         const [coursesRes, ordersRes, studentsRes, categoriesRes] = await Promise.all([
+//           fetch("http://localhost:8080/api/courses"),
+//           fetch("http://localhost:8080/api/orders"),
+//           fetch("http://localhost:8080/api/students"),
+//           fetch("http://localhost:8080/api/categories"),
+//         ]);
+
+//         if (!coursesRes.ok || !ordersRes.ok || !studentsRes.ok || !categoriesRes.ok) {
+//           throw new Error('Failed to fetch data from one or more endpoints');
+//         }
+
+//         const coursesData = await coursesRes.json();
+//         const ordersData = await ordersRes.json();
+//         const studentsData = await studentsRes.json();
+//         const categoriesData = await categoriesRes.json();
+
+//         // Handle different response formats - sometimes APIs return {data: [...]} or just [...]
+//         setCourses(Array.isArray(coursesData) ? coursesData : coursesData.data || []);
+//         setOrders(Array.isArray(ordersData) ? ordersData : ordersData.data || []);
+//         setStudents(Array.isArray(studentsData) ? studentsData : studentsData.data || []);
+//         setCategories(Array.isArray(categoriesData) ? categoriesData : categoriesData.data || []);
+//       } catch (error) {
+//         console.error("Failed to fetch dashboard data:", error);
+//         console.log("Error details:", error);
+//         setError(error.message);
+//         // Set empty arrays as fallback
+//         setCourses([]);
+//         setOrders([]);
+//         setStudents([]);
+//         setCategories([]);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   // Dynamic metrics calculations with safety checks
+//   const totalStudents = Array.isArray(students) ? students.length : 0;
+//   const totalOrders = Array.isArray(orders) ? orders.length : 0;
+//   const totalCourses = Array.isArray(courses) ? courses.length : 0;
+//   const totalCategories = Array.isArray(categories) ? categories.length : 0;
+
+//   // Calculate course distribution by category
+//   const coursesByCategory = Array.isArray(categories) ? categories.map(category => {
+//     const coursesInCategory = Array.isArray(courses) ? courses.filter(course => 
+//       course.categoryIds && course.categoryIds.includes(category._id)
+//     ).length : 0;
+//     return {
+//       categoryName: category.categoryName,
+//       courseCount: coursesInCategory,
+//       percentage: totalCourses > 0 ? ((coursesInCategory / totalCourses) * 100).toFixed(1) : 0
+//     };
+//   }).slice(0, 5) : []; // Top 5 categories
+
+//   // Calculate course distribution by mode
+//   const courseModeDistribution = Array.isArray(courses) ? courses.reduce((acc, course) => {
+//     const mode = course.mode || 'Unknown';
+//     acc[mode] = (acc[mode] || 0) + 1;
+//     return acc;
+//   }, {}) : {};
+
+//   // Student enrollment trends (simplified)
+//   const recentStudents = Array.isArray(students) ? students.filter(student => {
+//     const createdAt = new Date(student.createdAt);
+//     const thirtyDaysAgo = new Date();
+//     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+//     return createdAt >= thirtyDaysAgo;
+//   }).length : 0;
+
+//   // Calculate growth percentages
+//   const studentGrowth = totalStudents > 0 ? ((recentStudents / totalStudents) * 100).toFixed(1) : 0;
+//   const courseGrowth = totalCourses > 0 ? ((totalCourses / Math.max(totalCategories, 1)) * 10).toFixed(1) : 0;
+//   const orderGrowth = totalOrders > 0 ? ((totalOrders / Math.max(totalStudents, 1)) * 100).toFixed(1) : 0;
+
+//   // Social media metrics (placeholder - replace with actual data if available)
+//   const socialMetrics = [
+//     { name: "Facebook", growth: `+${(totalStudents % 10 + 2)}.5%` },
+//     { name: "Instagram", growth: `+${(totalCourses % 10 + 1)}.3%` },
+//     { name: "Whatsapp", growth: totalOrders > totalStudents ? `-${(totalOrders % 10 + 1)}.6%` : `+${(totalOrders % 10 + 1)}.6%` },
+//     { name: "Twitter", growth: "+7.1%" },
+//     { name: "Youtube", growth: `+${(totalCategories % 10 + 3)}.2%` }
+//   ];
+
+//   if (loading) {
+//     return (
+//       <div className="d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
+//         <div className="spinner-border text-primary" role="status">
+//           <span className="visually-hidden">Loading...</span>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <div className="alert alert-danger" role="alert">
+//         <strong>Error:</strong> {error}
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div>
+
+
+//       <div className="row">
+//         {/* Left Chart */}
+//         <div className="col-xl-8">
+//           <div className="card">
+//             <div className="card-body">
+//               <div className="d-flex flex-wrap align-items-center mb-4">
+//                 <h5 className="card-title me-2">Student & Leads Analytics</h5>
+//                 <div className="ms-auto">
+//                   <div>
+//                     <button type="button" className="btn btSales Breakdownn-soft-primary btn-sm">ALL</button>
+//                     <button type="button" className="btn btn-soft-secondary btn-sm">1M</button>
+//                     <button type="button" className="btn btn-soft-secondary btn-sm">6M</button>
+//                     <button type="button" className="btn btn-soft-secondary btn-sm">1Y</button>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               <div className="row align-items-center">
+//                 <div className="col-xl-8">
+//                   <img src="./assets2/images/users/graphbar.PNG" alt="Bar Graph" />
+//                   <div className="mt-3">
+//                     {/* <div className="row text-center">
+//                       <div className="col-4">
+//                         <p className="text-muted mb-1">Recent Students (30 days)</p>
+//                         <h5 className="mb-0">{recentStudents}</h5>
+//                       </div>
+//                       <div className="col-4">
+//                         <p className="text-muted mb-1">Avg Students/Course</p>
+//                         <h5 className="mb-0">{totalCourses > 0 ? Math.round(totalStudents / totalCourses) : 0}</h5>
+//                       </div>
+//                       <div className="col-4">
+//                         <p className="text-muted mb-1">Enrollment Rate</p>
+//                         <h5 className="mb-0">{studentGrowth}%</h5>
+//                       </div>
+//                     </div> */}
+//                   </div>
+//                 </div>
+
+//                 <div className="col-xl-4">
+//                   <div className="p-4">
+//                     <h6 className="mb-3">Social Media Performance</h6>
+//                     {socialMetrics.map((metric, index) => (
+//                       <div className="mt-3" key={index}>
+//                         <div className="d-flex align-items-center">
+//                           <div className="avatar-sm m-auto">
+//                             <span className="avatar-title rounded-circle bg-light-subtle text-dark font-size-16">
+//                               {index + 1}
+//                             </span>
+//                           </div>
+//                           <div className="flex-grow-1 ms-3">
+//                             <span className="font-size-16">{metric.name}</span>
+//                           </div>
+//                           <div className="flex-shrink-0">
+//                             <span className={`badge rounded-pill ${metric.growth.startsWith('+') ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'} font-size-12 fw-medium`}>
+//                               {metric.growth}
+//                             </span>
+//                           </div>
+//                         </div>
+//                       </div>
+//                     ))}
+
+//                     <div className="mt-4 pt-2">
+//                       <a href="#" className="btn btn-primary w-100">
+//                         View All <i className="mdi mdi-arrow-right ms-1"></i>
+//                       </a>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Right Pie Chart */}
+//         <div className="col-xl-4">
+//           <div className="card">
+//             <div className="card-body">
+//               <div className="d-flex flex-wrap align-items-center mb-4">
+//                 <h5 className="card-title me-2">Course Distribution</h5>
+//                 <div className="ms-auto">
+//                   <div className="dropdown">
+//                     <a
+//                       className="dropdown-toggle text-reset"
+//                       href="#"
+//                       data-bs-toggle="dropdown"
+//                     >
+//                       <span className="text-muted font-size-12">Sort By:</span>{" "}
+//                       <span className="fw-medium">Category <i className="mdi mdi-chevron-down ms-1"></i></span>
+//                     </a>
+//                     <div className="dropdown-menu dropdown-menu-end">
+//                       <a className="dropdown-item" href="#">Category</a>
+//                       <a className="dropdown-item" href="#">Mode</a>
+//                       <a className="dropdown-item" href="#">Price</a>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               <img src="./assets2/images/users/graphpie.PNG" alt="Pie Graph" height="250" />
+
+//               <div className="px-2 py-2">
+//                 <h6 className="mb-3">Student Batches by Category</h6>
+//                 {coursesByCategory.length > 0 ? coursesByCategory.map((category, index) => (
+//                   <div key={index} className="mb-3">
+//                     <p className="mb-1">
+//                       {category.categoryName} 
+//                       <span className="float-end">{category.percentage}%</span>
+//                     </p>
+//                     <div className="progress mt-2" style={{ height: 6 }}>
+//                       <div
+//                         className="progress-bar progress-bar-striped bg-primary"
+//                         role="progressbar"
+//                         style={{ width: `${category.percentage}%` }}
+//                         aria-valuenow={category.percentage}
+//                         aria-valuemin="0"
+//                         aria-valuemax="100"
+//                       ></div>
+//                     </div>
+//                   </div>
+//                 )) : (
+//                   <div className="text-center text-muted">
+//                     <p>No category data available</p>
+//                   </div>
+//                 )}
+
+//                 <div className="mt-4">
+//                   <div className="mb-3">
+//                     <p className="mb-1">
+//                       Total Expenses
+//                       <span className="float-end">{totalOrders > 0 ? (totalOrders * 5) : 0}%</span>
+//                     </p>
+//                     <div className="progress mt-2" style={{ height: 6 }}>
+//                       <div
+//                         className="progress-bar progress-bar-striped bg-warning"
+//                         role="progressbar"
+//                         style={{ width: `${totalOrders > 0 ? Math.min(totalOrders * 5, 100) : 0}%` }}
+//                         aria-valuenow={totalOrders * 5}
+//                         aria-valuemin="0"
+//                         aria-valuemax="100"
+//                       ></div>
+//                     </div>
+//                   </div>
+
+                  
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Dashsub2;
+
+
+
+// import React, { useEffect, useState } from "react";
+
+// function Dashsub2() {
+//   const [courses, setCourses] = useState([]);
+//   const [orders, setOrders] = useState([]);
+//   const [students, setStudents] = useState([]);
+//   const [categories, setCategories] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setLoading(true);
+//         const [coursesRes, ordersRes, studentsRes, categoriesRes] = await Promise.all([
+//           fetch("http://localhost:8080/api/courses"),
+//           fetch("http://localhost:8080/api/orders"),
+//           fetch("http://localhost:8080/api/students"),
+//           fetch("http://localhost:8080/api/categories"),
+//         ]);
+
+//         if (!coursesRes.ok || !ordersRes.ok || !studentsRes.ok || !categoriesRes.ok) {
+//           throw new Error('Failed to fetch data from one or more endpoints');
+//         }
+
+//         const coursesData = await coursesRes.json();
+//         const ordersData = await ordersRes.json();
+//         const studentsData = await studentsRes.json();
+//         const categoriesData = await categoriesRes.json();
+
+//         // Handle different response formats - sometimes APIs return {data: [...]} or just [...]
+//         setCourses(Array.isArray(coursesData) ? coursesData : coursesData.data || []);
+//         setOrders(Array.isArray(ordersData) ? ordersData : ordersData.data || []);
+//         setStudents(Array.isArray(studentsData) ? studentsData : studentsData.data || []);
+//         setCategories(Array.isArray(categoriesData) ? categoriesData : categoriesData.data || []);
+//       } catch (error) {
+//         console.error("Failed to fetch dashboard data:", error);
+//         console.log("Error details:", error);
+//         setError(error.message);
+//         // Set empty arrays as fallback
+//         setCourses([]);
+//         setOrders([]);
+//         setStudents([]);
+//         setCategories([]);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   // Dynamic metrics calculations with safety checks
+//   const totalStudents = Array.isArray(students) ? students.length : 0;
+//   const totalOrders = Array.isArray(orders) ? orders.length : 0;
+//   const totalCourses = Array.isArray(courses) ? courses.length : 0;
+//   const totalCategories = Array.isArray(categories) ? categories.length : 0;
+
+//   // Calculate course distribution by category
+//   const coursesByCategory = Array.isArray(categories) ? categories.map(category => {
+//     const coursesInCategory = Array.isArray(courses) ? courses.filter(course => 
+//       course.categoryIds && course.categoryIds.includes(category._id)
+//     ).length : 0;
+//     return {
+//       categoryName: category.categoryName,
+//       courseCount: coursesInCategory,
+//       percentage: totalCourses > 0 ? ((coursesInCategory / totalCourses) * 100).toFixed(1) : 0
+//     };
+//   }).slice(0, 5) : []; // Top 5 categories
+
+//   // Calculate course distribution by mode
+//   const courseModeDistribution = Array.isArray(courses) ? courses.reduce((acc, course) => {
+//     const mode = course.mode || 'Unknown';
+//     acc[mode] = (acc[mode] || 0) + 1;
+//     return acc;
+//   }, {}) : {};
+
+//   // Student enrollment trends (simplified)
+//   const recentStudents = Array.isArray(students) ? students.filter(student => {
+//     const createdAt = new Date(student.createdAt);
+//     const thirtyDaysAgo = new Date();
+//     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+//     return createdAt >= thirtyDaysAgo;
+//   }).length : 0;
+
+//   // Calculate growth percentages
+//   const studentGrowth = totalStudents > 0 ? ((recentStudents / totalStudents) * 100).toFixed(1) : 0;
+//   const courseGrowth = totalCourses > 0 ? ((totalCourses / Math.max(totalCategories, 1)) * 10).toFixed(1) : 0;
+//   const orderGrowth = totalOrders > 0 ? ((totalOrders / Math.max(totalStudents, 1)) * 100).toFixed(1) : 0;
+
+//   // Social media metrics (placeholder - replace with actual data if available)
+//   const socialMetrics = [
+//     { name: "Facebook", growth: `+${(totalStudents % 10 + 2)}.5%` },
+//     { name: "Instagram", growth: `+${(totalCourses % 10 + 1)}.3%` },
+//     { name: "Whatsapp", growth: totalOrders > totalStudents ? `-${(totalOrders % 10 + 1)}.6%` : `+${(totalOrders % 10 + 1)}.6%` },
+//     { name: "Twitter", growth: "+7.1%" },
+//     { name: "Youtube", growth: `+${(totalCategories % 10 + 3)}.2%` }
+//   ];
+
+//   if (loading) {
+//     return (
+//       <div className="d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
+//         <div className="spinner-border text-primary" role="status">
+//           <span className="visually-hidden">Loading...</span>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <div className="alert alert-danger" role="alert">
+//         <strong>Error:</strong> {error}
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div>
+     
+
+//       <div className="row">
+//         {/* Left Chart */}
+//         <div className="col-xl-8">
+//           <div className="card">
+//             <div className="card-body">
+//               <div className="d-flex flex-wrap align-items-center mb-4">
+//                 <h5 className="card-title me-2">Student & Leads Analytics</h5>
+//                 <div className="ms-auto">
+//                   <div>
+//                     <button type="button" className="btn btn-soft-primary btn-sm">ALL</button>
+//                     <button type="button" className="btn btn-soft-secondary btn-sm">1M</button>
+//                     <button type="button" className="btn btn-soft-secondary btn-sm">6M</button>
+//                     <button type="button" className="btn btn-soft-secondary btn-sm">1Y</button>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               <div className="row align-items-center">
+//                 <div className="col-xl-8">
+//                   <img src="./assets2/images/users/graphbar.PNG" alt="Bar Graph" />
+//                   {/* <div className="mt-3">
+//                     <div className="row text-center">
+//                       <div className="col-4">
+//                         <p className="text-muted mb-1">Recent Students (30 days)</p>
+//                         <h5 className="mb-0">{recentStudents}</h5>
+//                       </div>
+//                       <div className="col-4">
+//                         <p className="text-muted mb-1">Avg Students/Course</p>
+//                         <h5 className="mb-0">{totalCourses > 0 ? Math.round(totalStudents / totalCourses) : 0}</h5>
+//                       </div>
+//                       <div className="col-4">
+//                         <p className="text-muted mb-1">Enrollment Rate</p>
+//                         <h5 className="mb-0">{studentGrowth}%</h5>
+//                       </div>
+//                     </div>
+//                   </div> */}
+//                 </div>
+
+//                 <div className="col-xl-4">
+//                   <div className="p-4">
+//                     <h6 className="mb-3">Social Media Performance</h6>
+//                     {socialMetrics.map((metric, index) => (
+//                       <div className="mt-3" key={index}>
+//                         <div className="d-flex align-items-center">
+//                           <div className="avatar-sm m-auto">
+//                             <span className="avatar-title rounded-circle bg-light-subtle text-dark font-size-16">
+//                               {index + 1}
+//                             </span>
+//                           </div>
+//                           <div className="flex-grow-1 ms-3">
+//                             <span className="font-size-16">{metric.name}</span>
+//                           </div>
+//                           <div className="flex-shrink-0">
+//                             <span className={`badge rounded-pill ${metric.growth.startsWith('+') ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'} font-size-12 fw-medium`}>
+//                               {metric.growth}
+//                             </span>
+//                           </div>
+//                         </div>
+//                       </div>
+//                     ))}
+
+//                     <div className="mt-4 pt-2">
+//                       <a href="#" className="btn btn-primary w-100">
+//                         View All <i className="mdi mdi-arrow-right ms-1"></i>
+//                       </a>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Right Pie Chart */}
+//         <div className="col-xl-4">
+//           <div className="card">
+//             <div className="card-body">
+//               <div className="d-flex flex-wrap align-items-center mb-4">
+//                 <h5 className="card-title me-2">Course Distribution</h5>
+//                 <div className="ms-auto">
+//                   <div className="dropdown">
+//                     <a
+//                       className="dropdown-toggle text-reset"
+//                       href="#"
+//                       data-bs-toggle="dropdown"
+//                     >
+//                       <span className="text-muted font-size-12">Sort By:</span>{" "}
+//                       <span className="fw-medium">Category <i className="mdi mdi-chevron-down ms-1"></i></span>
+//                     </a>
+//                     <div className="dropdown-menu dropdown-menu-end">
+//                       <a className="dropdown-item" href="#">Category</a>
+//                       <a className="dropdown-item" href="#">Mode</a>
+//                       <a className="dropdown-item" href="#">Price</a>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               <img src="./assets2/images/users/graphpie.PNG" alt="Pie Graph" height="250" />
+
+//               <div className="px-2 py-2">
+//                 <h6 className="mb-3">Top Course Categories</h6>
+//                 {coursesByCategory.length > 0 ? coursesByCategory.map((category, index) => (
+//                   <div key={index} className="mb-3">
+//                     <p className="mb-1">
+//                       {category.categoryName} 
+//                       <span className="float-end">{category.courseCount} courses ({category.percentage}%)</span>
+//                     </p>
+//                     <div className="progress mt-2" style={{ height: 6 }}>
+//                       <div
+//                         className="progress-bar progress-bar-striped bg-primary"
+//                         role="progressbar"
+//                         style={{ width: `${Math.min(category.percentage, 100)}%` }}
+//                         aria-valuenow={category.percentage}
+//                         aria-valuemin="0"
+//                         aria-valuemax="100"
+//                       ></div>
+//                     </div>
+//                   </div>
+//                 )) : (
+//                   <div className="text-center text-muted">
+//                     <p>No category data available</p>
+//                   </div>
+//                 )}
+
+//                 {/* Course Mode Distribution */}
+//                 <div className="mt-4">
+//                   <h6 className="mb-3">Course Modes</h6>
+//                   {Object.entries(courseModeDistribution).map(([mode, count], index) => (
+//                     <div key={index} className="mb-2">
+//                       <div className="d-flex justify-content-between">
+//                         <span className="font-size-14">{mode}</span>
+//                         <span className="font-size-14 fw-medium">{count} courses</span>
+//                       </div>
+//                     </div>
+//                   ))}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Dashsub2;
+
+// import React from 'react'
+
+// function Dashsub2() {
+//   return (
+//     <div>
+//          <div className="row">
+//             <div className="col-xl-8">
+//               <div className="card">
+//                 <div className="card-body">
+//                   <div className="d-flex flex-wrap align-items-center mb-4">
+//                     <h5 className="card-title me-2">Student & Leads</h5>
+//                     <div className="ms-auto">
+//                       <div>
+//                         <button
+//                           type="button"
+//                           className="btn btn-soft-primary btn-sm"
+//                         >
+//                           ALL
+//                         </button>
+//                         <button
+//                           type="button"
+//                           className="btn btn-soft-secondary btn-sm"
+//                         >
+//                           1M
+//                         </button>
+//                         <button
+//                           type="button"
+//                           className="btn btn-soft-secondary btn-sm"
+//                         >
+//                           6M
+//                         </button>
+//                         <button
+//                           type="button"
+//                           className="btn btn-soft-secondary btn-sm"
+//                         >
+//                           1Y
+//                         </button>
+//                       </div>
+//                     </div>
+//                   </div>
+
+//                   <div className="row align-items-center">
+//                     <div className="col-xl-8">
+//                       {/* <div
+//                         id="market-overview"
+//                         data-colors='["#5156be", "#34c38f"]'
+//                         className="apex-charts"
+//                       ></div> */}
+//                        <img src="./assets2/images/users/graphbar.PNG" alt="" height="" />
+//                     </div>
+//                     <div className="col-xl-4">
+//                       <div className="p-4">
+//                         {[
+//                           "Facebook",
+//                           "Instagram",
+//                           "Whatsapp",
+//                           "Twitter",
+//                           "Youtube",
+//                         ].map((name, index) => (
+//                           <div className="mt-3" key={index}>
+//                             <div className="d-flex align-items-center">
+//                               <div className="avatar-sm m-auto">
+//                                 <span className="avatar-title rounded-circle bg-light-subtle text-dark font-size-16">
+//                                   {index + 2 * 2}
+//                                 </span>
+//                               </div>
+//                               <div className="flex-grow-1 ms-3">
+//                                 <span className="font-size-16">{name}</span>
+//                               </div>
+//                               <div className="flex-shrink-0">
+//                                 <span
+//                                   className={`badge rounded-pill ₹{
+//                                     name === "Coinbase" || name === "Bitfinex"
+//                                       ? "bg-danger-subtle text-danger"
+//                                       : "bg-success-subtle text-success"
+//                                   } font-size-12 fw-medium`}
+//                                 >
+//                                   {name === "facebook"
+//                                     ? "+2.5%"
+//                                     : name === "Instagram"
+//                                     ? "+8.3%"
+//                                     : name === "Whatsapp"
+//                                     ? "-3.6%"
+//                                     : name === "Twitter"
+//                                     ? "+7.1%"
+//                                     : "-0.9%"}
+//                                 </span>
+//                               </div>
+//                             </div>
+//                           </div>
+//                         ))}
+
+//                         <div className="mt-4 pt-2">
+//                           <a href="#" className="btn btn-primary w-100">
+//                             View All{" "}
+//                             <i className="mdi mdi-arrow-right ms-1"></i>
+//                           </a>
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+
+//             <div className="col-xl-4">
+//               <div className="card">
+//                 <div className="card-body">
+//                   <div className="d-flex flex-wrap align-items-center mb-4">
+//                     <h5 className="card-title me-2">Reminders & Reports</h5>
+//                     <div className="ms-auto">
+//                       <div className="dropdown">
+//                         <a
+//                           className="dropdown-toggle text-reset"
+//                           href="#"
+//                           id="dropdownMenuButton1"
+//                           data-bs-toggle="dropdown"
+//                           aria-haspopup="true"
+//                           aria-expanded="false"
+//                         >
+//                           <span className="text-muted font-size-12">
+//                             Sort By:
+//                           </span>{" "}
+//                           <span className="fw-medium">
+//                             World<i className="mdi mdi-chevron-down ms-1"></i>
+//                           </span>
+//                         </a>
+//                         <div
+//                           className="dropdown-menu dropdown-menu-end"
+//                           aria-labelledby="dropdownMenuButton1"
+//                         >
+//                           <a className="dropdown-item" href="#">
+//                             USA
+//                           </a>
+//                           <a className="dropdown-item" href="#">
+//                             Russia
+//                           </a>
+//                           <a className="dropdown-item" href="#">
+//                             Australia
+//                           </a>
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </div>
+
+//                   {/* <div
+//                     id="sales-by-locations"
+//                     data-colors='["#5156be"]'
+//                     style={{ height: 250 }}
+//                   ></div> */}
+
+//                   <img src="./assets2/images/users/graphpie.PNG" alt="" height="250" />
+
+//                   <div className="px-2 py-2">
+//                     {[
+//                       { country: "Student Batches", percent: 75 },
+//                       { country: "Expenses", percent: 55 },
+//                       { country: "Student Leads", percent: 85 },
+//                     ].map((loc, i) => (
+//                       <div key={i}>
+//                         <p className="mb-1">
+//                           {loc.country}{" "}
+//                           <span className="float-end">{loc.percent}%</span>
+//                         </p>
+//                         <div className="progress mt-2" style={{ height: 6 }}>
+//                           <div
+//                             className="progress-bar progress-bar-striped bg-primary"
+//                             role="progressbar"
+//                             style={{ width: `₹{loc.percent}%` }}
+//                             aria-valuenow={loc.percent}
+//                             aria-valuemin="0"
+//                             aria-valuemax="100"
+//                           ></div>
+//                         </div>
+//                       </div>
+//                     ))}
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//     </div>
+//   )
+// }
+
+// export default Dashsub2
+
+
+import React, { useEffect, useRef, useState } from 'react';
+import Chart from 'chart.js/auto';
+import axios from 'axios';
+
+function Dashsub2() {
+  const [referenceCounts, setReferenceCounts] = useState({});
+  const [allStudents, setAllStudents] = useState([]);
+  
+  // Get current month and year
+  const getCurrentMonth = () => {
+    const now = new Date();
+    return now.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  };
+  
+  const getCurrentYear = () => {
+    const now = new Date();
+    return now.getFullYear().toString();
+  };
+  
+  const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
+  const [selectedYear, setSelectedYear] = useState(getCurrentYear());
+  const barChartRef = useRef(null);
+  const barChartInstance = useRef(null);
+
+  // ✅ Fetch student data
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/students')
+      .then((res) => {
+        console.log("API Raw Response:", res.data);
+        // Ensure we extract an array from response
+        let studentArray = res.data;
+        if (!Array.isArray(studentArray) && Array.isArray(res.data.students)) {
+          studentArray = res.data.students;
+        }
+        // Defensive check
+        if (!Array.isArray(studentArray)) {
+          console.error("Student data is not an array.");
+          return;
+        }
+        setAllStudents(studentArray);
+      })
+      .catch((err) => {
+        console.error("Error fetching student data:", err);
+      });
+  }, []);
+
+  // ✅ Filter and count references based on selected month/year
+  useEffect(() => {
+    if (allStudents.length === 0) return;
+
+    // Filter students by selected month and year
+    const filteredStudents = allStudents.filter(student => {
+      if (!student.createdAt) return false;
+      
+      const studentDate = new Date(student.createdAt);
+      const studentMonth = studentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+      const studentYear = studentDate.getFullYear().toString();
+      
+      return studentMonth === selectedMonth && studentYear === selectedYear;
+    });
+
+    console.log(`Filtered students for ${selectedMonth} ${selectedYear}:`, filteredStudents);
+
+    // ✅ Filter students with 'reference' field only
+    const filtered = filteredStudents.filter(
+      student => student.reference && student.reference.trim() !== ""
+    );
+    
+    // ✅ Count occurrences of each reference
+    const counts = {};
+    filtered.forEach(student => {
+      const ref = student.reference.trim();
+      counts[ref] = (counts[ref] || 0) + 1;
+    });
+    
+    console.log("Reference Count for", selectedMonth, selectedYear, ":", counts);
+    setReferenceCounts(counts);
+  }, [allStudents, selectedMonth, selectedYear]);
+
+  // Cleanup function to destroy chart on unmount
+  useEffect(() => {
+    return () => {
+      if (barChartInstance.current) {
+        barChartInstance.current.destroy();
+      }
+    };
+  }, []);
+
+  // ✅ Create/Update Bar Chart
+  useEffect(() => {
+    const labels = Object.keys(referenceCounts);
+    const data = Object.values(referenceCounts);
+    
+    // Destroy previous chart if it exists
+    if (barChartInstance.current) {
+      barChartInstance.current.destroy();
+      barChartInstance.current = null;
+    }
+
+    // Only create chart if there's data or show empty chart
+    if (barChartRef.current) {
+      // If no data, show empty chart with message
+      const chartData = labels.length === 0 ? {
+        labels: ['No Data'],
+        datasets: [{
+          label: 'Students by Reference',
+          data: [0],
+          backgroundColor: '#e9ecef',
+          borderColor: '#dee2e6',
+          borderWidth: 1,
+        }]
+      } : {
+        labels,
+        datasets: [{
+          label: 'Students by Reference',
+          data,
+          backgroundColor: [
+            '#5156be',
+            '#34c38f', 
+            '#f46a6a', 
+            '#f1b44c', 
+            '#50a5f1', 
+            '#e83e8c'
+          ],
+          borderColor: [
+            '#5156be',
+            '#34c38f', 
+            '#f46a6a', 
+            '#f1b44c', 
+            '#50a5f1', 
+            '#e83e8c'
+          ],
+          borderWidth: 2,
+          borderRadius: 8,
+          borderSkipped: false,
+        }]
+      };
+
+      // Create Bar Chart with attractive styling
+      barChartInstance.current = new Chart(barChartRef.current, {
+        type: 'bar',
+        data: chartData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { 
+              display: false 
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              titleColor: '#fff',
+              bodyColor: '#fff',
+              borderColor: '#556ee6',
+              borderWidth: 1,
+              filter: function(tooltipItem) {
+                return tooltipItem.parsed.y > 0; // Only show tooltip if value > 0
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: '#f0f0f0',
+              },
+              ticks: {
+                color: '#6c757d',
+                stepSize: 1,
+              }
+            },
+            x: {
+              grid: {
+                display: false,
+              },
+              ticks: {
+                color: '#6c757d',
+              }
+            }
+          },
+          animation: {
+            duration: 1000,
+            easing: 'easeInOutQuart'
+          }
+        }
+      });
+    }
+  }, [referenceCounts]);
+
+  return (
+    <div>
+      <div className="row">
+        <div className="col-xl-8">
+          <div className="card">
+            <div className="card-body">
+              <div className="d-flex flex-wrap align-items-center mb-4">
+                <h5 className="card-title me-2">Student & Leads - {selectedMonth} {selectedYear}</h5>
+                <div className="ms-auto d-flex gap-2">
+                  <select 
+                    className="form-select form-select-sm" 
+                    value={selectedMonth}
+                    onChange={(e) => setSelectedMonth(e.target.value)}
+                  >
+                    <option value="JAN">January</option>
+                    <option value="FEB">February</option>
+                    <option value="MAR">March</option>
+                    <option value="APR">April</option>
+                    <option value="MAY">May</option>
+                    <option value="JUN">June</option>
+                    <option value="JUL">July</option>
+                    <option value="AUG">August</option>
+                    <option value="SEP">September</option>
+                    <option value="OCT">October</option>
+                    <option value="NOV">November</option>
+                    <option value="DEC">December</option>
+                  </select>
+                  <select 
+                    className="form-select form-select-sm" 
+                    value={selectedYear}
+                    onChange={(e) => setSelectedYear(e.target.value)}
+                  >
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="row align-items-center">
+                <div className="col-xl-8">
+                  {/* Replaced static image with dynamic bar chart */}
+                  <div style={{ height: '300px' }}>
+                    <canvas ref={barChartRef}></canvas>
+                  </div>
+                </div>
+                <div className="col-xl-4">
+                  <div className="p-4">
+                    {[
+                      "Facebook",
+                      "Instagram",
+                      "Whatsapp",
+                      "Twitter",
+                      "Youtube",
+                    ].map((name, index) => {
+                      const count = referenceCounts[name] || 0;
+                      return (
+                        <div className="mt-3" key={index}>
+                          <div className="d-flex align-items-center">
+                            <div className="avatar-sm m-auto">
+                              <span className="avatar-title rounded-circle bg-light-subtle text-dark font-size-16">
+                                {index + 1}
+                              </span>
+                            </div>
+                            <div className="flex-grow-1 ms-3">
+                              <span className="font-size-16">{name}</span>
+                            </div>
+                            <div className="flex-shrink-0">
+                              <span
+                                className={`badge rounded-pill ${
+                                  count === 0
+                                    ? "bg-secondary-subtle text-secondary"
+                                    : count >= 10
+                                    ? "bg-success-subtle text-success"
+                                    : count >= 5
+                                    ? "bg-warning-subtle text-warning"
+                                    : "bg-info-subtle text-info"
+                                } font-size-12 fw-medium`}
+                              >
+                                {count}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    <div className="mt-4 pt-2">
+                      <a href="#" className="btn btn-primary w-100">
+                        View All{" "}
+                        <i className="mdi mdi-arrow-right ms-1"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-xl-4">
+          <div className="card">
+            <div className="card-body">
+              <div className="d-flex flex-wrap align-items-center mb-4">
+                <h5 className="card-title me-2">Reminders & Reports</h5>
+                <div className="ms-auto">
+                  <div className="dropdown">
+                    <a
+                      className="dropdown-toggle text-reset"
+                      href="#"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <span className="text-muted font-size-12">
+                        Sort By:
+                      </span>{" "}
+                      <span className="fw-medium">
+                        World<i className="mdi mdi-chevron-down ms-1"></i>
+                      </span>
+                    </a>
+                    <div
+                      className="dropdown-menu dropdown-menu-end"
+                      aria-labelledby="dropdownMenuButton1"
+                    >
+                      <a className="dropdown-item" href="#">
+                        USA
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        Russia
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        Australia
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Keeping the static pie chart image as requested */}
+              <img src="./assets2/images/users/graphpie.PNG" alt="" height="250" />
+
+              <div className="px-2 py-2">
+                {[
+                  { country: "Student Batches", percent: 75 },
+                  { country: "Expenses", percent: 55 },
+                  { country: "Student Leads", percent: 85 },
+                ].map((loc, i) => (
+                  <div key={i}>
+                    <p className="mb-1">
+                      {loc.country}{" "}
+                      <span className="float-end">{loc.percent}%</span>
+                    </p>
+                    <div className="progress mt-2" style={{ height: 6 }}>
+                      <div
+                        className="progress-bar progress-bar-striped bg-primary"
+                        role="progressbar"
+                        style={{ width: `${loc.percent}%` }}
+                        aria-valuenow={loc.percent}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Dashsub2;
